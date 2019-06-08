@@ -1,3 +1,5 @@
+# very broken and not operational. This is just where I was playing with some code.
+
 from laspy.file import File
 import numpy as np
 from dionysus import *
