@@ -3,8 +3,10 @@
 # It contains both a 'chunk' of the larger point cloud, and the 'chunk's processed persistance diagram.
 
 import numpy as np
+import json
+import jsonpickle
 
-class PCPDS:
+class PCPDS(object):
 
     def __init__(self, X, Y, Z):
         # The point cloud should be set up a set of Points. Points possibly being represented by touples of three values. 
@@ -28,5 +30,13 @@ class PCPDS:
     
     def get_persistance_diagram(self):
         return persistance_diagram
+    
+    # This saves this object in JSON format in the 'Sections' folder
+    def save(self):
+        # Transform this object into JSON string:
+        pcpds = jsonpickle.encode(self)
+        
+        with open('Sections/PCPDS:'+str(self.X)+str(self.Y)+str(self.Z), 'w') as outfile:
+            json.dump(pcpds, outfile)
         
     
