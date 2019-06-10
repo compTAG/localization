@@ -21,6 +21,9 @@ class PCPDS(object):
         self.Y = Y
         self.Z = Z
         
+    def get_xyz(self):
+        return X, Y, Z
+        
     def set_point_cloud(self, point_cloud):
         self.point_cloud = point_cloud    
 
@@ -38,5 +41,17 @@ class PCPDS(object):
         
         with open('Sections/PCPDS:'+str(self.X)+str(self.Y)+str(self.Z), 'w') as outfile:
             json.dump(pcpds, outfile)
+            outfile.close()
         
-    
+# Loads a PCPDS object from the corresponding JSON file provided it exists
+def load_section(X, Y, Z):
+    # TODO: check if the file exists, load it in, return it.
+    with open('Sections/PCPDS:'+str(X)+str(Y)+str(Z)) as json_file:
+        data = json.load(json_file)
+        json_file.close()
+        
+        print(data)
+        
+        pcpds = jsonpickle.decode(data)
+        
+        return pcpds
