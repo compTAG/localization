@@ -8,7 +8,7 @@ import jsonpickle
 
 class PCPDS(object):
 
-    def __init__(self, X, Y, Z):
+    def __init__(self, I, J, K, X, Y, Z):
         # The point cloud should be set up a set of Points. Points possibly being represented by touples of three values. 
         self.point_cloud = None
         
@@ -16,7 +16,12 @@ class PCPDS(object):
         self.persistance_diagram = None
         # TODO: Question, won't that cause missing features to occur at the edges of each section? Will that matter in the long run?
         
-        # X, Y, & Z represent this section's position in regaurds to the larger data set
+        # I, J, & K represent this section's position in regaurds to the larger data set
+        self.I = I
+        self.J = J
+        self.K = K
+        
+        # X, Y, Z represents this 'section's dimensional lengths
         self.X = X
         self.Y = Y
         self.Z = Z
