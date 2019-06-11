@@ -3,7 +3,7 @@
 from laspy.file import File
 import numpy as np
 from dionysus import *
-from    sys         import argv, exit
+from sys import argv, exit
 
 
 
@@ -15,12 +15,10 @@ def get_points():
     Zvals = inFile.Z
 
     #could clean this up with enumerate
-    i = 0
-    points = ["Zero"]
-    for x in Xvals:
+    points = []
+    for i in len(Xvals):
         point = (Xvals[i],Yvals[i],Zvals[i])
         points.append(point)
-        i += 1
 
     return points
 
