@@ -3,8 +3,13 @@
 from laspy.file import File
 import numpy as np
 from dionysus import *
-from sys import argv, exit
+import Rips
+from    sys         import argv, exit
 
+
+
+def PairwiseDistances(points):
+    pass
 
 
 def get_points():
@@ -14,39 +19,31 @@ def get_points():
     Yvals = inFile.Y
     Zvals = inFile.Z
 
-    #Save the points in an array of touples
-    points = []
-    for i in len(Xvals):
-        point = (Xvals[i],Yvals[i],Zvals[i])
-        points.append(point)
+    # change type from int to float to support rips Filtration
+    # float64 Does Not Work!
 
+    Xvals.dtype = "float32"
+    Yvals.dtype = "float32"
+    Zvals.dtype = "float32"
+    points = np.array([Xvals,Yvals,Zvals])
     return points
 
 
-# code from https://www.mrzv.org/software/dionysus/examples/rips.html
-# not sure what argv is doing, but PairwiseDistances needs touples in the way done here
-def main(skeleton, max):
-    points = get_points()
-    distances = PairwiseDistances(points)
-    rips = Rips(distances)
-    print(time.asctime(), "Rips Initialized")
 
-    simplicies = Filtration()
-    rips.generate(skeleton, max, simplicies.append)
+
+def main():
+    points = get_points()
+    # not sure what pairwise distances does yet
+
+
+    distances = 1
+    # computes rips filtration with 1 skeleton
+    #changing second argument changes skeleton
+    simplicies = fill_rips(points, 1 , distances)
+
 
 
 
 if __name__ == '__main__':
-    if len(argv) < 4:
-        print("Usage: %s POINTS SKELETON MAX" % argv[0])
-        exit()
 
-    filename = argv[1]
-    skeleton = int(argv[2])
-    max = float(argv[3])
-
-    main(skeleton, max)
-
-#print(Xvals)
-#print(type(Xvals))
-#print(type(Xvals[1]))
+    main()
