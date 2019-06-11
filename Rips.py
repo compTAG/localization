@@ -14,7 +14,7 @@ def get_points():
     Yvals = inFile.Y
     Zvals = inFile.Z
 
-    #could clean this up with enumerate
+    #Save the points in an array of touples
     points = []
     for i in len(Xvals):
         point = (Xvals[i],Yvals[i],Zvals[i])
