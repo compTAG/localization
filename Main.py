@@ -14,8 +14,9 @@ def main():
     Zvals.dtype = "float32"
 
     Coords = np.array([Xvals,Yvals,Zvals])
+    Points = [] #PCPDS array of point clouds in each section
 
-    #Sort Coords, overwirte operator for x low to high, then y, then z
+    #Sort Coords? Overwirte operator for x low to high, then y, then z
 
     #Set width, height, and depth
     maxX = max(Xvals)
@@ -34,9 +35,14 @@ def main():
     windowSize = .10
     iX, iY, iZ = windowSize
 
+    #Amount of "cubes" in the grid split
+    (1.0 / windowSize)**3.0 = gridSize
+    i = 0
+
     #Iterate through array, section off grid
     for c in Coords:
-
+        #Iterate over the x, y, z combinations to make the grid Sections
+        #then save them in a PCPDS at Points[i] where i > gridSize
 
     # Temp test for pcpds
     test = section.PCPDS(1,1,1)
