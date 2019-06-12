@@ -19,7 +19,7 @@ class RipsFilt:
         return box_width*self.scalar
 
 
-    def get_points(self):
+    def get_points_file(self):
         inFile = File('test.las', mode='r')
 
         Xvals = inFile.X
@@ -35,17 +35,20 @@ class RipsFilt:
         points = np.array([Xvals,Yvals,Zvals])
         return points
 
+    def get_pointcloud(self)
+        #need to build functionality with how we slice up the original dataset
+        pass
 
 
 
     def main(self):
-        points = self.get_points()
+        points = self.get_points_file()
         # not sur
 
         distances = self.Distances(self.box_width)
-        # computes rips filtration with 1 skeleton
-        #changing second argument changes skeleton
-        f = d.fill_rips(points, 1 , distances)
+        # computes rips filtration with 1 skeleton automatically
+        #changing second argument in RipsFilt changes skeleton
+        f = d.fill_rips(points, self.skeleton , distances)
         m = d.homology_persistence(f)
         diagram = d.init_diagrams(m,f)
         return diagram
@@ -54,4 +57,4 @@ class RipsFilt:
 
 if __name__ == '__main__':
     R = Rips(100000000000000000)
-    R.main()
+    diagram = R.main()
