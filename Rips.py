@@ -5,7 +5,7 @@ import Rips
 from sys         import argv, exit
 
 
-class Rips:
+class RipsFilt:
     def __init__(self, box_width, skeleton = 1, scalar = 0.2):
         # size of box used in scaling rips distances
         self.box_width = box_width
