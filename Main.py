@@ -1,27 +1,42 @@
-import readLas
+from laspy.file import File
 import PCPDS as section
 
 def main():
 
     #Load data, put list of touples in an array
-    Coords = []
+    inFile = File('test.las', mode='r')
+
+    Xvals = inFile.X
+    Yvals = inFile.Y
+    Zvals = inFile.Z
+    Xvals.dtype = "float32"
+    Yvals.dtype = "float32"
+    Zvals.dtype = "float32"
+
+    Coords = np.array([Xvals,Yvals,Zvals])
+
     #Sort Coords, overwirte operator for x low to high, then y, then z
 
-    #Get dimensions
-
     #Set width, height, and depth
-    maxX =
-    minX =
-    maxY =
-    minY =
-    maxZ =
-    minZ =
+    maxX = max(Xvals)
+    minX = min(Xvals)
+    maxY = max(Yvals)
+    minY = min(Yvals)
+    maxZ = max(Zvals)
+    minZ = min(Zvals)
+
+    #Get dimensions
+    dimX = maxX - minX
+    dimY = maxY - minY
+    dimZ = maxZ - minZ
 
     #TEMP hardcoded window dim. in perc
     windowSize = .10
     iX, iY, iZ = windowSize
 
     #Iterate through array, section off grid
+    for c in Coords:
+
 
     # Temp test for pcpds
     test = section.PCPDS(1,1,1)
