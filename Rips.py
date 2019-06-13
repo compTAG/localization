@@ -20,6 +20,12 @@ class RipsFilt:
 
 
     def get_points_file(self):
+
+        #dummy float values for other functionality to continue
+        return np.array([[3.0,1.0],[1.0,1.0],[1.0,3.0],[2.0,2.0]])
+
+
+
         inFile = File('test.las', mode='r')
 
         Xvals = inFile.X
@@ -32,10 +38,15 @@ class RipsFilt:
         Xvals.dtype = "float32"
         Yvals.dtype = "float32"
         Zvals.dtype = "float32"
-        points = np.array([Xvals,Yvals,Zvals])
+
+        # not functional! Gets stuck in finfinite loop
+        points = np.array([Xvals[0],Yvals[0],Zvals[0]])
+        for i,_ in enumerate(Xvals):
+            temp = np.array([Xvals[i],Yvals[i],Zvals[i]])
+            points = np.append(points, temp)
         return points
 
-    def get_pointcloud(self)
+    def get_pointcloud(self):
         #need to build functionality with how we slice up the original dataset
         pass
 
@@ -43,8 +54,8 @@ class RipsFilt:
 
     def main(self):
         points = self.get_points_file()
-        # not sur
 
+        # something is going wrong in here -it may have to do with how we import the numbers
         distances = self.Distances(self.box_width)
         # computes rips filtration with 1 skeleton automatically
         #changing second argument in RipsFilt changes skeleton
@@ -56,5 +67,6 @@ class RipsFilt:
 
 
 if __name__ == '__main__':
-    R = Rips(100000000000000000)
+    R = RipsFilt(100000000000000000, 20, 1)
     diagram = R.main()
+    print(diagram)
