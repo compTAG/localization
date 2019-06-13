@@ -38,7 +38,9 @@ class PCPDS(object):
         pass
 
     def get_persistance_diagram(self):
+        # creates a filtration object with stored pointcloud
         R = RipsFilt(1,self.point_cloud)
+        # returns a persistance diagram
         return R.main('pcpds')
 
 

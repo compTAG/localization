@@ -13,15 +13,16 @@ class RipsFilt:
         self.skeleton = skeleton
         # scales distances for rips filtration
         self.scalar = 0.2
-
+        # sets a point_cloud for use in get_points_pcpds()
         self.pcpds_cloud = pcpds_cloud
 
 
     def Distances(self, box_width):
+        # temporary - we should play with this to determine best distance
         return box_width*self.scalar
 
     def get_points_fake(self):
-
+        # random points - same format as those that come from .las file
         Xvals = np.array([1,2,3,4,5,6,7,8,9,0])
         Yvals = np.array([2,3,4,5,6,7,8,9,0,1])
         Zvals = np.array([3,4,5,6,7,8,9,10,1,2])
@@ -33,7 +34,7 @@ class RipsFilt:
         Yvals.dtype = "float32"
         Zvals.dtype = "float32"
 
-        # not functional! Gets stuck in finfinite loop
+        # converts cordinate arrays into an array of points
         temp = np.array([Xvals,Yvals,Zvals])
         points  = temp.T
         return points
@@ -54,15 +55,19 @@ class RipsFilt:
         Yvals.dtype = "float32"
         Zvals.dtype = "float32"
 
-        # not functional! Gets stuck in finfinite loop
+        # not functional with large datasets
+        # can take a very long time to compute filtration on > 1000 points
         temp = np.array([Xvals,Yvals,Zvals])
         points  = temp.T
         return points
 
     def get_points_pcpds(self):
+        # when using pcpds points they are passed in when DoRips is initialized
         return self.point_cloud
 
     def main(self, p_sc = 'fa'):
+        #returns a persistance diagram
+
         #p_sc is point source selection
         if p_sc == 'fa':
             # uses fake points for filtration
