@@ -18,16 +18,8 @@ class RipsFilt:
     def Distances(self, box_width):
         return box_width*self.scalar
 
+    def get_points_fake(self):
 
-    def get_points_file(self):
-
-        # File was too large to work quickly. Took more than 6 min to compute
-        #inFile = File('test.las', mode='r')
-        #Xvals = inFile.X
-        #Yvals = inFile.Y
-        #Zvals = inFile.Z
-
-        # temp fake data works
         Xvals = np.array([1,2,3,4,5,6,7,8,9,0])
         Yvals = np.array([2,3,4,5,6,7,8,9,0,1])
         Zvals = np.array([3,4,5,6,7,8,9,10,1,2])
@@ -44,7 +36,28 @@ class RipsFilt:
         points  = temp.T
         return points
 
-    def get_pointcloud(self):
+    def get_points_file(self):
+
+        # File was too large to work quickly. Took more than 6 min to compute
+        inFile = File('test.las', mode='r')
+        Xvals = inFile.X
+        Yvals = inFile.Y
+        Zvals = inFile.Z
+
+
+        # change type from int to float to support rips Filtration
+        # float64 Does Not Work!
+
+        Xvals.dtype = "float32"
+        Yvals.dtype = "float32"
+        Zvals.dtype = "float32"
+
+        # not functional! Gets stuck in finfinite loop
+        temp = np.array([Xvals,Yvals,Zvals])
+        points  = temp.T
+        return points
+
+    def get_points_pcpds(self):
         #need to build functionality with how we slice up the original dataset
         pass
 
@@ -52,7 +65,7 @@ class RipsFilt:
 
     def main(self):
         #gets points from file
-        points = self.get_points_file()
+        points = self.get_points_fake()
         distances = self.Distances(self.box_width)
         # computes rips filtration with 1 skeleton automatically
         #changing second argument in RipsFilt changes skeleton
