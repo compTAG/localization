@@ -4,6 +4,7 @@ import PCPDS as section
 def main():
 
     #Load data, put list of touples in an array
+    #Change to get file off server
     inFile = File('test.las', mode='r')
 
     Xvals = inFile.X
@@ -32,17 +33,29 @@ def main():
     dimZ = maxZ - minZ
 
     #TEMP hardcoded window dim. in perc
-    windowSize = .10
-    iX, iY, iZ = windowSize
+    windowSize = .20
+    iX = dimX * windowSize
+    iY = dimY * windowSize
+    iZ = dimZ * windowSize
 
-    #Amount of "cubes" in the grid split
-    (1.0 / windowSize)**3.0 = gridSize
+    #Amount of "cubes" in the grid split - ie. 125 grids with .20 window size
+    #gridSize = (1.0 / windowSize)**3.0
+    dim = math.ceil(1.0 / windowSize)
+
+    #Iterate over the x, y, z combinations to make the grid Sections
+    #then save them in a PCPDS at Points[concatenate x y z] where i < gridSize
     i = 0
+    for c  in Coords:
 
-    #Iterate through array, section off grid
-    for c in Coords:
-        #Iterate over the x, y, z combinations to make the grid Sections
-        #then save them in a PCPDS at Points[i] where i > gridSize
+        #X/Y/ZVals needs to be changed to the X/Y/Z identifiers
+        x = math.floor(c.Xvals / iX)
+        y = math.floor(c.Yvals / iY)
+        z = math.floor(c.Zvals / iZ)
+
+        Points[int(str(x) + str(y) + str(z))].append(c)
+
+    #Iterate over concatenations of x, y, z to find all point clouds
+    #Save Point clouds with PCPDS
 
     # Temp test for pcpds
     test = section.PCPDS(1,1,1)
