@@ -1,5 +1,6 @@
 from laspy.file import File
 import PCPDS as section
+import math
 
 def main():
 
@@ -42,9 +43,10 @@ def main():
     #gridSize = (1.0 / windowSize)**3.0
     dim = math.ceil(1.0 / windowSize)
 
+    #Takes into account the digits as to not get confused in the string of x y z
+    leadingZeros = len(str(dim))
     #Iterate over the x, y, z combinations to make the grid Sections
     #then save them in a PCPDS at Points[concatenate x y z] where i < gridSize
-    i = 0
     for c  in Coords:
 
         #X/Y/ZVals needs to be changed to the X/Y/Z identifiers
@@ -52,9 +54,25 @@ def main():
         y = math.floor(c.Yvals / iY)
         z = math.floor(c.Zvals / iZ)
 
+        x = format(leadingZeros, x)
+        y = format(leadingZeros, y)
+        z = format(leadingZeros, z)
+
         Points[int(str(x) + str(y) + str(z))].append(c)
 
     #Iterate over concatenations of x, y, z to find all point clouds
+    x = 0
+    for x in dim:
+        y = 0
+        for y in dim:
+            z = 0
+            for z in dim:
+
+                x = format(leadingZeros, x)
+                y = format(leadingZeros, y)
+                z = format(leadingZeros, z)
+
+                secion.generate_persistance_diagram(Points[int(str(x) + str(y) + str(z))])
     #Save Point clouds with PCPDS
 
     # Temp test for pcpds
