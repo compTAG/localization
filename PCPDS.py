@@ -5,6 +5,7 @@
 import numpy as np
 import json
 import jsonpickle
+import DoRips
 
 class PCPDS(object):
 
@@ -37,7 +38,9 @@ class PCPDS(object):
         pass
 
     def get_persistance_diagram(self):
-        return persistance_diagram
+        R = RipsFilt(1,self.point_cloud)
+        return R.main('pcpds')
+
 
     # This saves this object in JSON format in the 'Sections' folder
     def save(self):

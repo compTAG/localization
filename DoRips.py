@@ -1,19 +1,20 @@
 from laspy.file import File
 import numpy as np
 import dionysus as d
-import Rips
 from sys         import argv, exit
 import PCPDS
 
 
 class RipsFilt:
-    def __init__(self, box_width, skeleton = 1, scalar = 0.2):
+    def __init__(self, box_width, pcpds_cloud = np.array([1,1]), skeleton = 1, scalar = 0.2):
         # size of box used in scaling rips distances
         self.box_width = box_width
         # skeleton of rips filtration
         self.skeleton = skeleton
         # scales distances for rips filtration
         self.scalar = 0.2
+
+        self.pcpds_cloud = pcpds_cloud
 
 
     def Distances(self, box_width):
@@ -58,16 +59,26 @@ class RipsFilt:
         points  = temp.T
         return points
 
-    def get_points_pcpds(self, dataobject):
-        return dataobject.point_cloud
+    def get_points_pcpds(self):
+        return self.point_cloud
 
-    def main(self):
-        #gets points from file
-        points = self.get_points_fake()
-        distances = self.Distances(self.box_width)
+    def main(self, p_sc = 'fa'):
+        #p_sc is point source selection
+        if p_sc == 'fa':
+            # uses fake points for filtration
+            points = self.get_points_fake()
+        elif p_sc == 'pcpds':
+            # uses pcpds points for filtration
+            points = self.get_points_pcpds()
+        elif p_sc == 'fi':
+            # uses file points for filtration
+            points = self.get_points_file()
+
+
+
         # computes rips filtration with 1 skeleton automatically
-        #changing second argument in RipsFilt changes skeleton
-        f = d.fill_rips(points, self.skeleton , distances)
+        #changing second argument in fill_rips changes skeleton
+        f = d.fill_rips(points, self.skeleton , self.Distances(self.box_width))
         m = d.homology_persistence(f)
         diagram = d.init_diagrams(m,f)
         return diagram
