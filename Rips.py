@@ -3,6 +3,7 @@ import numpy as np
 import dionysus as d
 import Rips
 from sys         import argv, exit
+import PCPDS
 
 
 class RipsFilt:
@@ -57,11 +58,8 @@ class RipsFilt:
         points  = temp.T
         return points
 
-    def get_points_pcpds(self):
-        #need to build functionality with how we slice up the original dataset
-        pass
-
-
+    def get_points_pcpds(self, dataobject):
+        return dataobject.point_cloud
 
     def main(self):
         #gets points from file
