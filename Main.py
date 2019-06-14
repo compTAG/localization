@@ -54,11 +54,12 @@ def main():
         y = math.floor(c.Yvals / iY)
         z = math.floor(c.Zvals / iZ)
 
-        x = format(leadingZeros, x)
-        y = format(leadingZeros, y)
-        z = format(leadingZeros, z)
+        x = format(x, str(leadingZeros))
+        y = format(y, str(leadingZeros))
+        z = format(z, str(leadingZeros))
 
-        Points[int(str(x) + str(y) + str(z))].append(c)
+        idx = int(str(x) + str(y) + str(z))
+        Points[idx].append(c)
 
     #Iterate over concatenations of x, y, z to find all point clouds
     x = 0
@@ -68,11 +69,13 @@ def main():
             z = 0
             for z in dim:
 
-                x = format(leadingZeros, x)
-                y = format(leadingZeros, y)
-                z = format(leadingZeros, z)
+                x = format(x, str(leadingZeros))
+                y = format(y, str(leadingZeros))
+                z = format(z, str(leadingZeros))
 
-                secion.generate_persistance_diagram(Points[int(str(x) + str(y) + str(z))])
+                idx = int(str(x) + str(y) + str(z))
+
+                secion.generate_persistance_diagram(Points[idx])
     #Save Point clouds with PCPDS
 
     # Temp test for pcpds
