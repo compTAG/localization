@@ -2,7 +2,7 @@ from laspy.file import File
 import PCPDS as section
 import math
 
-def main():
+def input_las():
 
     #Load data, put list of touples in an array
     #Change to get file off server

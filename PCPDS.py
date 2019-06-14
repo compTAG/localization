@@ -41,7 +41,7 @@ class PCPDS(object):
         # creates a filtration object with stored pointcloud
         R = RipsFilt(1,self.point_cloud)
         # returns a persistance diagram
-        return R.main('pcpds')
+        return R.do_persistance('pcpds')
 
 
     # This saves this object in JSON format in the 'Sections' folder

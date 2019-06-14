@@ -65,7 +65,7 @@ class RipsFilt:
         # when using pcpds points they are passed in when DoRips is initialized
         return self.point_cloud
 
-    def main(self, p_sc = 'fa'):
+    def do_persistance(self, p_sc = 'fa'):
         #returns a persistance diagram
 
         #p_sc is point source selection
