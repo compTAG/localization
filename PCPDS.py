@@ -9,7 +9,7 @@ import DoRips
 
 class PCPDS(object):
 
-    def __init__(self, I, J, K, X, Y, Z):
+    def __init__(self, X, Y, Z, cellID):
         # The point cloud should be set up a set of Points. Points possibly being represented by touples of three values.
         self.point_cloud = None
 
@@ -17,31 +17,44 @@ class PCPDS(object):
         self.persistance_diagram = None
         # TODO: Question, won't that cause missing features to occur at the edges of each section? Will that matter in the long run?
 
-        # I, J, & K represent this section's position in regaurds to the larger data set
-        self.I = I
-        self.J = J
-        self.K = K
-
-        # X, Y, Z represents this 'section's dimensional lengths
+        # X, Y, Z are x, y, and z points for section
         self.X = X
         self.Y = Y
         self.Z = Z
 
+        # cellID structure to be handled in lasproscessing.py
+        self.cellID = cellID
+
     def get_xyz(self):
         return X, Y, Z
 
-    def set_point_cloud(self, point_cloud):
+    def set_point_cloud(self):
+        # works iff lasproscessing works the way i think it Does
+        temp = np.array([self.X,self.Y,self.Z])
+        point_cloud = temp.T
         self.point_cloud = point_cloud
 
-    def generate_persistance_diagram(self):
-        # TODO: Process point_cloud via rips filtration here and save it in the persistance_diagram variable
-        pass
+    def generate_persistance_diagram(self, dist = 1):
+        # try except statement checks for needed values to generate
+        try:
+            self.pointcloud
+        except NameError:
+            set_point_cloud()
+        finally:
+            R = RipsFilt(dist,self.point_cloud)
+            self.persistance_diagram = R.do_persistance('pcpds')
 
     def get_persistance_diagram(self):
-        # creates a filtration object with stored pointcloud
-        R = RipsFilt(1,self.point_cloud)
-        # returns a persistance diagram
-        return R.do_persistance('pcpds')
+        # if persistance_diagram has not been calculated, create it
+        try:
+            self.persistance_diagram
+        except NameError:
+            # creates a filtration object with stored pointcloud
+            R = RipsFilt(1,self.point_cloud)
+            # returns a persistance diagram
+            return R.do_persistance('pcpds')
+        else:
+            return self.persistance_diagram
 
 
     # This saves this object in JSON format in the 'Sections' folder

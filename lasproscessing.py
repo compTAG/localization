@@ -63,6 +63,8 @@ def input_las():
 
     #Iterate over concatenations of x, y, z to find all point clouds
     x = 0
+    # used in rips distances
+    rip_dist = iX * iY * iZ / 2
     for x in dim:
         y = 0
         for y in dim:
@@ -74,7 +76,16 @@ def input_las():
                 z = format(z, str(leadingZeros))
 
                 idx = int(str(x) + str(y) + str(z))
+                # are the x, y, and z here each from a 'cube' of the pointcloud?
+                # if so, the following code should work to save them to pcpds
 
+
+                # TO DO:  how to make differently named objects iteratively using idx?
+                #cube = PCPDS(idx)
+                #cube.generate_persistance_diagram(rip_dist)
+                #cube.save()
+
+                #not sure what this does
                 secion.generate_persistance_diagram(Points[idx])
     #Save Point clouds with PCPDS
 
