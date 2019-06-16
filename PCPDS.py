@@ -41,7 +41,7 @@ class PCPDS(object):
         except NameError:
             set_point_cloud()
         finally:
-            R = RipsFilt(dist,self.point_cloud)
+            R = DoRips.RipsFilt(dist,self.point_cloud)
             self.persistance_diagram = R.do_persistance('pcpds')
 
     def get_persistance_diagram(self):
@@ -50,7 +50,7 @@ class PCPDS(object):
             self.persistance_diagram
         except NameError:
             # creates a filtration object with stored pointcloud
-            R = RipsFilt(1,self.point_cloud)
+            R = DoRips.RipsFilt(1,self.point_cloud)
             # returns a persistance diagram
             return R.do_persistance('pcpds')
         else:

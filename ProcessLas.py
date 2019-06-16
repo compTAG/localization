@@ -1,11 +1,12 @@
 from laspy.file import File
 import PCPDS as section
 import math
+import numpy as np
 
 def input_las():
 
     #Load data, put list of touples in an array
-    #Change to get file off server
+    #TODO?: Change to get file off server
     inFile = File('test.las', mode='r')
 
     Xvals = inFile.X
@@ -18,7 +19,7 @@ def input_las():
     Coords = np.array([Xvals,Yvals,Zvals])
     Points = [] #PCPDS array of point clouds in each section
 
-    #Sort Coords? Overwirte operator for x low to high, then y, then z
+    #TODO: Sort Coords? Overwirte operator for x low to high, then y, then z
 
     #Set width, height, and depth
     maxX = max(Xvals)
@@ -86,7 +87,7 @@ def input_las():
                 #cube.save()
 
                 #not sure what this does
-                secion.generate_persistance_diagram(Points[idx])
+                section.generate_persistance_diagram(Points[idx])
     #Save Point clouds with PCPDS
 
     # Temp test for pcpds
@@ -96,6 +97,3 @@ def input_las():
     temp = section.load_section(1,1,1)
 
     # temp now has the ability to call methods from the PCPDS object that has been loaded
-
-if __name__ == '__main__':
-    main()
