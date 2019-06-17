@@ -1,9 +1,10 @@
-import ProcessLas
+from ProcessLas import input_las
 import PCPDS
 import DoRips
+import numpy as np
 
 def main():
-    lasproscessing.input_las()
+    input_las()
 
     # compare bottlenecks
 

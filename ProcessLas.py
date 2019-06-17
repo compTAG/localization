@@ -16,8 +16,10 @@ def input_las():
     Yvals.dtype = "float32"
     Zvals.dtype = "float32"
 
-    Coords = np.array([Xvals,Yvals,Zvals])
-    Points = [] #PCPDS array of point clouds in each section
+    temp = np.array([Xvals,Yvals,Zvals])
+    Coords = temp.T
+
+    # moved points down - Luke
 
     #TODO: Sort Coords? Overwirte operator for x low to high, then y, then z
 
@@ -35,7 +37,12 @@ def input_las():
     dimZ = maxZ - minZ
 
     #TEMP hardcoded window dim. in perc
-    windowSize = .20
+
+
+    # Proposed addition of options in 1d splitting - Luke
+    dim = int(input("Enter Partition Count (1D):"))
+    windowSize = 1/dim
+
     iX = dimX * windowSize
     iY = dimY * windowSize
     iZ = dimZ * windowSize
@@ -48,46 +55,65 @@ def input_las():
     leadingZeros = len(str(dim))
     #Iterate over the x, y, z combinations to make the grid Sections
     #then save them in a PCPDS at Points[concatenate x y z] where i < gridSize
-    for c  in Coords:
+
+    # changed to a dictionary
+    Points = {'idx':'Coords[c]'}
+    for c,_  in enumerate(Coords):
 
         #X/Y/ZVals needs to be changed to the X/Y/Z identifiers
-        x = math.floor(c.Xvals / iX)
-        y = math.floor(c.Yvals / iY)
-        z = math.floor(c.Zvals / iZ)
+
+        x = math.floor(Coords[c][0] / iX)
+        y = math.floor(Coords[c][1] / iY)
+        z = math.floor(Coords[c][2] / iZ)
 
         x = format(x, str(leadingZeros))
         y = format(y, str(leadingZeros))
         z = format(z, str(leadingZeros))
 
         idx = int(str(x) + str(y) + str(z))
-        Points[idx].append(c)
+        print(idx)
+
+
+        # logic here is very shoddy
+        # the idea is we need to make a dictionary entry for each idx if it determine
+        # but we need to append the new cord to that entry if it exists
+        try:
+            Points[idx]
+        except:
+            Points[idx] = Coords[c]
+        else:
+            Points[idx] = np.concatenate((Points[idx],Coords[c]))
+
 
     #Iterate over concatenations of x, y, z to find all point clouds
+
+    # creates parallelograms dictionary to give PCPDS object from idx
+    parallelograms = {'idx':'PCPDS(idx)'}
     x = 0
-    # used in rips distances
+    # used in rips
+    print("Debug")
     rip_dist = iX * iY * iZ / 2
-    for x in dim:
+    for x in range(dim):
         y = 0
-        for y in dim:
+        for y in range(dim):
             z = 0
-            for z in dim:
+            for z in range(dim):
 
                 x = format(x, str(leadingZeros))
                 y = format(y, str(leadingZeros))
                 z = format(z, str(leadingZeros))
 
                 idx = int(str(x) + str(y) + str(z))
-                # are the x, y, and z here each from a 'cube' of the pointcloud?
-                # if so, the following code should work to save them to pcpds
+                print(idx)
+                # assigns a new entry to the parallelograms dictionary for each idx generated
+                #parallelograms[idx] = section.PCPDS()
+                #generates a persistance diagram for that object
+                #parallelograms[idx].generate_persistance_diagram(rip_dist)
+                # pickles the object
+                #parallelograms[idx].save()
 
 
-                # TO DO:  how to make differently named objects iteratively using idx?
-                #cube = PCPDS(idx)
-                #cube.generate_persistance_diagram(rip_dist)
-                #cube.save()
-
-                #not sure what this does
-                section.generate_persistance_diagram(Points[idx])
+                #section.generate_persistance_diagram(Points[idx])
     #Save Point clouds with PCPDS
 
     # Temp test for pcpds
