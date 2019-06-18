@@ -62,9 +62,9 @@ def input_las():
 
         #X/Y/ZVals needs to be changed to the X/Y/Z identifiers
 
-        x = math.floor(Coords[c][0] / iX)
-        y = math.floor(Coords[c][1] / iY)
-        z = math.floor(Coords[c][2] / iZ)
+        x = math.floor((Coords[c][0] - minX)/ iX)
+        y = math.floor((Coords[c][1] - minY)/ iY)
+        z = math.floor((Coords[c][2] - minZ)/ iZ)
 
         x = format(x, str(leadingZeros))
         y = format(y, str(leadingZeros))
