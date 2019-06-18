@@ -3,11 +3,11 @@ import PCPDS as section
 import math
 import numpy as np
 
-def input_las():
+def input_las(filename, dim):
 
     #Load data, put list of touples in an array
     #TODO?: Change to get file off server
-    inFile = File('test.las', mode='r')
+    inFile = File(concatenate(filename, '.las'), mode='r')
 
     Xvals = inFile.X
     Yvals = inFile.Y
@@ -40,7 +40,6 @@ def input_las():
 
 
     # Proposed addition of options in 1d splitting - Luke
-    dim = int(input("Enter Partition Count (1D):"))
     windowSize = 1/dim
 
     iX = dimX * windowSize
