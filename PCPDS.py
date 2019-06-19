@@ -62,12 +62,14 @@ class PCPDS(object):
         # Transform this object into JSON string:
         pcpds = jsonpickle.encode(self)
 
-        with open('Sections/PCPDS:'+str(self.X)+str(self.Y)+str(self.Z), 'w') as outfile:
+        with open('Sections/PCPDS:'+str(self.cellID), 'w') as outfile:
             json.dump(pcpds, outfile)
 
 # Loads a PCPDS object from the corresponding JSON file provided it exists
 def load_section(X, Y, Z):
     # TODO: check if the file exists, load it in, return it.
+    
+    # TODO: Turn X, Y, & Z into necessary CellID format
     with open('Sections/PCPDS:'+str(X)+str(Y)+str(Z)) as json_file:
         data = json.load(json_file)
 
