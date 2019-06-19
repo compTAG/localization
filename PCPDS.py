@@ -56,7 +56,7 @@ class PCPDS(object):
         else:
             return self.persistance_diagram
 
-
+    #Generate/save into specified folder name w/ timestamp
     # This saves this object in JSON format in the 'Sections' folder
     def save(self):
         # Transform this object into JSON string:

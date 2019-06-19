@@ -32,3 +32,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+#make folder with filename and timestamp and save partitions
