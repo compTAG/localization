@@ -9,7 +9,7 @@ import DoRips
 
 class PCPDS(object):
 
-    def __init__(self, X, Y, Z, cellID):
+    def __init__(self, cellID):
         # The point cloud should be set up a set of Points. Points possibly being represented by touples of three values.
         self.point_cloud = None
 
@@ -17,21 +17,14 @@ class PCPDS(object):
         self.persistance_diagram = None
         # TODO: Question, won't that cause missing features to occur at the edges of each section? Will that matter in the long run?
 
-        # X, Y, Z are x, y, and z points for section
-        self.X = X
-        self.Y = Y
-        self.Z = Z
-
         # cellID structure to be handled in lasproscessing.py
         self.cellID = cellID
 
     def get_xyz(self):
         return X, Y, Z
 
-    def set_point_cloud(self):
-        # works iff lasproscessing works the way i think it Does
-        temp = np.array([self.X,self.Y,self.Z])
-        point_cloud = temp.T
+    def set_point_cloud(self, point_cloud):
+        # sets point cloud
         self.point_cloud = point_cloud
 
     def generate_persistance_diagram(self, dist = 1):
@@ -39,7 +32,7 @@ class PCPDS(object):
         try:
             self.pointcloud
         except NameError:
-            set_point_cloud()
+            print("Error. No Pointcloud")
         finally:
             R = DoRips.RipsFilt(dist,self.point_cloud)
             self.persistance_diagram = R.do_persistance('pcpds')
@@ -68,7 +61,7 @@ class PCPDS(object):
 # Loads a PCPDS object from the corresponding JSON file provided it exists
 def load_section(X, Y, Z):
     # TODO: check if the file exists, load it in, return it.
-    
+
     # TODO: Turn X, Y, & Z into necessary CellID format
     with open('Sections/PCPDS:'+str(X)+str(Y)+str(Z)) as json_file:
         data = json.load(json_file)

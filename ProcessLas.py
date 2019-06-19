@@ -101,13 +101,19 @@ def input_las(filename, dim):
                 z = format(z, str(leadingZeros))
 
                 idx = int(str(x) + str(y) + str(z))
-                print(idx)
-                # assigns a new entry to the parallelograms dictionary for each idx generated
-                #parallelograms[idx] = section.PCPDS()
-                #generates a persistance diagram for that object
-                #parallelograms[idx].generate_persistance_diagram(rip_dist)
-                # pickles the object
-                #parallelograms[idx].save()
+                try:
+                    points[idx]
+                except:
+                    continue
+                else:
+                    # assigns a new entry to the parallelograms dictionary for each idx generated
+                    parallelograms[idx] = section.PCPDS()
+                    # sends the points from idx to
+                    parallelograms[idx].set_point_cloud(Points[idx])
+                    #generates a persistance diagram for that object
+                    parallelograms[idx].generate_persistance_diagram(rip_dist)
+                    # pickles the object
+                    parallelograms[idx].save()
 
 
                 #section.generate_persistance_diagram(Points[idx])
