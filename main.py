@@ -18,7 +18,15 @@ def main():
     else:
         input_las(filename, dim)
 
-    #TODO: Continue with files
+        #Load files and compute point clouds
+        for x in range(dim):
+            y = 0
+            for y in range(dim):
+                z = 0
+                for z in range(dim):
+                    #Create PCPDS
+                    # Compute persistence for point cloud
+
     # compare bottlenecks
 
 
