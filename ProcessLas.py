@@ -72,8 +72,6 @@ def input_las(filename, dim):
         idx = int(str(x) + str(y) + str(z))
         print(idx)
 
-
-        # logic here is very shoddy
         # the idea is we need to make a dictionary entry for each idx if it determine
         # but we need to append the new cord to that entry if it exists
         try:
