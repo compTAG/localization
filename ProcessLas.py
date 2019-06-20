@@ -3,113 +3,107 @@ import PCPDS as section
 import math
 import numpy as np
 
-def input_las(filename, dim):
+class ProcessLas:
 
-    #Load data, put list of touples in an array
-    #TODO?: Change to get file off server
-    inFile = File(concatenate(filename, '.las'), mode='r')
+    def __init__(self, filename, dim, leadingZeros):
+        # The name of the file being processed
+        self.filename = filename
+        # The amount of grids on the x y and z axis
+        self.dim = dim
+        #Takes into account the digits as to not get confused in the string of x y z
+        self.leadingZeros = leadingZeros
 
-    Xvals = inFile.X
-    Yvals = inFile.Y
-    Zvals = inFile.Z
-    Xvals.dtype = "float32"
-    Yvals.dtype = "float32"
-    Zvals.dtype = "float32"
+    def checkFile(self, idx, ext):
 
-    temp = np.array([Xvals,Yvals,Zvals])
-    Coords = temp.T
-
-    # moved points down - Luke
-
-    #TODO: Sort Coords? Overwirte operator for x low to high, then y, then z
-
-    #Set width, height, and depth
-    maxX = max(Xvals)
-    minX = min(Xvals)
-    maxY = max(Yvals)
-    minY = min(Yvals)
-    maxZ = max(Zvals)
-    minZ = min(Zvals)
-
-    #Get dimensions
-    dimX = maxX - minX
-    dimY = maxY - minY
-    dimZ = maxZ - minZ
-
-    #TEMP hardcoded window dim. in perc
-
-
-    # Proposed addition of options in 1d splitting - Luke
-    windowSize = 1/dim
-
-    iX = dimX * windowSize
-    iY = dimY * windowSize
-    iZ = dimZ * windowSize
-
-    #Amount of "cubes" in the grid split - ie. 125 grids with .20 window size
-    #gridSize = (1.0 / windowSize)**3.0
-    dim = math.ceil(1.0 / windowSize)
-
-    #Takes into account the digits as to not get confused in the string of x y z
-    leadingZeros = len(str(dim))
-    #Iterate over the x, y, z combinations to make the grid Sections
-    #then save them in a PCPDS at Points[concatenate x y z] where i < gridSize
-
-    # changed to a dictionary
-    Points = {'idx':'Coords[c]'}
-    for c,_  in enumerate(Coords):
-
-        #X/Y/ZVals needs to be changed to the X/Y/Z identifiers
-
-        x = math.floor((Coords[c][0] - minX)/ iX)
-        y = math.floor((Coords[c][1] - minY)/ iY)
-        z = math.floor((Coords[c][2] - minZ)/ iZ)
-
-        x = format(x, str(leadingZeros))
-        y = format(y, str(leadingZeros))
-        z = format(z, str(leadingZeros))
-
-        idx = int(str(x) + str(y) + str(z))
-        print(idx)
-
-        # the idea is we need to make a dictionary entry for each idx if it determine
-        # but we need to append the new cord to that entry if it exists
-        try:
-            Points[idx]
-        except:
-            Points[idx] = Coords[c]
+        temp = concatenate(self.filename, idx, ext)
+        exists = os.path.isfile(concatenate('/path/to/', temp, **)) #where ** is file ext
+        if exists:
+            return true
         else:
-            Points[idx] = np.concatenate((Points[idx],Coords[c]))
+            return false
+
+    def inputLas(self):
+
+        #Load data, put list of touples in an array
+        #TODO?: Change to get file off server
+        inFile = File(concatenate(self.filename, '.las'), mode='r')
+
+        xVals = inFile.X
+        yVals = inFile.Y
+        zVals = inFile.Z
+        xVals.dtype = "float32"
+        yVals.dtype = "float32"
+        zVals.dtype = "float32"
+
+        temp = np.array([xVals,yVals,zVals])
+        Coords = temp.T
+
+        # moved points down - Luke
+
+        #Set width, height, and depth
+        maxX = max(xVals)
+        minX = min(xVals)
+        maxY = max(yVals)
+        minY = min(yVals)
+        maxZ = max(zVals)
+        minZ = min(zVals)
+
+        # Proposed addition of options in 1d splitting - Luke
+
+        iX = (maxX - minX) * self.dim
+        iY = (maxY - minY) * self.dim
+        iZ = (maxZ - minZ) * self.dim
+
+        # changed to a dictionary
+        Points = {'idx':'Coords[c]'}
+        for c,_  in enumerate(Coords):
 
 
-    #Iterate over concatenations of x, y, z to find all point clouds
+            x = math.floor((Coords[c][0] - minX)/ iX)
+            y = math.floor((Coords[c][1] - minY)/ iY)
+            z = math.floor((Coords[c][2] - minZ)/ iZ)
 
-    # creates parallelograms dictionary to give PCPDS object from idx
-    parallelograms = {'idx':'PCPDS(idx)'}
-    x = 0
-    # used in rips
-    print("Debug")
-    rip_dist = iX * iY * iZ / 2
-    for x in range(dim):
-        y = 0
-        for y in range(dim):
-            z = 0
-            for z in range(dim):
+            x = format(x, str(self.leadingZeros))
+            y = format(y, str(self.leadingZeros))
+            z = format(z, str(self.leadingZeros))
 
-                x = format(x, str(leadingZeros))
-                y = format(y, str(leadingZeros))
-                z = format(z, str(leadingZeros))
+            idx = int(str(x) + str(y) + str(z))
+            print(idx)
 
-                idx = int(str(x) + str(y) + str(z))
-                try:
-                    points[idx]
-                except:
-                    continue
-                else:
+
+            # logic here is very shoddy
+            # the idea is we need to make a dictionary entry for each idx if it determine
+            # but we need to append the new cord to that entry if it exists
+            try:
+                Points[idx]
+            except:
+                Points[idx] = Coords[c]
+            else:
+                Points[idx] = np.concatenate((Points[idx],Coords[c]))
+
+
+        #Iterate over concatenations of x, y, z to find all point clouds
+
+        # creates parallelograms dictionary to give PCPDS object from idx
+        parallelograms = {'idx':'PCPDS(idx)'}
+        x = 0
+        # used in rips
+        print("Debug")
+        rip_dist = iX * iY * iZ / 2
+        for x in range(dim):
+            y = 0
+            for y in range(dim):
+                z = 0
+                for z in range(dim):
+
+                    x = format(x, str(self.leadingZeros))
+                    y = format(y, str(self.leadingZeros))
+                    z = format(z, str(self.leadingZeros))
+
+                    idx = int(str(x) + str(y) + str(z))
+                    print(idx)
                     # assigns a new entry to the parallelograms dictionary for each idx generated
-                    parallelograms[idx] = section.PCPDS()
-                    # sends the points from idx to
-                    parallelograms[idx].set_point_cloud(Points[idx])
+                    parallelograms[idx] = section.PCPDS(idx)
                     #generates a persistance diagram for that object
                     parallelograms[idx].generate_persistance_diagram(rip_dist)
                     # pickles the object

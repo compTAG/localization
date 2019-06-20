@@ -1,31 +1,36 @@
-from ProcessLas import input_las
+import ProcessLas
 import PCPDS
 import DoRips
 import numpy as np
 import os
 
 def main():
-    dim = int(input("Enter Partition Count (1D): "))
+
+    dim = 0
+    while (dim%1) != 0:
+        dim = int(input("Enter Partition Count (1D): "))
+        if (dim%1) != 0:
+            print('Please enter a whole number.')
     filename = input("Enter the name of the file you'd wish to import: ")
 
-    leadingZeros = len(str(dim))
-    test = format(1, str(leadingZeros))
+    # Create las object and calculate corresponding values
+    lasObj = ProcessLas(filename, dim, len(str(dim)))
+    #test = format(1, str(leadingZeros))
     idx = int(str(test) + str(test) + str(test))
 
-    exists = os.path.isfile(concatenate('/path/to/', idx, **)) #where ** is file ext
-    if exists:
-        # Continue (do nothing here)
-    else:
-        input_las(filename, dim)
+    # Check if the final persistence diagram for the las object doesn't exist
+    if !ProcessLas.checkFile(lasObj, idx, '**'): #Where ** is the extention of persistence diagrams
+        #Check if the file exists
+        if ProcessLas.checkFile(lasObj, null, '.las'):
+            # Saves the persistence diagrams of each grid
+            ProcessLas.inputLas(lasObj)
 
-        #Load files and compute point clouds
-        for x in range(dim):
-            y = 0
-            for y in range(dim):
-                z = 0
-                for z in range(dim):
-                    #Create PCPDS
-                    # Compute persistence for point cloud
+        else:
+            # Print error
+            print('Error, no matching file found.')
+            exit()
+
+
 
     # compare bottlenecks
 

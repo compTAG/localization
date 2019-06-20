@@ -42,7 +42,7 @@ class RipsFilt:
     def get_points_file(self):
 
         # File was too large to work quickly. Took more than 6 min to compute
-        inFile = File('test.las', mode='r')
+        inFile = File(concatenate(filename, '.las'), mode='r')
         Xvals = inFile.X
         Yvals = inFile.Y
         Zvals = inFile.Z

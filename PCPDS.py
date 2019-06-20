@@ -9,7 +9,7 @@ import DoRips
 
 class PCPDS(object):
 
-    def __init__(self, cellID):
+    def __init__(self, cellID, filename):
         # The point cloud should be set up a set of Points. Points possibly being represented by touples of three values.
         self.point_cloud = None
 
@@ -19,6 +19,9 @@ class PCPDS(object):
 
         # cellID structure to be handled in lasproscessing.py
         self.cellID = cellID
+
+        #Tracks the .las file the PD belongs to
+        self.filename = filename
 
     def get_xyz(self):
         return X, Y, Z
@@ -55,7 +58,7 @@ class PCPDS(object):
         # Transform this object into JSON string:
         pcpds = jsonpickle.encode(self)
 
-        with open('Sections/PCPDS:'+str(self.cellID), 'w') as outfile:
+        with open('Sections/PCPDS:'+self.filename+str(self.cellID), 'w') as outfile:
             json.dump(pcpds, outfile)
 
 # Loads a PCPDS object from the corresponding JSON file provided it exists
@@ -63,7 +66,7 @@ def load_section(X, Y, Z):
     # TODO: check if the file exists, load it in, return it.
 
     # TODO: Turn X, Y, & Z into necessary CellID format
-    with open('Sections/PCPDS:'+str(X)+str(Y)+str(Z)) as json_file:
+    with open('Sections/PCPDS:'+self.filename+str(X)+str(Y)+str(Z)) as json_file:
         data = json.load(json_file)
 
         print(data)
