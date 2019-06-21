@@ -5,7 +5,7 @@
 import numpy as np
 import json
 import jsonpickle
-import DoRips
+from DoRips import RipsFilt
 
 class PCPDS(object):
 
@@ -37,7 +37,7 @@ class PCPDS(object):
         except NameError:
             print("Error. No Pointcloud")
         finally:
-            R = DoRips.RipsFilt(dist,self.point_cloud)
+            R = RipsFilt(dist,self.point_cloud)
             self.persistance_diagram = R.do_persistance('pcpds')
 
     def get_persistance_diagram(self):

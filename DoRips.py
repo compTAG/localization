@@ -62,8 +62,12 @@ class RipsFilt:
         return points
 
     def get_points_pcpds(self):
-        # when using pcpds points they are passed in when DoRips is initialized
-        return self.point_cloud
+        try:
+            self.pcpds_cloud
+        except:
+            print("ERROR, NO POINT CLOUD")
+        else:
+            return self.pcpds_cloud
 
     def do_persistance(self, p_sc = 'fa'):
         #returns a persistance diagram
@@ -95,7 +99,7 @@ class BottleneckDistances:
         self.parallelograms = parallelograms
         self.search_idx = search_idx
 
-    def compute_distances(self):
+    def naive_search_distances(self):
         found_idx = 'Error'
         # improve this later
         best_dist = 10000000000
