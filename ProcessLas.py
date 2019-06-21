@@ -103,11 +103,13 @@ class ProcessLas:
                     idx = int(str(x) + str(y) + str(z))
                     print(idx)
                     # assigns a new entry to the parallelograms dictionary for each idx generated
-                    parallelograms[idx] = section.PCPDS(idx)
+                    parallelograms[idx] = section.PCPDS(idx, idx + ".ourfiletype")
+                    # adds points to pcpds object
+                    parallelograms[idx].set_point_cloud(Points[idx])
                     #generates a persistance diagram for that object
                     parallelograms[idx].generate_persistance_diagram(rip_dist)
                     # pickles the object
-                    #parallelograms[idx].save()
+                    parallelograms[idx].save()
     print(parallelograms)
     return parallelograms
                 #section.generate_persistance_diagram(Points[idx])
