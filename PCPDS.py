@@ -9,7 +9,7 @@ from DoRips import RipsFilt
 
 class PCPDS(object):
 
-    def __init__(self, cellID, filename):
+    def __init__(self, cellID, filename, distance = 1):
         # The point cloud should be set up a set of Points. Points possibly being represented by touples of three values.
         self.point_cloud = None
 
@@ -23,6 +23,17 @@ class PCPDS(object):
         #Tracks the .las file the PD belongs to
         self.filename = filename
 
+        # determines n skeleton for rips filtration
+        self.skeleton = 1
+        # scales distances for rips filtration
+        self.scalar = 0.2
+
+
+        # rips filt distance
+        self.distance = distance
+
+
+
     def get_xyz(self):
         return X, Y, Z
 
@@ -30,27 +41,31 @@ class PCPDS(object):
         # sets point cloud
         self.point_cloud = point_cloud
 
-    def generate_persistance_diagram(self, dist = 1):
-        # try except statement checks for needed values to generate
-        try:
-            self.pointcloud
-        except NameError:
-            print("Error. No Pointcloud")
-        finally:
-            R = RipsFilt(dist,self.point_cloud)
-            self.persistance_diagram = R.do_persistance('pcpds')
+        # TODO setup XYZ for get_xyz?
+
+    def Distances(self, box_width):
+        # temporary - we should play with this to determine best distance
+        return box_width*self.scalar
+
 
     def get_persistance_diagram(self):
-        # if persistance_diagram has not been calculated, create it
+    # if persistance_diagram has not been calculated, create it
         try:
             self.persistance_diagram
         except NameError:
-            # creates a filtration object with stored pointcloud
-            R = DoRips.RipsFilt(1,self.point_cloud)
-            # returns a persistance diagram
-            return R.do_persistance('pcpds')
-        else:
-            return self.persistance_diagram
+            # try to create the persistance diagram
+            try:
+                f = d.fill_rips(self.point_cloud, self.skeleton , self.Distances(self.box_width))
+                m = d.homology_persistence(f)
+                diagram = d.init_diagrams(m,f)
+                self.persistance_diagram = diagram
+                return diagram
+            # account for input errors
+            except:
+                print("You forgot to initialize stuff")
+
+
+
 
     #Generate/save into specified folder name w/ timestamp
     # This saves this object in JSON format in the 'Sections' folder
@@ -60,6 +75,7 @@ class PCPDS(object):
 
         with open('Sections/PCPDS:'+self.filename+str(self.cellID), 'w') as outfile:
             json.dump(pcpds, outfile)
+
 
 # Loads a PCPDS object from the corresponding JSON file provided it exists
 def load_section(X, Y, Z):
