@@ -22,7 +22,7 @@
 
 ## Authors
 - George Engel
-- Clare Duval
+- Clare DuVal
 - Luke Askew
 
 ## Acknowledgments
