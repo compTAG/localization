@@ -1,6 +1,7 @@
 from laspy.file import File
 import PCPDS as section
 import math
+import random
 import numpy as np
 
 class ProcessLas:
@@ -21,6 +22,18 @@ class ProcessLas:
             return true
         else:
             return false
+
+    def randomGrid(self):
+
+        xRand = random.randint(0,dim)
+        yRand = random.randint(0,dim)
+        zRand = random.randint(0,dim)
+
+        xRand = format(xRand, str(self.leadingZeros))
+        yRand = format(yRand, str(self.leadingZeros))
+        zRand = format(zRand, str(self.leadingZeros))
+
+        return = int(str(xRand) + str(yRand) + str(zRand)
 
     def inputLas(self):
 
@@ -108,6 +121,8 @@ class ProcessLas:
                     parallelograms[idx].generate_persistance_diagram(rip_dist)
                     # pickles the object
                     parallelograms[idx].save()
+
+        return parallelograms
 
 
                 #section.generate_persistance_diagram(Points[idx])
