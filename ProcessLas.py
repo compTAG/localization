@@ -39,7 +39,7 @@ class ProcessLas:
 
         #Load data, put list of touples in an array
         #TODO?: Change to get file off server
-        inFile = File(concatenate(self.filename, '.las'), mode='r')
+        inFile = File(self.filename, mode='r')
 
         xVals = inFile.X
         yVals = inFile.Y
@@ -103,27 +103,29 @@ class ProcessLas:
         # used in rips
         print("Debug")
         rip_dist = iX * iY * iZ / 2
-        for x in range(dim):
+        for x in range(self.dim):
             y = 0
-            for y in range(dim):
+            for y in range(self.dim):
                 z = 0
-                for z in range(dim):
+                for z in range(self.dim):
 
-                    x = format(x, str(self.leadingZeros))
-                    y = format(y, str(self.leadingZeros))
-                    z = format(z, str(self.leadingZeros))
+                    x = str(x) + str(self.leadingZeros)
+                    y = str(y) + str(self.leadingZeros)
+                    z = str(z) + str(self.leadingZeros)
 
-                    idx = int(str(x) + str(y) + str(z))
-                    print(idx)
-                    # assigns a new entry to the parallelograms dictionary for each idx generated
-                    parallelograms[idx] = section.PCPDS(idx)
-                    #generates a persistance diagram for that object
-                    parallelograms[idx].generate_persistance_diagram(rip_dist)
-                    # pickles the object
-                    parallelograms[idx].save()
+                    idx = int(x + y + z)
+                    try:
+                        print(idx)
 
-        return parallelograms
-
+                        # assigns a new entry to the parallelograms dictionary for each idx generated
+                        parallelograms[idx] = section.PCPDS(idx, str(idx) + ".ourfiletype", rip_dist)
+                        # adds points to pcpds object
+                        parallelograms[idx].set_point_cloud(Points[idx])
+                        #generates a persistance diagram for that object
+                        parallelograms[idx].get_persistance_diagram()
+                        # pickles the object
+                        parallelograms[idx].save()
+                        print(parallelograms)
 
                 #section.generate_persistance_diagram(Points[idx])
     #Save Point clouds with PCPDS
