@@ -6,7 +6,7 @@ import os
 
 def main():
 
-    again = Ture
+    again = True
     while again == True:
 
         #Have the user input their desired file and dim count

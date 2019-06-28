@@ -10,12 +10,14 @@ from DoRips import RipsFilt
 class PCPDS(object):
 
     def __init__(self, cellID, filename, distance = 1):
-        # The point cloud should be set up a set of Points. Points possibly being represented by touples of three values.
+        # The point cloud should be set up a set of Points. Points possibly
+        # being represented by touples of three values.
         self.point_cloud = None
 
         # The persistance diagram will be processed from the point cloud in this class
         self.persistance_diagram = None
-        # TODO: Question, won't that cause missing features to occur at the edges of each section? Will that matter in the long run?
+        # TODO: Question, won't that cause missing features
+        # to occur at the edges of each section? Will that matter in the long run?
 
         # cellID structure to be handled in lasproscessing.py
         self.cellID = cellID
@@ -25,14 +27,12 @@ class PCPDS(object):
 
         # determines n skeleton for rips filtration
         self.skeleton = 1
+
         # scales distances for rips filtration
         self.scalar = 0.2
 
-
         # rips filt distance
         self.distance = distance
-
-
 
     def get_xyz(self):
         return X, Y, Z

@@ -19,28 +19,29 @@ class ProcessLas:
         temp = concatenate(self.filename, idx, ext)
         exists = os.path.isfile(concatenate('/path/to/', temp, **)) #where ** is file ext
         if exists:
-            return true
+            return True
         else:
-            return false
+            return False
 
     def randomGrid(self):
 
-        xRand = random.randint(0,dim)
-        yRand = random.randint(0,dim)
-        zRand = random.randint(0,dim)
+        xRand = random.randint(0, self.dim)
+        yRand = random.randint(0, self.dim)
+        zRand = random.randint(0, self.dim)
 
-        xRand = format(xRand, str(self.leadingZeros))
-        yRand = format(yRand, str(self.leadingZeros))
-        zRand = format(zRand, str(self.leadingZeros))
+        xRand = str(xRand).zfill(self.leadingZeros)
+        yRand = str(yRand).zfill(self.leadingZeros)
+        zRand = str(zRand).zfill(self.leadingZeros)
 
-        return = int(str(xRand) + str(yRand) + str(zRand)
+        return = int(xRand + yRand + zRand)
 
     def inputLas(self):
 
         #Load data, put list of touples in an array
         #TODO?: Change to get file off server
-        inFile = File(self.filename, mode='r')
+        inFile = File(self.filename + '.las', mode='r')
 
+        # Import coordinates and change them to manipulative type float32
         xVals = inFile.X
         yVals = inFile.Y
         zVals = inFile.Z
@@ -76,13 +77,12 @@ class ProcessLas:
             y = math.floor((Coords[c][1] - minY)/ iY)
             z = math.floor((Coords[c][2] - minZ)/ iZ)
 
-            x = format(x, str(self.leadingZeros))
-            y = format(y, str(self.leadingZeros))
-            z = format(z, str(self.leadingZeros))
+            x = str(x).zfill(self.leadingZeros)
+            y = str(y).zfill(self.leadingZeros)
+            z = str(z).zfill(self.leadingZeros)
 
-            idx = int(str(x) + str(y) + str(z))
+            idx = int(x + y + z)
             print(idx)
-
 
             # logic here is very shoddy
             # the idea is we need to make a dictionary entry for each idx if it determine
@@ -109,31 +109,31 @@ class ProcessLas:
                 z = 0
                 for z in range(self.dim):
 
-                    x = str(x) + str(self.leadingZeros)
-                    y = str(y) + str(self.leadingZeros)
-                    z = str(z) + str(self.leadingZeros)
+                    # Leave format() if you just add leadingZeros to the encode
+                    # of x y z, it defeats the point of leadingZeros
+                    x = str(x).zfill(self.leadingZeros)
+                    y = str(y).zfill(self.leadingZeros)
+                    z = str(z).zfill(self.leadingZeros)
 
                     idx = int(x + y + z)
                     try:
                         print(idx)
 
                         # assigns a new entry to the parallelograms dictionary for each idx generated
-                        parallelograms[idx] = section.PCPDS(idx, str(idx) + ".ourfiletype", rip_dist)
+                        parallelograms[idx] = section.PCPDS(idx, str(idx) + "**", rip_dist) #where ** is file ext
+
                         # adds points to pcpds object
                         parallelograms[idx].set_point_cloud(Points[idx])
+
                         #generates a persistance diagram for that object
                         parallelograms[idx].get_persistance_diagram()
+
                         # pickles the object
                         parallelograms[idx].save()
+
+                        #Temp check
                         print(parallelograms)
 
+        return parallelograms
+
                 #section.generate_persistance_diagram(Points[idx])
-    #Save Point clouds with PCPDS
-
-    # Temp test for pcpds
-    test = section.PCPDS(1,1,1)
-    test.save()
-
-    temp = section.load_section(1,1,1)
-
-    # temp now has the ability to call methods from the PCPDS object that has been loaded
