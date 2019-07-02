@@ -43,7 +43,7 @@ class PCPDS(object):
 
         # TODO setup XYZ for get_xyz?
 
-    def Distances(self, box_width):
+    def distances(self, box_width):
         # temporary - we should play with this to determine best distance
         return box_width*self.scalar
 
@@ -55,7 +55,7 @@ class PCPDS(object):
         except NameError:
             # try to create the persistance diagram
             try:
-                f = d.fill_rips(self.point_cloud, self.skeleton , self.Distances(self.box_width))
+                f = d.fill_rips(self.point_cloud, self.skeleton , self.distances(self.box_width))
                 m = d.homology_persistence(f)
                 diagram = d.init_diagrams(m,f)
                 self.persistance_diagram = diagram

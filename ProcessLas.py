@@ -14,26 +14,27 @@ class ProcessLas:
         #Takes into account the digits as to not get confused in the string of x y z
         self.leading_zeros = leading_zeros
 
-    def check_file(self, idx, ext):
+# commented out to get running
+#    def checkFile(self, idx, ext):
+#
+#        temp = concatenate(self.filename, idx, ext)
+#        exists = os.path.isfile(concatenate('/path/to/', temp, **)) #where ** is file ext
+#        if exists:
+#            return True
+#        else:
+#            return False
 
-        temp = concatenate(self.filename, idx, ext)
-        exists = os.path.isfile(concatenate('/path/to/', temp, **)) #where ** is file ext
-        if exists:
-            return True
-        else:
-            return False
-
-    def random_grid(self):
-
-        xRand = random.randint(0, self.dim)
-        yRand = random.randint(0, self.dim)
-        zRand = random.randint(0, self.dim)
-
-        xRand = str(xRand).zfill(self.leading_zeros)
-        yRand = str(yRand).zfill(self.leading_zeros)
-        zRand = str(zRand).zfill(self.leading_zeros)
-
-        return = int(xRand + yRand + zRand)
+#    def randomGrid(self):
+#
+#        xRand = random.randint(0, self.dim)
+#        yRand = random.randint(0, self.dim)
+#        zRand = random.randint(0, self.dim)
+#
+#        xRand = str(xRand).zfill(self.leadingZeros)
+#        yRand = str(yRand).zfill(self.leadingZeros)
+#        zRand = str(zRand).zfill(self.leadingZeros)
+#
+#        return = int(xRand + yRand + zRand)
 
     def input_las(self):
 

@@ -1,6 +1,5 @@
 import ProcessLas
 import PCPDS
-from DoRips import BottleneckDistances
 import numpy as np
 import os
 
