@@ -17,7 +17,7 @@ class RipsFilt:
         self.pcpds_cloud = pcpds_cloud
 
 
-    def Distances(self, box_width):
+    def distances(self, box_width):
         # temporary - we should play with this to determine best distance
         return box_width*self.scalar
 
@@ -87,7 +87,7 @@ class RipsFilt:
 
         # computes rips filtration with 1 skeleton automatically
         #changing second argument in fill_rips changes skeleton
-        f = d.fill_rips(points, self.skeleton , self.Distances(self.box_width))
+        f = d.fill_rips(points, self.skeleton , self.distances(self.box_width))
         m = d.homology_persistence(f)
         diagram = d.init_diagrams(m,f)
         return diagram

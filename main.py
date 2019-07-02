@@ -1,6 +1,5 @@
 import ProcessLas
 import PCPDS
-from DoRips import BottleneckDistances
 import numpy as np
 import os
 
@@ -30,7 +29,7 @@ def main():
             if ProcessLas.checkFile(lasObj, null, '.las'):
                 # Saves the persistence diagrams of each grid
                 # and returns the dict of PCPDS
-                points = ProcessLas.inputLas(lasObj)
+                points = ProcessLas.input_las(lasObj)
                 # + Save persistence diagrams
 
             else:
@@ -74,8 +73,8 @@ def main():
 
             # Import new file to find location in orig file
             elif choice == 2:
-                testFile = input("Enter the name of the file you'd wish to import: ")
-                temp = concatenate(testFile, '**')
+                test+file = input("Enter the name of the file you'd wish to import: ")
+                temp = concatenate(test_file, '**')
                 exists = os.path.isfile(concatenate('/path/to/', temp)
                 if exists:
                     #Save persistence diagram of found file to testGrid
@@ -86,8 +85,8 @@ def main():
             # Choice is not a viable option
             else: print('Please choose a number 1 - ' len(menu))
 
-        playAgain = input('Would you like to test another lidar file? (Y/N)')
-        if !playAgain.lower.find('y'):
+        play_again = input('Would you like to test another lidar file? (Y/N)')
+        if !play_again.lower.find('y'):
             again = False
 
 

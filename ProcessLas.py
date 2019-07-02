@@ -14,28 +14,29 @@ class ProcessLas:
         #Takes into account the digits as to not get confused in the string of x y z
         self.leadingZeros = leadingZeros
 
-    def checkFile(self, idx, ext):
+# commented out to get running
+#    def checkFile(self, idx, ext):
+#
+#        temp = concatenate(self.filename, idx, ext)
+#        exists = os.path.isfile(concatenate('/path/to/', temp, **)) #where ** is file ext
+#        if exists:
+#            return True
+#        else:
+#            return False
 
-        temp = concatenate(self.filename, idx, ext)
-        exists = os.path.isfile(concatenate('/path/to/', temp, **)) #where ** is file ext
-        if exists:
-            return True
-        else:
-            return False
+#    def randomGrid(self):
+#
+#        xRand = random.randint(0, self.dim)
+#        yRand = random.randint(0, self.dim)
+#        zRand = random.randint(0, self.dim)
+#
+#        xRand = str(xRand).zfill(self.leadingZeros)
+#        yRand = str(yRand).zfill(self.leadingZeros)
+#        zRand = str(zRand).zfill(self.leadingZeros)
+#
+#        return = int(xRand + yRand + zRand)
 
-    def randomGrid(self):
-
-        xRand = random.randint(0, self.dim)
-        yRand = random.randint(0, self.dim)
-        zRand = random.randint(0, self.dim)
-
-        xRand = str(xRand).zfill(self.leadingZeros)
-        yRand = str(yRand).zfill(self.leadingZeros)
-        zRand = str(zRand).zfill(self.leadingZeros)
-
-        return = int(xRand + yRand + zRand)
-
-    def inputLas(self):
+    def input_las(self):
 
         #Load data, put list of touples in an array
         #TODO?: Change to get file off server
