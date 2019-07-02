@@ -18,19 +18,19 @@ def main():
         filename = input("Enter the name of the file you'd wish to import: ")
 
         # Create las object and calculate corresponding values
-        lasObj = ProcessLas(filename, dim, len(str(dim)))
+        las_obj = ProcessLas(filename, dim, len(str(dim)))
         idx = int(str(dim) + str(dim) + str(dim))
 
         points = null
         # Check if the final persistence diagram for the las object doesn't exist
         # Check under a given timestamp to avoid multiple same files
-        if !ProcessLas.checkFile(lasObj, idx, '**'): #Where ** is the ext of PDs
+        if !ProcessLas.check_file(las_obj, idx, '**'): #Where ** is the ext of PDs
             #Check if the file exists
 
-            if ProcessLas.checkFile(lasObj, null, '.las'):
+            if ProcessLas.check_file(las_obj, null, '.las'):
                 # Saves the persistence diagrams of each grid
                 # and returns the dict of PCPDS
-                points = ProcessLas.inputLas(lasObj)
+                points = ProcessLas.input_las(las_obj)
                 # + Save persistence diagrams
 
             else:
@@ -48,7 +48,7 @@ def main():
         menu[2] = 'Enter your own data from an additional lidar file.'
         # ETC, add other options?
 
-        testGrid = null
+        test_grid = null
         while True:
             options = menu.keys()
             options.sort()
@@ -60,25 +60,25 @@ def main():
             if choice == 1:
 
                 #Return random index and calculate PCPDS
-                testIDX = ProcessLas.randomGrid(dim)
-                testGrid = PCPDS(testIDX, lasObj.filename)
-                print('The random index is: ' + testIDX + '.')
+                test_idx = ProcessLas.random_grid(dim)
+                test_grid = PCPDS(test_idx, las_obj.filename)
+                print('The random index is: ' + test_idx + '.')
 
                 #Calculate bottleneck dista
-                testBottleneck = BottleneckDistances(points, testGrid)
-                guessGrid = testBottleneck.compute_distances()
-                if guessGrid == testIDX:
+                test_bottleneck = BottleneckDistances(points, test_grid)
+                guess_grid = test_bottleneck.compute_distances()
+                if guess_grid == test_idx:
                     print('##')
                 else:
-                    print('The index with the closest match to the random is index ' + guessGrid)
+                    print('The index with the closest match to the random is index ' + guess_grid)
 
             # Import new file to find location in orig file
             elif choice == 2:
-                testFile = input("Enter the name of the file you'd wish to import: ")
-                temp = concatenate(testFile, '**')
+                test_file = input("Enter the name of the file you'd wish to import: ")
+                temp = concatenate(test_file, '**')
                 exists = os.path.isfile(concatenate('/path/to/', temp)
                 if exists:
-                    #Save persistence diagram of found file to testGrid
+                    #Save persistence diagram of found file to test_grid
                 else:
                     print('Error. No matching file found.')
                     exit()
@@ -86,8 +86,8 @@ def main():
             # Choice is not a viable option
             else: print('Please choose a number 1 - ' len(menu))
 
-        playAgain = input('Would you like to test another lidar file? (Y/N)')
-        if !playAgain.lower.find('y'):
+        play_again = input('Would you like to test another lidar file? (Y/N)')
+        if !play_again.lower.find('y'):
             again = False
 
 

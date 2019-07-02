@@ -6,15 +6,15 @@ import numpy as np
 
 class ProcessLas:
 
-    def __init__(self, filename, dim, leadingZeros):
+    def __init__(self, filename, dim, leading_zeros):
         # The name of the file being processed
         self.filename = filename
         # The amount of grids on the x y and z axis
         self.dim = dim
         #Takes into account the digits as to not get confused in the string of x y z
-        self.leadingZeros = leadingZeros
+        self.leading_zeros = leading_zeros
 
-    def checkFile(self, idx, ext):
+    def check_file(self, idx, ext):
 
         temp = concatenate(self.filename, idx, ext)
         exists = os.path.isfile(concatenate('/path/to/', temp, **)) #where ** is file ext
@@ -23,63 +23,63 @@ class ProcessLas:
         else:
             return False
 
-    def randomGrid(self):
+    def random_grid(self):
 
         xRand = random.randint(0, self.dim)
         yRand = random.randint(0, self.dim)
         zRand = random.randint(0, self.dim)
 
-        xRand = str(xRand).zfill(self.leadingZeros)
-        yRand = str(yRand).zfill(self.leadingZeros)
-        zRand = str(zRand).zfill(self.leadingZeros)
+        xRand = str(xRand).zfill(self.leading_zeros)
+        yRand = str(yRand).zfill(self.leading_zeros)
+        zRand = str(zRand).zfill(self.leading_zeros)
 
         return = int(xRand + yRand + zRand)
 
-    def inputLas(self):
+    def input_las(self):
 
         #Load data, put list of touples in an array
         #TODO?: Change to get file off server
-        inFile = File(self.filename + '.las', mode='r')
+        in_file = File(self.filename + '.las', mode='r')
 
         # Import coordinates and change them to manipulative type float32
-        xVals = inFile.X
-        yVals = inFile.Y
-        zVals = inFile.Z
-        xVals.dtype = "float32"
-        yVals.dtype = "float32"
-        zVals.dtype = "float32"
+        x_vals = in_file.X
+        y_vals = in_file.Y
+        z_vals = in_file.Z
+        x_vals.dtype = "float32"
+        y_vals.dtype = "float32"
+        z_vals.dtype = "float32"
 
-        temp = np.array([xVals,yVals,zVals])
-        Coords = temp.T
+        temp = np.array([x_vals,y_vals,z_vals])
+        coords = temp.T
 
         # moved points down - Luke
 
         #Set width, height, and depth
-        maxX = max(xVals)
-        minX = min(xVals)
-        maxY = max(yVals)
-        minY = min(yVals)
-        maxZ = max(zVals)
-        minZ = min(zVals)
+        max_x = max(x_vals)
+        min_x = min(x_vals)
+        max_y = max(y_vals)
+        min_y = min(y_vals)
+        max_z = max(z_vals)
+        min_z = min(z_vals)
 
         # Proposed addition of options in 1d splitting - Luke
 
-        iX = (maxX - minX) * self.dim
-        iY = (maxY - minY) * self.dim
-        iZ = (maxZ - minZ) * self.dim
+        iX = (max_x - min_x) * self.dim
+        iY = (max_y - min_y) * self.dim
+        iZ = (max_z - min_z) * self.dim
 
         # changed to a dictionary
-        Points = {'idx':'Coords[c]'}
-        for c,_  in enumerate(Coords):
+        points = {'idx':'coords[c]'}
+        for c,_  in enumerate(coords):
 
 
-            x = math.floor((Coords[c][0] - minX)/ iX)
-            y = math.floor((Coords[c][1] - minY)/ iY)
-            z = math.floor((Coords[c][2] - minZ)/ iZ)
+            x = math.floor((coords[c][0] - min_x)/ iX)
+            y = math.floor((coords[c][1] - min_y)/ iY)
+            z = math.floor((coords[c][2] - min_z)/ iZ)
 
-            x = str(x).zfill(self.leadingZeros)
-            y = str(y).zfill(self.leadingZeros)
-            z = str(z).zfill(self.leadingZeros)
+            x = str(x).zfill(self.leading_zeros)
+            y = str(y).zfill(self.leading_zeros)
+            z = str(z).zfill(self.leading_zeros)
 
             idx = int(x + y + z)
             print(idx)
@@ -87,11 +87,11 @@ class ProcessLas:
             # Make a dictionary with each [idx].
             # If it already exists, append the coord
             try:
-                Points[idx]
+                points[idx]
             except:
-                Points[idx] = Coords[c]
+                points[idx] = coords[c]
             else:
-                Points[idx] = np.concatenate((Points[idx],Coords[c]))
+                points[idx] = np.concatenate((points[idx],coords[c]))
 
         # Creates parallelograms dictionary to give PCPDS object from idx
         parallelograms = {'idx':'PCPDS(idx)'}
@@ -110,9 +110,9 @@ class ProcessLas:
 
                     # Leave format() if you just add leadingZeros to the encode
                     # of x y z, it defeats the point of leadingZeros
-                    x = str(x).zfill(self.leadingZeros)
-                    y = str(y).zfill(self.leadingZeros)
-                    z = str(z).zfill(self.leadingZeros)
+                    x = str(x).zfill(self.leading_zeros)
+                    y = str(y).zfill(self.leading_zeros)
+                    z = str(z).zfill(self.leading_zeros)
 
                     idx = int(x + y + z)
                     try:
@@ -122,7 +122,7 @@ class ProcessLas:
                         parallelograms[idx] = section.PCPDS(idx, str(idx) + "**", rip_dist) #where ** is file ext
 
                         # Add points to PCPDS object
-                        parallelograms[idx].set_point_cloud(Points[idx])
+                        parallelograms[idx].set_point_cloud(points[idx])
 
                         # Generate a persistance diagram for that object
                         parallelograms[idx].get_persistance_diagram()
@@ -135,4 +135,4 @@ class ProcessLas:
 
         return parallelograms
 
-                #section.generate_persistance_diagram(Points[idx])
+                #section.generate_persistance_diagram(points[idx])
