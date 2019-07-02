@@ -84,9 +84,8 @@ class ProcessLas:
             idx = int(x + y + z)
             print(idx)
 
-            # logic here is very shoddy
-            # the idea is we need to make a dictionary entry for each idx if it determine
-            # but we need to append the new cord to that entry if it exists
+            # Make a dictionary with each [idx].
+            # If it already exists, append the coord
             try:
                 Points[idx]
             except:
@@ -94,15 +93,15 @@ class ProcessLas:
             else:
                 Points[idx] = np.concatenate((Points[idx],Coords[c]))
 
-
-        #Iterate over concatenations of x, y, z to find all point clouds
-
-        # creates parallelograms dictionary to give PCPDS object from idx
+        # Creates parallelograms dictionary to give PCPDS object from idx
         parallelograms = {'idx':'PCPDS(idx)'}
-        x = 0
-        # used in rips
+
+        # Used in rips
         print("Debug")
         rip_dist = iX * iY * iZ / 2
+
+        # Iterate over concatenations of x, y, z to find all point clouds
+        x = 0
         for x in range(self.dim):
             y = 0
             for y in range(self.dim):
@@ -119,19 +118,19 @@ class ProcessLas:
                     try:
                         print(idx)
 
-                        # assigns a new entry to the parallelograms dictionary for each idx generated
+                        # Assign a new entry to the parallelograms dict for each idx generated
                         parallelograms[idx] = section.PCPDS(idx, str(idx) + "**", rip_dist) #where ** is file ext
 
-                        # adds points to pcpds object
+                        # Add points to PCPDS object
                         parallelograms[idx].set_point_cloud(Points[idx])
 
-                        #generates a persistance diagram for that object
+                        # Generate a persistance diagram for that object
                         parallelograms[idx].get_persistance_diagram()
 
-                        # pickles the object
+                        # Pickle the object
                         parallelograms[idx].save()
 
-                        #Temp check
+                        # Temp check
                         print(parallelograms)
 
         return parallelograms

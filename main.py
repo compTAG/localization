@@ -10,7 +10,7 @@ def main():
     while again == True:
 
         #Have the user input their desired file and dim count
-        dim = 0
+        dim = 0.1
         while (dim%1) != 0:
             dim = int(input("Enter Partition Count (1D): "))
             if (dim%1) != 0:
@@ -19,21 +19,25 @@ def main():
 
         # Create las object and calculate corresponding values
         lasObj = ProcessLas(filename, dim, len(str(dim)))
-        idx = int(str(test) + str(test) + str(test))
+        idx = int(str(dim) + str(dim) + str(dim))
 
         points = null
         # Check if the final persistence diagram for the las object doesn't exist
         # Check under a given timestamp to avoid multiple same files
         if !ProcessLas.checkFile(lasObj, idx, '**'): #Where ** is the ext of PDs
             #Check if the file exists
+
             if ProcessLas.checkFile(lasObj, null, '.las'):
                 # Saves the persistence diagrams of each grid
                 # and returns the dict of PCPDS
                 points = ProcessLas.inputLas(lasObj)
+                # + Save persistence diagrams
 
             else:
                 print('Error. No matching file found.')
                 exit()
+        else:
+            # Import persistence diagrams/ points array
 
         # else if the last dim file exists, then continue with the search file
 
@@ -77,6 +81,7 @@ def main():
                     #Save persistence diagram of found file to testGrid
                 else:
                     print('Error. No matching file found.')
+                    exit()
 
             # Choice is not a viable option
             else: print('Please choose a number 1 - ' len(menu))
