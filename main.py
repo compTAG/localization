@@ -9,7 +9,7 @@ def main():
     while again == True:
 
         #Have the user input their desired file and dim count
-        dim = 0.1
+        dim = 0
         while (dim%1) != 0:
             dim = int(input("Enter Partition Count (1D): "))
             if (dim%1) != 0:

@@ -134,6 +134,9 @@ class ProcessLas:
                         # Temp check
                         print(parallelograms)
 
+                    except e:
+                        pass
+
         return parallelograms
 
                 #section.generate_persistance_diagram(points[idx])
