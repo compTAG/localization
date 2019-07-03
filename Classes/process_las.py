@@ -20,11 +20,12 @@ class ProcessLas:
 
         temp = self.filename + str(idx) + str(ext)
         if dir_name == None:
-            dir_name = ''
+            temp = self.filename + str(ext)
+            exists = os.path.isfile(temp)
+            print(str(temp + ext))
         else:
             dir_name = str('Sections/PCPDS/' + dir_name + '/')
-
-        exists = os.path.isfile(dir_name + temp + ext)
+            exists = os.path.isfile(dir_name + temp + ext)
 
         if exists:
             return True
@@ -72,9 +73,9 @@ class ProcessLas:
 
         # Proposed addition of options in 1d splitting - Luke
 
-        iX = (max_x - min_x) * self.partition
-        iY = (max_y - min_y) * self.partition
-        iZ = (max_z - min_z) * self.partition
+        iX = (max_x - min_x) / self.partition
+        iY = (max_y - min_y) / self.partition
+        iZ = (max_z - min_z) / self.partition
 
         # changed to a dictionary
         points = {'idx':'coords[c]'}

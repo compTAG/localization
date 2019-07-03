@@ -11,7 +11,7 @@ def main():
     while again == True:
 
         #Have the user input their desired file and partition count
-        partition = 0
+        partition = 0.1
         while (partition%1) != 0:
             partition = int(input("Enter Partition Count (1D): "))
             if (partition%1) != 0:
@@ -30,7 +30,7 @@ def main():
         if not (las_obj.check_file(idx, '.json', dir_name)): #Where ** is the ext of PDs
             #Check if the file exists
 
-            if las_obj.check_file(None, None, None):
+            if las_obj.check_file(None, '.las', None):
                 # Saves the persistence diagrams of each grid
                 # and returns the dict of PCPDS
                 points = las_obj.input_las()
