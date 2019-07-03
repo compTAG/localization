@@ -68,19 +68,19 @@ class PCPDS(object):
 
     #Generate/save into specified folder name w/ timestamp
     # This saves this object in JSON format in the 'Sections' folder
-    def save(self):
+    def save(self, dir_name):
         # Transform this object into JSON string:
         pcpds = jsonpickle.encode(self)
 
-        with open('Sections/PCPDS:'+self.filename+str(self.cell_id), 'w') as outfile:
+        with open('Sections/PCPDS/dir_name:'+self.filename+str(self.cell_id), 'w') as outfile:
             json.dump(pcpds, outfile)
 
 
     # Loads a PCPDS object from the corresponding JSON file provided it exists
-    def load_section(temp_cell_id):
+    def load_section(temp_cell_id, dir_name):
         # TODO: check if the file exists, load it in, return it.
 
-        with open('Sections/PCPDS:'+self.filename+str(test_cell_id)) as json_file:
+        with open('Sections/PCPDS/dir_name:'+self.filename+str(test_cell_id)) as json_file:
             data = json.load(json_file)
 
             print(data)

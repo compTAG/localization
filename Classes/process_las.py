@@ -15,11 +15,16 @@ class ProcessLas:
         self.leading_zeros = leading_zeros
 
 
-    def checkFile(self, idx, ext):
+    def check_file(self, idx, ext, dir_name):
 
         temp = concatenate(self.filename, idx, ext)
-#'/path/to/',
-        exists = os.path.isfile(concatenate(temp)) #where ** is file ext
+        if dir_name == None:
+            dir_name = ''
+        else: 
+            dir_name = str('Sections/PCPDS/' + dir_name + '/')
+
+        exists = os.path.isfile(dir_name, temp, ext)
+
         if exists:
             return True
         else:
@@ -130,7 +135,7 @@ class ProcessLas:
                         parallelograms[idx].get_persistance_diagram()
 
                         # Pickle the object
-                        parallelograms[idx].save()
+                        parallelograms[idx].save(dir_name)
 
                         # Temp check
                         print(parallelograms)
