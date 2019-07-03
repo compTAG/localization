@@ -26,13 +26,13 @@ def main():
         points = None
         # Check if the final persistence diagram for the las object doesn't exist
         # Check under a given timestamp to avoid multiple same files
-        if not (ProcessLas.check_file(las_obj, idx, '.json', dir_name)): #Where ** is the ext of PDs
+        if not (las_obj.check_file(idx, '.json', dir_name)): #Where ** is the ext of PDs
             #Check if the file exists
 
-            if ProcessLas.check_file(las_obj, null, '.las', None):
+            if las_obj.check_file(None, '.las', None):
                 # Saves the persistence diagrams of each grid
                 # and returns the dict of PCPDS
-                points = ProcessLas.input_las(las_obj)
+                points = las_obj.input_las()
 
                 try:
                     os.mkdir(dir_name)
