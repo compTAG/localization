@@ -73,7 +73,7 @@ def main():
             if choice == 1:
 
                 #Return random index and calculate PCPDS
-                test_idx = ProcessLas.random_grid(partition)
+                test_idx = las_obj.random_grid(partition)
                 test_grid = PCPDS(test_idx, las_obj.filename)
                 print('The random index is: ' + test_idx + '.')
 

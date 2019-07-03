@@ -44,6 +44,10 @@ class ProcessLas:
 #
 #        return = int(xRand + yRand + zRand)
 
+    def __hash_it(self, coord, max_par, min_par):
+        h = math.floor((coord - min_par)/ ((max_par - min_par) / self.partition))
+        return str(h).zfill(self.leading_zeros)
+
     def input_las(self):
 
         #Load data, put list of touples in an array
@@ -71,24 +75,13 @@ class ProcessLas:
         max_z = max(z_vals)
         min_z = min(z_vals)
 
-        # Proposed addition of options in 1d splitting - Luke
-
-        iX = (max_x - min_x) / self.partition
-        iY = (max_y - min_y) / self.partition
-        iZ = (max_z - min_z) / self.partition
-
-        # changed to a dictionary
+        # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
         for c,_  in enumerate(coords):
 
-
-            x = math.floor((coords[c][0] - min_x)/ iX)
-            y = math.floor((coords[c][1] - min_y)/ iY)
-            z = math.floor((coords[c][2] - min_z)/ iZ)
-
-            x = str(x).zfill(self.leading_zeros)
-            y = str(y).zfill(self.leading_zeros)
-            z = str(z).zfill(self.leading_zeros)
+            x = self.__hash_it(coords[c][0], min_x, max_x)
+            y = self.__hash_it(coords[c][1], min_y, max_y)
+            z = self.__hash_it(coords[c][2], min_z, max_z)
 
             idx = int(x + y + z)
             print(idx)
