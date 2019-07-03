@@ -6,11 +6,11 @@ import numpy as np
 
 class ProcessLas:
 
-    def __init__(self, filename, dim, leading_zeros):
+    def __init__(self, filename, partition, leading_zeros):
         # The name of the file being processed
         self.filename = filename
         # The amount of grids on the x y and z axis
-        self.dim = dim
+        self.partition = partition
         #Takes into account the digits as to not get confused in the string of x y z
         self.leading_zeros = leading_zeros
 
@@ -26,9 +26,9 @@ class ProcessLas:
 
 #    def randomGrid(self):
 #
-#        xRand = random.randint(0, self.dim)
-#        yRand = random.randint(0, self.dim)
-#        zRand = random.randint(0, self.dim)
+#        xRand = random.randint(0, self.partition)
+#        yRand = random.randint(0, self.partition)
+#        zRand = random.randint(0, self.partition)
 #
 #        xRand = str(xRand).zfill(self.leadingZeros)
 #        yRand = str(yRand).zfill(self.leadingZeros)
@@ -65,9 +65,9 @@ class ProcessLas:
 
         # Proposed addition of options in 1d splitting - Luke
 
-        iX = (max_x - min_x) * self.dim
-        iY = (max_y - min_y) * self.dim
-        iZ = (max_z - min_z) * self.dim
+        iX = (max_x - min_x) * self.partition
+        iY = (max_y - min_y) * self.partition
+        iZ = (max_z - min_z) * self.partition
 
         # changed to a dictionary
         points = {'idx':'coords[c]'}
@@ -103,11 +103,11 @@ class ProcessLas:
 
         # Iterate over concatenations of x, y, z to find all point clouds
         x = 0
-        for x in range(self.dim):
+        for x in range(self.partition):
             y = 0
-            for y in range(self.dim):
+            for y in range(self.partition):
                 z = 0
-                for z in range(self.dim):
+                for z in range(self.partition):
 
                     # Leave format() if you just add leadingZeros to the encode
                     # of x y z, it defeats the point of leadingZeros

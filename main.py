@@ -1,29 +1,29 @@
 import ProcessLas
 import PCPDS
 import numpy as np
-import os
+import os.path
 
 def main():
 
     again = True
     while again == True:
 
-        #Have the user input their desired file and dim count
-        dim = 0
-        while (dim%1) != 0:
-            dim = int(input("Enter Partition Count (1D): "))
-            if (dim%1) != 0:
+        #Have the user input their desired file and partition count
+        partition = 0
+        while (partition%1) != 0:
+            partition = int(input("Enter Partition Count (1D): "))
+            if (partition%1) != 0:
                 print('Please enter a whole number.')
         filename = input("Enter the name of the file you'd wish to import: ")
 
         # Create las object and calculate corresponding values
-        las_obj = ProcessLas(filename, dim, len(str(dim)))
-        idx = int(str(dim) + str(dim) + str(dim))
+        las_obj = ProcessLas(filename, partition, len(str(partition)))
+        idx = int(str(partition) + str(partition) + str(partition))
 
         points = null
         # Check if the final persistence diagram for the las object doesn't exist
         # Check under a given timestamp to avoid multiple same files
-        if !ProcessLas.check_file(las_obj, idx, '**'): #Where ** is the ext of PDs
+        if not ProcessLas.check_file(las_obj, idx, '.json'): #Where ** is the ext of PDs
             #Check if the file exists
 
             if ProcessLas.check_file(las_obj, null, '.las'):
@@ -36,9 +36,11 @@ def main():
                 print('Error. No matching file found.')
                 exit()
         else:
+            pass
             # Import persistence diagrams/ points array
+            # using PCPDS .json files
 
-        # else if the last dim file exists, then continue with the search file
+        # else if the last partition file exists, then continue with the search file
 
         #Give the user options about what they want to search for
         print('How would you like to add an image to test against your file?')
@@ -52,14 +54,14 @@ def main():
             options = menu.keys()
             options.sort()
             for entry in options:
-                print str(entry), menu[entry]
+                print str(entry) + ' ' + menu[entry]
             choice = int(input('Please select an option: '))
 
             # Choose random from given file
             if choice == 1:
 
                 #Return random index and calculate PCPDS
-                test_idx = ProcessLas.random_grid(dim)
+                test_idx = ProcessLas.random_grid(partition)
                 test_grid = PCPDS(test_idx, las_obj.filename)
                 print('The random index is: ' + test_idx + '.')
 
@@ -74,9 +76,10 @@ def main():
             # Import new file to find location in orig file
             elif choice == 2:
                 test_file = input("Enter the name of the file you'd wish to import: ")
-                temp = concatenate(test_file, '**')
+                temp = concatenate(test_file, '.json')
                 exists = os.path.isfile(concatenate('/path/to/', temp)
                 if exists:
+                    pass
                     #Save persistence diagram of found file to test_grid
                 else:
                     print('Error. No matching file found.')
