@@ -1,5 +1,6 @@
 from Classes.process_las import ProcessLas
 import Classes.PCPDS
+import Classes.bottleneck_dist
 import numpy as np
 import os.path
 from datetime import datetime

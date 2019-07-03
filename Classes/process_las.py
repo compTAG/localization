@@ -15,12 +15,12 @@ class ProcessLas:
         self.leading_zeros = leading_zeros
 
 
-    def check_file(self, idx, ext, dir_name):
+    def check_file(self, idx, ext, dir_name): 
 
         temp = concatenate(self.filename, idx, ext)
         if dir_name == None:
             dir_name = ''
-        else: 
+        else:
             dir_name = str('Sections/PCPDS/' + dir_name + '/')
 
         exists = os.path.isfile(dir_name, temp, ext)
