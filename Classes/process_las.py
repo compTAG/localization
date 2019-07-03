@@ -32,17 +32,17 @@ class ProcessLas:
         else:
             return False
 
-#    def randomGrid(self):
-#
-#        xRand = random.randint(0, self.partition)
-#        yRand = random.randint(0, self.partition)
-#        zRand = random.randint(0, self.partition)
-#
-#        xRand = str(xRand).zfill(self.leadingZeros)
-#        yRand = str(yRand).zfill(self.leadingZeros)
-#        zRand = str(zRand).zfill(self.leadingZeros)
-#
-#        return = int(xRand + yRand + zRand)
+    def random_grid(self):
+
+        xRand = random.randint(0, self.partition)
+        yRand = random.randint(0, self.partition)
+        zRand = random.randint(0, self.partition)
+
+        xRand = str(xRand).zfill(self.leadingZeros)
+        yRand = str(yRand).zfill(self.leadingZeros)
+        zRand = str(zRand).zfill(self.leadingZeros)
+
+        return int(xRand + yRand + zRand)
 
     def __hash_it(self, coord, max_par, min_par):
         h = math.floor((coord - min_par)/ ((max_par - min_par) / self.partition))
