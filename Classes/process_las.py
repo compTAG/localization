@@ -16,13 +16,13 @@ class ProcessLas:
         self.leading_zeros = leading_zeros
 
 
+    # Returns a boolean if a file.ext exists in dir_name/
     def check_file(self, idx, ext, dir_name):
 
         temp = self.filename + str(idx) + str(ext)
         if dir_name == None:
             temp = self.filename + str(ext)
             exists = os.path.isfile(temp)
-            print(str(temp + ext))
         else:
             dir_name = str('Sections/PCPDS/' + dir_name + '/')
             exists = os.path.isfile(dir_name + temp + ext)
@@ -32,22 +32,38 @@ class ProcessLas:
         else:
             return False
 
+
+    # Returns a random index in the object
     def random_grid(self):
 
         xRand = random.randint(0, self.partition)
         yRand = random.randint(0, self.partition)
         zRand = random.randint(0, self.partition)
 
-        xRand = str(xRand).zfill(self.leadingZeros)
-        yRand = str(yRand).zfill(self.leadingZeros)
-        zRand = str(zRand).zfill(self.leadingZeros)
+        xRand = str(xRand).zfill(self.leading_zeros)
+        yRand = str(yRand).zfill(self.leading_zeros)
+        zRand = str(zRand).zfill(self.leading_zeros)
 
-        return int(xRand + yRand + zRand)
+        return int('1' + xRand + yRand + zRand)
 
+    # Returns an index given from the user
+    def find_index(self, x, y, z):
+
+        x = str(x).zfill(self.leading_zeros)
+        y = str(y).zfill(self.leading_zeros)
+        z = str(z).zfill(self.leading_zeros)
+
+        return int('1' + x + y + z)
+
+
+    # Hash function that returns the index of the x y and z values
     def __hash_it(self, coord, max_par, min_par):
         h = math.floor((coord - min_par)/ ((max_par - min_par) / self.partition))
         return str(h).zfill(self.leading_zeros)
 
+
+    # Read the file and split it into partitions and create pcpds objects of
+    # each partition, returns the dictionary of pcpds objects
     def input_las(self):
 
         #Load data, put list of touples in an array
@@ -83,7 +99,7 @@ class ProcessLas:
             y = self.__hash_it(coords[c][1], min_y, max_y)
             z = self.__hash_it(coords[c][2], min_z, max_z)
 
-            idx = int(x + y + z)
+            idx = int('1' + x + y + z)
             print(idx)
 
             # Make a dictionary with each [idx].
@@ -100,6 +116,9 @@ class ProcessLas:
 
         # Used in rips
         print("Debug")
+        iX = (max_x - min_x) / self.partition
+        iY = (max_y - min_y) / self.partition
+        iZ = (max_z - min_z) / self.partition
         rip_dist = iX * iY * iZ / 2
 
         # Iterate over concatenations of x, y, z to find all point clouds
@@ -116,12 +135,12 @@ class ProcessLas:
                     y = str(y).zfill(self.leading_zeros)
                     z = str(z).zfill(self.leading_zeros)
 
-                    idx = int(x + y + z)
+                    idx = int('1' + x + y + z)
                     try:
                         print(idx)
 
                         # Assign a new entry to the parallelograms dict for each idx generated
-                        parallelograms[idx] = section.PCPDS(idx, str(idx) + "**", rip_dist) #where ** is file ext
+                        parallelograms[idx] = section.PCPDS(idx, str(idx) + ".json", rip_dist) #where ** is file ext
 
                         # Add points to PCPDS object
                         parallelograms[idx].set_point_cloud(points[idx])
@@ -133,12 +152,10 @@ class ProcessLas:
                         parallelograms[idx].save(dir_name)
 
                         # Temp check
-                        print(parallelograms)
-                    except e:
+                        print(idx)
+                    except:
                         pass
 
-                    except e:
-                        pass
 
         return parallelograms
 

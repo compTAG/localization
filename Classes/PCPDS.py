@@ -72,7 +72,7 @@ class PCPDS:
         # Transform this object into JSON string:
         pcpds = jsonpickle.encode(self)
 
-        with open('Sections/PCPDS/dir_name:'+self.filename+str(self.cell_id), 'w') as outfile:
+        with open(dir_name+':'+self.filename+str(self.cell_id), 'w') as outfile:
             json.dump(pcpds, outfile)
 
 
@@ -80,7 +80,7 @@ class PCPDS:
     def load_section(temp_cell_id, dir_name):
         # TODO: check if the file exists, load it in, return it.
 
-        with open('Sections/PCPDS/dir_name:'+self.filename+str(test_cell_id)) as json_file:
+        with open(dir_name+':'+self.filename+str(test_cell_id)) as json_file:
             data = json.load(json_file)
 
             print(data)
