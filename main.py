@@ -1,5 +1,5 @@
-from process_las import ProcessLas
-import PCPDS
+from Classes.process_las import ProcessLas
+import Classes.PCPDS
 import numpy as np
 import os.path
 
