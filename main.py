@@ -1,6 +1,6 @@
 from Classes.process_las import ProcessLas
 import Classes.PCPDS
-# import Classes.bottleneck_dist
+import Classes.bottleneck_dist
 import numpy as np
 import os.path
 from datetime import datetime
@@ -37,10 +37,10 @@ def main():
 
                 try:
                     os.mkdir(dir_name)
-                    print("Directory ", dir_name, " created.")
+                    print("Directory " + dir_name + " created.")
 
                 except FileExistsError:
-                    print("Directory ", dir_name, " already exists")
+                    print("Directory " + dir_name + " already exists")
 
                 # + Save persistence diagrams
 
@@ -59,6 +59,7 @@ def main():
         menu = {}
         menu[1] = 'Choose from a random grid from the data.'
         menu[2] = 'Enter your own data from an additional lidar file.'
+        menu[3] = 'Enter an IDX to search for'
         # ETC, add other options?
 
         test_grid = null
@@ -97,6 +98,8 @@ def main():
                 else:
                     print('Error. No matching file found.')
                     exit()
+
+
 
             # Choice is not a viable option
             else: print('Please choose a number 1 - ' + len(menu))

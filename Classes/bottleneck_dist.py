@@ -37,7 +37,7 @@ class BottleneckDistances:
 
             # Check bottleneck distance against current lowest,
             # if it is lower, saves new distance and that idx value
-            result = .bottleneck_distance(pd1[0],pd2[0])
+            result = bottleneck_distance(pd1[0],pd2[0])
 
             # Save a list of top 5 indexes, keep sorted based off the result dist
             top_idx.append((i, result))

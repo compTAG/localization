@@ -31,17 +31,17 @@ class ProcessLas:
         else:
             return False
 
-#    def randomGrid(self):
-#
-#        xRand = random.randint(0, self.partition)
-#        yRand = random.randint(0, self.partition)
-#        zRand = random.randint(0, self.partition)
-#
-#        xRand = str(xRand).zfill(self.leadingZeros)
-#        yRand = str(yRand).zfill(self.leadingZeros)
-#        zRand = str(zRand).zfill(self.leadingZeros)
-#
-#        return = int(xRand + yRand + zRand)
+    def random_grid(self):
+
+        xRand = random.randint(0, self.partition)
+        yRand = random.randint(0, self.partition)
+        zRand = random.randint(0, self.partition)
+
+        xRand = str(xRand).zfill(self.leadingZeros)
+        yRand = str(yRand).zfill(self.leadingZeros)
+        zRand = str(zRand).zfill(self.leadingZeros)
+
+        return int(xRand + yRand + zRand)
 
     def input_las(self):
 
