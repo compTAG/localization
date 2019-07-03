@@ -1,6 +1,6 @@
 from Classes.process_las import ProcessLas
 import Classes.PCPDS
-import Classes.bottleneck_dist
+# import Classes.bottleneck_dist
 import numpy as np
 import os.path
 from datetime import datetime
@@ -30,7 +30,7 @@ def main():
         if not (las_obj.check_file(idx, '.json', dir_name)): #Where ** is the ext of PDs
             #Check if the file exists
 
-            if las_obj.check_file(None, '.las', None):
+            if las_obj.check_file(None, None, None):
                 # Saves the persistence diagrams of each grid
                 # and returns the dict of PCPDS
                 points = las_obj.input_las()

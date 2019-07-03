@@ -1,8 +1,9 @@
 from laspy.file import File
-import PCPDS as section
+import Classes.PCPDS as section
 import math
 import random
 import numpy as np
+import os.path
 
 class ProcessLas:
 
@@ -15,15 +16,15 @@ class ProcessLas:
         self.leading_zeros = leading_zeros
 
 
-    def check_file(self, idx, ext, dir_name): 
+    def check_file(self, idx, ext, dir_name):
 
-        temp = concatenate(self.filename, idx, ext)
+        temp = self.filename + str(idx) + str(ext)
         if dir_name == None:
             dir_name = ''
         else:
             dir_name = str('Sections/PCPDS/' + dir_name + '/')
 
-        exists = os.path.isfile(dir_name, temp, ext)
+        exists = os.path.isfile(dir_name + temp + ext)
 
         if exists:
             return True
