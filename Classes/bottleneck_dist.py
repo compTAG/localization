@@ -2,7 +2,7 @@ from laspy.file import File
 import numpy as np
 import dionysus as d
 from sys         import argv, exit
-import PCPDS
+import Classes.PCPDS
 
 class BottleneckDistances:
 

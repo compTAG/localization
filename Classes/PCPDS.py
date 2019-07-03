@@ -6,7 +6,7 @@ import numpy as np
 import json
 import jsonpickle
 
-class PCPDS(object):
+class PCPDS:
 
     def __init__(self, cell_id, filename, distance = 1):
         # The point cloud should be set up a set of Points. Points possibly
