@@ -5,7 +5,6 @@
 import numpy as np
 import json
 import jsonpickle
-from DoRips import RipsFilt
 
 class PCPDS(object):
 

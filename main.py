@@ -1,4 +1,4 @@
-import ProcessLas
+from process_las import ProcessLas
 import PCPDS
 import numpy as np
 import os.path
@@ -20,10 +20,10 @@ def main():
         las_obj = ProcessLas(filename, partition, len(str(partition)))
         idx = int(str(partition) + str(partition) + str(partition))
 
-        points = null
+        points = None
         # Check if the final persistence diagram for the las object doesn't exist
         # Check under a given timestamp to avoid multiple same files
-        if not ProcessLas.check_file(las_obj, idx, '.json'): #Where ** is the ext of PDs
+        if not (ProcessLas.check_file(las_obj, idx, '.json')): #Where ** is the ext of PDs
             #Check if the file exists
 
             if ProcessLas.check_file(las_obj, null, '.las'):
@@ -54,7 +54,7 @@ def main():
             options = menu.keys()
             options.sort()
             for entry in options:
-                print str(entry) + ' ' + menu[entry]
+                print(str(entry)+ menu[entry])
             choice = int(input('Please select an option: '))
 
             # Choose random from given file
@@ -76,8 +76,9 @@ def main():
             # Import new file to find location in orig file
             elif choice == 2:
                 test_file = input("Enter the name of the file you'd wish to import: ")
-                temp = concatenate(test_file, '.json')
-                exists = os.path.isfile(concatenate('/path/to/', temp)
+                temp = concatenate(test_file, '**')
+                #concatenate('/path/to/'
+                exists = os.path.isfile(temp)
                 if exists:
                     pass
                     #Save persistence diagram of found file to test_grid
@@ -86,10 +87,10 @@ def main():
                     exit()
 
             # Choice is not a viable option
-            else: print('Please choose a number 1 - ' len(menu))
+            else: print('Please choose a number 1 - ' + len(menu))
 
         play_again = input('Would you like to test another lidar file? (Y/N)')
-        if !play_again.lower.find('y'):
+        if not play_again.lower.find('y'):
             again = False
 
 

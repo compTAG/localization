@@ -14,15 +14,16 @@ class ProcessLas:
         #Takes into account the digits as to not get confused in the string of x y z
         self.leading_zeros = leading_zeros
 
-# commented out to get running
-#    def checkFile(self, idx, ext):
-#
-#        temp = concatenate(self.filename, idx, ext)
-#        exists = os.path.isfile(concatenate('/path/to/', temp, **)) #where ** is file ext
-#        if exists:
-#            return True
-#        else:
-#            return False
+
+    def checkFile(self, idx, ext):
+
+        temp = concatenate(self.filename, idx, ext)
+#'/path/to/',
+        exists = os.path.isfile(concatenate(temp)) #where ** is file ext
+        if exists:
+            return True
+        else:
+            return False
 
 #    def randomGrid(self):
 #
@@ -133,6 +134,8 @@ class ProcessLas:
 
                         # Temp check
                         print(parallelograms)
+                    except e:
+                        pass
 
                     except e:
                         pass
