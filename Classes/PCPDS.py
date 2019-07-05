@@ -15,9 +15,8 @@ class PCPDS:
 
         # The persistance diagram will be processed from the point cloud in this class
         self.persistance_diagram = None
-        # TODO: Question, won't that cause missing features
-        # to occur at the edges of each section? Will that matter in the long run?
 
+        # TODO: Make cell_id & the file name the same thing effectively?
         # cell_id structure to be handled in lasproscessing.py
         self.cell_id = cell_id
 
@@ -69,7 +68,7 @@ class PCPDS:
         # Transform this object into JSON string:
         pcpds = jsonpickle.encode(self)
 
-        with open(dir_name+':'+self.filename+str(self.cell_id), 'w') as outfile:
+        with open(dir_name+':' + self.filename + str(self.cell_id), 'w') as outfile:
             json.dump(pcpds, outfile)
 
 
@@ -83,4 +82,7 @@ class PCPDS:
             print(data)
             pcpds = jsonpickle.decode(data)
 
-            return pcpds
+        pcpds = jsonpickle.decode(data)
+
+        # This returns the decoded pcpds object
+        return pcpds

@@ -26,7 +26,7 @@ def main():
         # Makes a string of the folder path, os.path.join makes it compatible
         # between macs, windows, and linux
         dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
-        dir_name = str(os.path.join('Sections', 'PCPDS', dir_name))
+        dir_name = str(os.path.join('Sections', dir_name))
 
         points = None
 
