@@ -1,5 +1,6 @@
 from Classes.process_las import ProcessLas
 import Classes.PCPDS
+from Classes.reference import reference as ref
 from Classes.bottleneck_dist import BottleneckDistances
 import numpy as np
 import os.path
@@ -27,6 +28,12 @@ def main():
         # between macs, windows, and linux
         dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
         dir_name = str(os.path.join('Sections', dir_name))
+        
+        # TODO: Dicuss changing the name of 'Sections' folder to 'Section_Collections' or something similar
+        
+        # TODO: Likely will want to handle this in another place in the future, 
+        # specifically when selecting the 'Section_Collection' we want to work with.
+        ref.set_cur_dir_name(dir_name)
 
         points = None
 

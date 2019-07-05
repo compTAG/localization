@@ -5,6 +5,7 @@
 import numpy as np
 import json
 import jsonpickle
+from Classes.reference import reference as ref
 
 class PCPDS:
 
@@ -33,6 +34,7 @@ class PCPDS:
         self.distance = distance
 
     def get_xyz(self):
+        # TODO: parse filename/cell_ID into X, Y, & Z
         return X, Y, Z
 
     def set_point_cloud(self, point_cloud):
@@ -71,12 +73,32 @@ class PCPDS:
         with open(dir_name+':' + self.filename + str(self.cell_id), 'w') as outfile:
             json.dump(pcpds, outfile)
 
+# Loads a PCPDS object from the corresponding JSON file provided it exists
 
-    # Check this - might be a catch 22, cannot load pcpds without creating pcpds first
-    # Loads a PCPDS object from the corresponding JSON file provided it exists
-    def load_section(dir_name, cell_id):
+# NOTE: Notice the indentation here, these methods are not part of the PCPDS object, but rather
+# are to be called implicitly as PCPDS.loadsection(), so they are NOT reliant on the PCPDS object
+# already being loaded.
+def load_section(dir_name, cell_id):
 
-        with open(dir_name+':'+str(cell_id)) as json_file:
+    with open(dir_name+':'+str(cell_id)) as json_file:
+
+        data = json.load(json_file)
+        print(data)
+        pcpds = jsonpickle.decode(data)
+
+    pcpds = jsonpickle.decode(data)
+
+    # This returns the decoded pcpds object
+    return pcpds
+
+# This version of the loading method only requires the cell_id to be passed  in, 
+# as it uses a preset class reference to the directory. This way, we can load in
+# sections from a targeted folder in more loosely coupled fasion.
+# It does however require that the folder path be set at some point prior to calling.
+def load_section(cell_id):
+    
+    if ref.get_cur_dir_name() is not None:
+        with open(ref.get_cur_dir_name()+':'+str(cell_id)) as json_file:
 
             data = json.load(json_file)
             print(data)
@@ -86,3 +108,7 @@ class PCPDS:
 
         # This returns the decoded pcpds object
         return pcpds
+    
+    else:
+        print("ERROR: The current directory has not yet been selected, so no section will be loaded.")
+        return None
