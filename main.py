@@ -84,7 +84,7 @@ def main():
                 # TODO - FIX THIS IT'S VERY TEMP
 
                 # Loop over until a variable test_idx is found
-                while test_grid == null:
+                while test_grid == None:
                     test_idx = las_obj.random_grid()
                     test_grid = points[test_idx]
 
