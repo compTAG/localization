@@ -30,14 +30,21 @@ class BottleneckDistances:
 
         # Loop through all IDX in parallelograms dictionary and compares
         # their bottleneck distance to pd1
-        for i in parallelograms:
+        for i in self.parallelograms:
 
             # Get persistance diagram for i which should be an idx
-            pd2 = parallelograms[i].get_persistance_diagram()
+            # because of how the dict is defined, there is one object that cant get pd
+            try:
+                pd2 = self.parallelograms[i].get_persistance_diagram()
+            except:
+                pass
 
             # Check bottleneck distance against current lowest,
             # if it is lower, saves new distance and that idx value
-            result = bottleneck_distance(pd1[0],pd2[0])
+            try:
+                result = d.bottleneck_distance(pd1[0],pd2[0])
+            except:
+                continue
 
             # Save a list of top 5 indexes, keep sorted based off the result dist
             top_idx.append((i, result))

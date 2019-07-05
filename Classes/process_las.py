@@ -135,6 +135,7 @@ class ProcessLas:
 
                     idx = int('1' + x + y + z)
                     try:
+                        #debug
                         print(idx)
 
                         # Assign a new entry to the parallelograms dict for each idx generated
