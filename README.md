@@ -7,7 +7,7 @@
 ## Installing
 * TODO: Add a step by step guide for `installing` the necessary tooling along side the project itself
 
-# Running the Code with test.las
+## Running the Code with test.las
 
 To get started, run main.py. You will then be prompted for the number of one dimensional partitions for your pointcloud which should be entered as an integer value. If two is chosen,  eight sections will be created. Next, when prompted for the filename, enter ‘test’ and press enter. After this, you will be prompted with options for point cloud data to localize which can be manually selected from the sections or randomly chosen. When prompted for the number of results desired, enter an integer value for the number of cell identifiers with the lowest bottleneck distances to the cell being searched for. The code will then evaluate the bottleneck distance between this chosen section and every other section and will return the desired number of distances.
 
