@@ -78,12 +78,10 @@ def main():
             if choice == 1:
                 play_menu = False
 
-                #Return random index and calculate PCPDS
+                # Loop over until a variable test_idx is found
+                # Return random index and calculate PCPDS
                 test_idx = las_obj.random_grid()
                 test_grid = points[test_idx]
-                # TODO - FIX THIS IT'S VERY TEMP
-
-                # Loop over until a variable test_idx is found
                 while test_grid == null:
                     test_idx = las_obj.random_grid()
                     test_grid = points[test_idx]
@@ -97,7 +95,7 @@ def main():
                     elif num_results%1 != 0:
                         print('Please enter an integer.')
 
-                #Calculate bottleneck distance
+                # Calculate bottleneck distance
                 test_bottleneck = BottleneckDistances(points, test_grid)
                 guess_grid = test_bottleneck.naive_search_distances(num_results)
                 print('The indexes with the closest match to the random is index are: \n')

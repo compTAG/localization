@@ -81,8 +81,6 @@ class ProcessLas:
         temp = np.array([x_vals,y_vals,z_vals])
         coords = temp.T
 
-        # moved points down - Luke
-
         #Set width, height, and depth
         max_x = max(x_vals)
         min_x = min(x_vals)
@@ -155,7 +153,6 @@ class ProcessLas:
                         print(idx)
                     except:
                         pass
-
 
         return parallelograms
 

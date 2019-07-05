@@ -40,33 +40,30 @@ class PCPDS:
         # sets point cloud
         self.point_cloud = point_cloud
 
-        # TODO setup XYZ for get_xyz?
 
     def distances(self, box_width):
-        # temporary - we should play with this to determine best distance
+        # Temporary - we should play with this to determine best distance
         return box_width*self.scalar
 
 
     def get_persistance_diagram(self):
-    # if persistance_diagram has not been calculated, create it
+    # If persistance_diagram has not been calculated, create it
         try:
             self.persistance_diagram
         except NameError:
-            # try to create the persistance diagram
+            # Try to create the persistance diagram
             try:
                 f = d.fill_rips(self.point_cloud, self.skeleton , self.distances(self.box_width))
                 m = d.homology_persistence(f)
                 diagram = d.init_diagrams(m,f)
                 self.persistance_diagram = diagram
                 return diagram
-            # account for input errors
+            # Account for input errors
             except:
                 print("You forgot to initialize stuff")
 
 
-
-
-    #Generate/save into specified folder name w/ timestamp
+    # Generate/save into specified folder name w/ timestamp
     # This saves this object in JSON format in the 'Sections' folder
     def save(self, dir_name):
         # Transform this object into JSON string:
@@ -76,15 +73,14 @@ class PCPDS:
             json.dump(pcpds, outfile)
 
 
+    # Check this - might be a catch 22, cannot load pcpds without creating pcpds first
     # Loads a PCPDS object from the corresponding JSON file provided it exists
     def load_section(temp_cell_id, dir_name):
-        # TODO: check if the file exists, load it in, return it.
 
         with open(dir_name+':'+self.filename+str(test_cell_id)) as json_file:
+
             data = json.load(json_file)
-
             print(data)
-
             pcpds = jsonpickle.decode(data)
 
             return pcpds
