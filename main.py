@@ -80,12 +80,14 @@ def main():
 
                 #Return random index and calculate PCPDS
                 test_idx = las_obj.random_grid()
+                test_grid = points[test_idx]
                 # TODO - FIX THIS IT'S VERY TEMP
-                try:
-                    test_grid = points[test_idx]
-                except:
+
+                # Loop over until a variable test_idx is found
+                while test_grid == null:
                     test_idx = las_obj.random_grid()
                     test_grid = points[test_idx]
+
                 print('The random index is: ' + str(test_idx) + '.')
                 num_results = (partition**3)+1
                 while num_results > partition**3:
