@@ -149,7 +149,7 @@ class ProcessLas:
                         parallelograms[idx].get_persistance_diagram()
 
                         # Pickle the object
-                        parallelograms[idx].save(dir_name)
+                        # parallelograms[idx].save(dir_name)
 
                         # Temp check
                         print(idx)

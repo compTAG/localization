@@ -1,6 +1,6 @@
 from Classes.process_las import ProcessLas
 import Classes.PCPDS
-import Classes.bottleneck_dist
+from Classes.bottleneck_dist import BottleneckDistances
 import numpy as np
 import os.path
 from datetime import datetime
@@ -80,13 +80,18 @@ def main():
 
                 #Return random index and calculate PCPDS
                 test_idx = las_obj.random_grid()
-                test_grid = points[test_idx]
-                print('The random index is: ' + test_idx + '.')
-                num_results = (partitions**3)+1
-                while num_results > partitions**3:
+                # TODO - FIX THIS IT'S VERY TEMP
+                try:
+                    test_grid = points[test_idx]
+                except:
+                    test_idx = las_obj.random_grid()
+                    test_grid = points[test_idx]
+                print('The random index is: ' + str(test_idx) + '.')
+                num_results = (partition**3)+1
+                while num_results > partition**3:
                     num_results = int(input('How many match results would you like?'))
-                    if num_results > partitions**3:
-                        print('Please enter an int smaller than ' + str(partitions**3) + '.')
+                    if num_results > partition**3:
+                        print('Please enter an int smaller than ' + str(partition**3) + '.')
                     elif num_results%1 != 0:
                         print('Please enter an integer.')
 

@@ -22,7 +22,7 @@ class BottleneckDistances:
 
         top_idx = []
 
-        for i in num:
+        for i in range(num):
             top_idx.append((0, best_dist))
 
         # Generate persistance diagram to search for
