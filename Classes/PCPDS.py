@@ -9,7 +9,7 @@ from Classes.reference import reference as ref
 
 class PCPDS:
 
-    def __init__(self, cell_id, filename, distance = 1):
+    def __init__(self, cell_id, distance = 1):
         # The point cloud should be set up a set of Points. Points possibly
         # being represented by touples of three values.
         self.point_cloud = None
@@ -21,9 +21,6 @@ class PCPDS:
         # cell_id structure to be handled in lasproscessing.py
         self.cell_id = cell_id
 
-        #Tracks the .las file the PD belongs to
-        self.filename = filename
-
         # determines n skeleton for rips filtration
         self.skeleton = 1
 
@@ -33,9 +30,24 @@ class PCPDS:
         # rips filt distance
         self.distance = distance
 
+    # Parses cell_ID into X, Y, & Z touple and returns them.
     def get_xyz(self):
-        # TODO: parse filename/cell_ID into X, Y, & Z
-        return X, Y, Z
+        # Cast cell ID to an int
+        xyz = int(self.cell_id)
+        
+        trunc_val = 10**(int(len(self.cell_id)/3))
+        
+        Z = xyz % trunc_val
+        xyz = int(xyz/trunc_val)
+        
+        Y = xyz % trunc_val
+        xyz = int(xyz/trunc_val)
+        
+        X = xyz
+        
+        result = (X, Y, Z)
+        # Returns a touple of X, Y, & Z
+        return result
 
     def set_point_cloud(self, point_cloud):
         # sets point cloud
@@ -70,14 +82,22 @@ class PCPDS:
         # Transform this object into JSON string:
         pcpds = jsonpickle.encode(self)
 
-        with open(dir_name+':' + self.filename + str(self.cell_id), 'w') as outfile:
+        with open(dir_name+':' + str(self.cell_id), 'w') as outfile:
             json.dump(pcpds, outfile)
+            
+    # Alternate version of save that requires the dir to be set statically in reference class
+    def save(self):
+        # Transform this object into JSON string:
+        pcpds = jsonpickle.encode(self)
 
-# Loads a PCPDS object from the corresponding JSON file provided it exists
+        with open(ref.get_cur_dir_name()+':' + str(self.cell_id), 'w') as outfile:
+            json.dump(pcpds, outfile)
 
 # NOTE: Notice the indentation here, these methods are not part of the PCPDS object, but rather
 # are to be called implicitly as PCPDS.loadsection(), so they are NOT reliant on the PCPDS object
 # already being loaded.
+
+# Loads a PCPDS object from the corresponding JSON file provided it exists
 def load_section(dir_name, cell_id):
 
     with open(dir_name+':'+str(cell_id)) as json_file:
