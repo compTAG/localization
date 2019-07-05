@@ -48,6 +48,8 @@ class BottleneckDistances:
 
             # Save a list of top 5 indexes, keep sorted based off the result dist
             top_idx.append((i, result))
+
+            # Sort from low to high
             top_idx = sorted(top_idx, key=lambda x:x[1])
             if len(top_idx) > num:
                 top_idx.pop(num-1)
