@@ -74,9 +74,9 @@ class PCPDS:
 
     # Check this - might be a catch 22, cannot load pcpds without creating pcpds first
     # Loads a PCPDS object from the corresponding JSON file provided it exists
-    def load_section(temp_cell_id, dir_name):
+    def load_section(dir_name, cell_id):
 
-        with open(dir_name+':'+self.filename+str(test_cell_id)) as json_file:
+        with open(dir_name+':'+str(cell_id)) as json_file:
 
             data = json.load(json_file)
             print(data)
