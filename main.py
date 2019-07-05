@@ -33,6 +33,7 @@ def main():
         
         # TODO: Likely will want to handle this in another place in the future, 
         # specifically when selecting the 'Section_Collection' we want to work with.
+        # Currently just set to default to the directory being made.
         ref.set_cur_dir_name(dir_name)
 
         points = None

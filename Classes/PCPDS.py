@@ -87,11 +87,16 @@ class PCPDS:
             
     # Alternate version of save that requires the dir to be set statically in reference class
     def save(self):
-        # Transform this object into JSON string:
-        pcpds = jsonpickle.encode(self)
+        if ref.get_cur_dir_name() is not None:
+            # Transform this object into JSON string:
+            pcpds = jsonpickle.encode(self)
 
-        with open(ref.get_cur_dir_name()+':' + str(self.cell_id), 'w') as outfile:
-            json.dump(pcpds, outfile)
+            with open(ref.get_cur_dir_name()+':' + str(self.cell_id), 'w') as outfile:
+                json.dump(pcpds, outfile)
+        else:
+            # TODO: Set up project properly so it is easy to then generate the file for storage properly & set it
+            print("ERROR: The current directory has not yet been selected, so section will not be saved.")
+
 
 # NOTE: Notice the indentation here, these methods are not part of the PCPDS object, but rather
 # are to be called implicitly as PCPDS.loadsection(), so they are NOT reliant on the PCPDS object
