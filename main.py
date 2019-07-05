@@ -80,12 +80,12 @@ def main():
 
                 # Loop over until a variable test_idx is found
                 # Return random index and calculate PCPDS
-                test_idx = las_obj.random_grid()
-                test_grid = points[test_idx]
-                while test_grid == null:
+                test_grid = None
+                while test_grid == None:
                     test_idx = las_obj.random_grid()
                     test_grid = points[test_idx]
 
+                # TODO: Make index print out x, y, z
                 print('The random index is: ' + str(test_idx) + '.')
                 num_results = (partition**3)+1
                 while num_results > partition**3:
@@ -100,6 +100,7 @@ def main():
                 guess_grid = test_bottleneck.naive_search_distances(num_results)
                 print('The indexes with the closest match to the random is index are: \n')
                 for i in guess_grid:
+                    # TODO: Make index print out x, y, z
                     print(str(i[0]) + ' (bottleneck distance of ' + str(i[1]) + ')\n')
 
             # Import new file to find location in orig file
@@ -132,8 +133,8 @@ def main():
             # Choice is not a viable option
             else: print('Please choose a number 1 through ' + str(len(menu)))
 
-        play_again = input('Would you like to test another lidar file? (Y/N)')
-        if not play_again.lower.find('y'):
+        play_again = input('Would you like to test another lidar file? (Y/N) ')
+        if (play_again.find('y') == -1) & (play_again.find('Y') == -1):
             again = False
 
 
