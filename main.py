@@ -27,13 +27,13 @@ def main():
         # Makes a string of the folder path, os.path.join makes it compatible
         # between macs, windows, and linux
         dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
-        
+
         dir_name = str(os.path.join('Sections', dir_name))
-        
-        
+
+
         # TODO: Dicuss changing the name of 'Sections' folder to 'Section_Collections' or something similar
-        
-        # TODO: Likely will want to handle this in another place in the future, 
+
+        # TODO: Likely will want to handle this in another place in the future,
         # specifically when selecting the 'Section_Collection' we want to work with.
         # Currently just set to default to the directory being made.
         ref.set_cur_dir_name(dir_name)
@@ -76,7 +76,7 @@ def main():
         menu[2] = ': Enter your own data from an additional lidar file.'
         menu[3] = ': Enter an IDX to search for'
         # ETC, add other options?
-        
+
         # TODO: Remove once we can be sure that it properly prints out saved files in this path.
         print(ref.get_cur_dir_name())
         print("files in folder: ", ref.get_files_in_folder())
@@ -92,7 +92,8 @@ def main():
             if choice == 1:
                 play_menu = False
 
-
+                # grabs a random section that is nonempty
+                # TODO: have a check for None and index out of bounds in here
                 while True:
                     try:
                         test_idx = las_obj.random_grid()
@@ -102,11 +103,14 @@ def main():
                     if test_grid != None:
                         break
 
+                # prints information about the selected section
                 print(f"points are {test_grid.point_cloud}")
                 print(f"filt is {test_grid.persistance_diagram}")
 
-
+                # prints the idx of the section
                 print('The random index is: ' + str(test_idx) + '.')
+
+                #TODO: add comments here
                 num_results = (partition**3)+1
                 while num_results > partition**3:
                     num_results = int(input('How many match results would you like?'))
@@ -115,13 +119,16 @@ def main():
                     elif num_results%1 != 0:
                         print('Please enter an integer.')
 
-                #Calculate bottleneck distance
+                #generate bottleneck distances object
                 test_bottleneck = BottleneckDistances(points, test_grid)
+                # searches for least bottleneck distances
                 guess_grid = test_bottleneck.naive_search_distances(num_results)
+                # prints out the idx values of the lowest bottleneck distances
                 print('The indexes with the closest match to the random is index are: \n')
                 for i in guess_grid:
                     print(str(i[0]) + ' (bottleneck distance of ' + str(i[1]) + ')\n')
 
+            # TODO: make functional
             # Import new file to find location in orig file
             elif choice == 2:
                 play_menu = False
@@ -136,7 +143,7 @@ def main():
                 else:
                     print('Error. No matching file found. Exiting.')
                     exit()
-
+            #QUESTION should we chanage this to allow for manual idx entry instead?
             elif choice == 3:
                 play_menu = False
 
