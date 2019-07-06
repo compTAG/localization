@@ -79,14 +79,23 @@ def main():
                 play_menu = False
 
                 #Return random index and calculate PCPDS
-                test_idx = las_obj.random_grid()
-                test_grid = points[test_idx]
+                #first tries to get a Idx for a PCPDS section twice
+                #Then, it keeps getting pcpds objects until it finds one with a persistance diagrams
+
+                # TODO: fix this so that it only needs the final while loop
+
+                while True:
+                    test_idx = las_obj.random_grid()
+                    test_grid = points[test_idx]
+                    if test_grid.get_persistance_diagram != None:
+                        break
+
                 # TODO - FIX THIS IT'S VERY TEMP
 
                 # Loop over until a variable test_idx is found
-                while test_grid == None:
-                    test_idx = las_obj.random_grid()
-                    test_grid = points[test_idx]
+#                while test_grid == None:
+#                    test_idx = las_obj.random_grid()
+#                    test_grid = points[test_idx]
 
                 print('The random index is: ' + str(test_idx) + '.')
                 num_results = (partition**3)+1
