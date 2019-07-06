@@ -11,7 +11,7 @@ def main():
     again = True
     while again == True:
 
-        #Have the user input their desired file and partition count
+        # Have the user input their desired file and partition count
         partition = 0.1
         while (partition%1) != 0:
             partition = float(input("Enter Partition Count (1D): "))

@@ -27,7 +27,7 @@ class BottleneckDistances:
 
         # Generate persistance diagram to search for
         pd1 = self.test_grid.get_persistance_diagram()
-        #debug
+        # Debug
         print(pd1)
 
         # Loop through all IDX in parallelograms dictionary and compares
@@ -38,7 +38,7 @@ class BottleneckDistances:
             # because of how the dict is defined, there is one object that cant get pd
             try:
                 pd2 = self.parallelograms[i].get_persistance_diagram()
-                #debug
+                # Debug
                 print(f"para i is {self.parallelograms[i]} and pd2 is {pd2}")
             except:
                 pass

@@ -17,9 +17,8 @@ class PCPDS:
 
         # The persistance diagram will be processed from the point cloud in this class
         self.persistance_diagram = None
-
-        # TODO: Make cell_id & the file name the same thing effectively?
-        # cell_id structure to be handled in lasproscessing.py
+        
+        # cell_id is not only the filename, but the xyz coordinates in string form
         self.cell_id = cell_id
 
         # determines n skeleton for rips filtration
