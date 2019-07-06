@@ -28,7 +28,7 @@ def main():
         # between macs, windows, and linux
         dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
         
-        dir_name = str(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Sections', dir_name))
+        dir_name = str(os.path.join('Sections', dir_name))
         
         
         # TODO: Dicuss changing the name of 'Sections' folder to 'Section_Collections' or something similar
