@@ -25,6 +25,10 @@ class BottleneckDistances:
         for i in range(num):
             top_idx.append((0, best_dist))
 
+        # temporary fix to null pointcloud issue
+        if np.all(self.test_grid.point_cloud) == None:
+            print("Error: No points in this section")
+            return "Error"
         # Generate persistance diagram to search for
         pd1 = self.test_grid.get_persistance_diagram()
         # Debug
