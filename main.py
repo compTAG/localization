@@ -80,10 +80,15 @@ def main():
 
 
                 while True:
-                    test_idx = las_obj.random_grid()
-                    test_grid = points[test_idx]
+                    try:
+                        test_idx = las_obj.random_grid()
+                        test_grid = points[test_idx]
+                    except:
+                        continue
                     if test_grid != None:
                         break
+
+
 
                 print('The random index is: ' + str(test_idx) + '.')
                 num_results = (partition**3)+1
