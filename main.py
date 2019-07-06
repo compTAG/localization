@@ -88,6 +88,8 @@ def main():
                     if test_grid != None:
                         break
 
+                print(f"points are {test_grid.point_cloud}")
+                print(f"filt is {test_grid.persistance_diagram}")
 
 
                 print('The random index is: ' + str(test_idx) + '.')
