@@ -1,4 +1,5 @@
 from os import walk
+import os
 
 class reference:
     
@@ -8,6 +9,7 @@ class reference:
     # Variables that will serve to be set statically for looser coupling
     cur_dir_name = None
     
+    # TO NOTE: When setting the current directory name, be sure to make it the full path
     @staticmethod
     def set_cur_dir_name(dir_name):
         reference.cur_dir_name = dir_name
@@ -19,17 +21,24 @@ class reference:
     # Generic functions that might be used anywhere
     
     # Returns a list of filenames in a specified directory
-    def get_files_in_folder(folder):
+    def get_files_in_folder(dir):
         
-        _,_, filenames = walk(folder).next()
-        return filenames
+        files = []
+        for (dirpath, dirnames, filenames) in walk(dir):
+            files.extend(filenames)
+            break
+        
+        return files
     
     # Returns a list of filenames in the currently selected directory
     def get_files_in_folder():
         
         if reference.cur_dir_name is not None:
-            _,_, filenames = walk(reference.cur_dir_name).next()
-            return filenames
+            files = []
+            for (dirpath, dirnames, filenames) in walk(reference.cur_dir_name):
+                files.extend(filenames)
+                break
+            return files
         
         print("Reference to current directory not set.")
         return None

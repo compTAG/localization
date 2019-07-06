@@ -27,7 +27,9 @@ def main():
         # Makes a string of the folder path, os.path.join makes it compatible
         # between macs, windows, and linux
         dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
-        dir_name = str(os.path.join('Sections', dir_name))
+        
+        dir_name = str(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Sections', dir_name))
+        
         
         # TODO: Dicuss changing the name of 'Sections' folder to 'Section_Collections' or something similar
         
@@ -74,6 +76,10 @@ def main():
         menu[2] = ': Enter your own data from an additional lidar file.'
         menu[3] = ': Enter an IDX to search for'
         # ETC, add other options?
+        
+        # TODO: Remove once we can be sure that it properly prints out saved files in this path.
+        print(ref.get_cur_dir_name())
+        print("files in folder: ", ref.get_files_in_folder())
 
         play_menu = True
         while play_menu:
