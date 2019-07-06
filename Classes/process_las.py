@@ -142,6 +142,7 @@ class ProcessLas:
                         parallelograms[idx] = section.PCPDS(idx, str(idx) + ".json", rip_dist) #where ** is file ext
 
                         # Add points to PCPDS object
+                        print(f"I set points to be {points[idx]}")
                         parallelograms[idx].set_point_cloud(points[idx])
 
                         # Generate a persistance diagram for that object
