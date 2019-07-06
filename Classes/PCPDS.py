@@ -6,6 +6,7 @@ import numpy as np
 import json
 import jsonpickle
 from Classes.reference import reference as ref
+import dionysus as d
 
 class PCPDS:
 
@@ -50,8 +51,10 @@ class PCPDS:
         return result
 
     def set_point_cloud(self, point_cloud):
+
         # sets point cloud
         self.point_cloud = point_cloud
+        print(f"PCPDS points are {self.point_cloud}")
 
 
     def distances(self, box_width):
@@ -60,20 +63,17 @@ class PCPDS:
 
 
     def get_persistance_diagram(self):
-    # If persistance_diagram has not been calculated, create it
-        try:
-            self.persistance_diagram
-        except NameError:
-            # Try to create the persistance diagram
-            try:
-                f = d.fill_rips(self.point_cloud, self.skeleton , self.distances(self.box_width))
-                m = d.homology_persistence(f)
-                diagram = d.init_diagrams(m,f)
-                self.persistance_diagram = diagram
-                return diagram
-            # Account for input errors
-            except:
-                print("You forgot to initialize stuff")
+    # if persistance_diagram has not been calculated, create it
+        if self.persistance_diagram != None:
+            print(f"I have a persistance diagram {self.persistance_diagram}")
+            return self.persistance_diagram
+        else:
+            f = d.fill_rips(self.point_cloud, self.skeleton , 100000000)
+            m = d.homology_persistence(f)
+            diagram = d.init_diagrams(m,f)
+            self.persistance_diagram = diagram
+            print(f"the diagram I created is {diagram}")
+            return diagram
 
 
     # Generate/save into specified folder name w/ timestamp
