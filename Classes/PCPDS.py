@@ -66,7 +66,7 @@ class PCPDS:
         if self.persistance_diagram != None:
             return self.persistance_diagram
         else:
-            f = d.fill_rips(self.point_cloud, self.skeleton , 100000000)
+            f = d.fill_rips(self.point_cloud, self.skeleton , self.distance)
             m = d.homology_persistence(f)
             diagram = d.init_diagrams(m,f)
             self.persistance_diagram = diagram
