@@ -86,14 +86,12 @@ def main():
             if choice == 1:
                 play_menu = False
 
-                # Loop over until a variable test_idx is found
-                # Return random index and calculate PCPDS
-                test_grid = None
-                while test_grid == None:
+                while True:
                     test_idx = las_obj.random_grid()
                     test_grid = points[test_idx]
+                    if test_grid.get_persistance_diagram != None:
+                        break
 
-                # TODO: Make index print out x, y, z
                 print('The random index is: ' + str(test_idx) + '.')
                 num_results = (partition**3)+1
                 while num_results > partition**3:
