@@ -139,7 +139,7 @@ class ProcessLas:
                         print(idx)
 
                         # Assign a new entry to the parallelograms dict for each idx generated
-                        parallelograms[idx] = section.PCPDS(idx, str(idx) + ".json", rip_dist) #where ** is file ext
+                        parallelograms[idx] = section.PCPDS(idx, rip_dist) #where ** is file ext
 
                         # Add points to PCPDS object
                         print(f"I set points to be {points[idx]}")

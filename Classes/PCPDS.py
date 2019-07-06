@@ -17,7 +17,7 @@ class PCPDS:
 
         # The persistance diagram will be processed from the point cloud in this class
         self.persistance_diagram = None
-        
+
         # cell_id is not only the filename, but the xyz coordinates in string form
         self.cell_id = cell_id
 
@@ -34,17 +34,17 @@ class PCPDS:
     def get_xyz(self):
         # Cast cell ID to an int
         xyz = int(self.cell_id)
-        
+
         trunc_val = 10**(int(len(self.cell_id)/3))
-        
+
         Z = xyz % trunc_val
         xyz = int(xyz/trunc_val)
-        
+
         Y = xyz % trunc_val
         xyz = int(xyz/trunc_val)
-        
+
         X = xyz
-        
+
         result = (X, Y, Z)
         # Returns a touple of X, Y, & Z
         return result
@@ -64,14 +64,12 @@ class PCPDS:
     def get_persistance_diagram(self):
     # if persistance_diagram has not been calculated, create it
         if self.persistance_diagram != None:
-            print(f"I have a persistance diagram {self.persistance_diagram}")
             return self.persistance_diagram
         else:
             f = d.fill_rips(self.point_cloud, self.skeleton , 100000000)
             m = d.homology_persistence(f)
             diagram = d.init_diagrams(m,f)
             self.persistance_diagram = diagram
-            print(f"the diagram I created is {diagram}")
             return diagram
 
 
@@ -83,7 +81,7 @@ class PCPDS:
 
         with open(dir_name+':' + str(self.cell_id), 'w') as outfile:
             json.dump(pcpds, outfile)
-            
+
     # Alternate version of save that requires the dir to be set statically in reference class
     def save(self):
         if ref.get_cur_dir_name() is not None:
@@ -115,12 +113,12 @@ def load_section(dir_name, cell_id):
     # This returns the decoded pcpds object
     return pcpds
 
-# This version of the loading method only requires the cell_id to be passed  in, 
+# This version of the loading method only requires the cell_id to be passed  in,
 # as it uses a preset class reference to the directory. This way, we can load in
 # sections from a targeted folder in more loosely coupled fasion.
 # It does however require that the folder path be set at some point prior to calling.
 def load_section(cell_id):
-    
+
     if ref.get_cur_dir_name() is not None:
         with open(ref.get_cur_dir_name()+':'+str(cell_id)) as json_file:
 
@@ -132,7 +130,7 @@ def load_section(cell_id):
 
         # This returns the decoded pcpds object
         return pcpds
-    
+
     else:
         print("ERROR: The current directory has not yet been selected, so no section will be loaded.")
         return None
