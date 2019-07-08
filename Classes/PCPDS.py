@@ -30,25 +30,6 @@ class PCPDS:
         # rips filt distance
         self.distance = distance
 
-    # Parses cell_ID into X, Y, & Z touple and returns them.
-    def get_xyz(self):
-        # Cast cell ID to an int
-        xyz = int(self.cell_id)
-
-        trunc_val = 10**(int(len(self.cell_id)/3))
-
-        Z = xyz % trunc_val
-        xyz = int(xyz/trunc_val)
-
-        Y = xyz % trunc_val
-        xyz = int(xyz/trunc_val)
-
-        X = xyz
-
-        result = (X, Y, Z)
-        # Returns a touple of X, Y, & Z
-        return result
-
     def set_point_cloud(self, point_cloud):
 
         # sets point cloud
@@ -134,3 +115,30 @@ def load_section(cell_id):
     else:
         print("ERROR: The current directory has not yet been selected, so no section will be loaded.")
         return None
+
+# Parses cell_ID string into X, Y, & Z touple and returns them.
+def get_xyz(cell_id):
+    
+    # Removes the 1 from the beginning of the string
+    cell_id = cell_id[1:]
+    
+    # Cast cell ID to an int
+    xyz = int(cell_id)
+
+    # Checks if the value is zero
+    if xyz is 0:
+        return (0, 0, 0)
+
+    trunc_val = 10**(int(len(cell_id)/3))
+
+    Z = xyz % trunc_val
+    xyz = int(xyz/trunc_val)
+
+    Y = xyz % trunc_val
+    xyz = int(xyz/trunc_val)
+
+    X = xyz
+
+    result = (X, Y, Z)
+    # Returns a touple of X, Y, & Z
+    return result
