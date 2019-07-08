@@ -47,17 +47,18 @@ def main():
             #Check if the file exists
 
             if las_obj.check_file(None, '.las', None):
+
                 # Saves the persistence diagrams of each grid
                 # and returns the dict of PCPDS
 
-                # TODO: save the PCPDS objects in the dict under their file. 
+                # TODO: save the PCPDS objects in the dict under their file.
                 # TODO: move the saving of PCPDS objects to happen as they are generated/updated
                 try:
                     os.makedirs(dir_name)
                     print("Directory " + dir_name + " created.")
 
                 except FileExistsError:
-                    print("Directory " + dir_name + " already exists")
+                    print("Directory " + dir_name + " already exists.")
 
                 # Save persistence diagrams in the aforementioned folder
                 points = las_obj.input_las()

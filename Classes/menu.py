@@ -3,7 +3,6 @@ from Classes.reference import reference as ref
 import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
 import numpy as np
-import os.path
 
 class menu:
 
@@ -19,7 +18,7 @@ class menu:
         self.points = points
 
     # Returns the desired number of results the user wants, under some restrictions
-    def num_results(self):
+    def __num_results(self):
 
         n_results = (self.partition**3)+1
         while n_results > self.partition**3:
@@ -56,10 +55,10 @@ class menu:
         # prints the idx of the section
         print('The random index is: ' + str(test_idx) + '.')
 
-        n_results = self.num_results(self.partition)
+        n_results = self.__num_results()
 
         #generate bottleneck distances object
-        test_bottleneck = BottleneckDistances(self.points, self.test_grid)
+        test_bottleneck = BottleneckDistances(self.points, test_grid)
         # searches for least bottleneck distances
         guess_grid = test_bottleneck.naive_search_distances(n_results)
         # prints out the idx values of the lowest bottleneck distances
@@ -98,13 +97,14 @@ class menu:
             search_z = input("Enter the z value of the search index.\n")
 
             search_xyz = self.las_obj.find_index(search_x, search_y, search_z)
+            print(str(search_xyz))
             test_grid = self.points[search_xyz]
 
             if test_grid == None:
                 print("Please enter values between 0 and " + str(self.partition) + "\n")
 
         # Get desired number of results from user
-        n_results = self.num_results()
+        n_results = self.__num_results()
 
         # Calculate bottleneck distance
         test_bottleneck = BottleneckDistances(self.points, test_grid)
