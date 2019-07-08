@@ -3,6 +3,7 @@ from Classes.reference import reference as ref
 import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
 import numpy as np
+import os.path
 
 class menu:
 
