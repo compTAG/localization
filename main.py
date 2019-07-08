@@ -145,22 +145,47 @@ def main():
                     exit()
             #QUESTION should we chanage this to allow for manual idx entry instead?
             elif choice == 3:
-                play_menu = False
+                # Loop over until a variable test_idx is found
+                # Return random index and calculate PCPDS
+                test_grid = None
+                while test_grid == None:
 
-                # TODO: Check the xyz is a valid index
-                search_x = input("Enter the x value of the search index.\n")
-                search_y = input("Enter the y value of the search index.\n")
-                search_z = input("Enter the z value of the search index.\n")
+                    search_x = input("Enter the x value of the search index.\n")
+                    search_y = input("Enter the y value of the search index.\n")
+                    search_z = input("Enter the z value of the search index.\n")
 
-                search_xyz = las_obj.find_index(x, y, z)
+                    search_xyz = las_obj.find_index(x, y, z)
+                    test_grid = points[search_xyz]
 
-                # TODO: Continue...
+                    if test_grid == None:
+                        print("Please enter values between 0 and " + str(partition) + "\n")
+
+                # Get desired number of results from user
+                num_results = (partition**3)+1
+                while num_results > partition**3:
+
+                    num_results = int(input('How many match results would you like?'))
+
+                    # If there are more results then there are amount of partitions,
+                    # Then get a new number
+                    if num_results > partition**3:
+                        print('Please enter an int smaller than ' + str(partition**3) + '.')
+                    elif num_results%1 != 0:
+                        print('Please enter an integer.')
+
+                # Calculate bottleneck distance
+                test_bottleneck = BottleneckDistances(points, test_grid)
+                guess_grid = test_bottleneck.naive_search_distances(num_results)
+                print('The indexes with the closest match to the random is index are: \n')
+                for i in guess_grid:
+                    # TODO: Make index print out x, y, z
+                    print(str(i[0]) + ' (bottleneck distance of ' + str(i[1]) + ')\n')
 
             # Choice is not a viable option
             else: print('Please choose a number 1 through ' + str(len(menu)))
 
-        play_again = input('Would you like to test another lidar file? (Y/N)')
-        if not play_again.lower.find('y'):
+        play_again = input('Would you like to test another lidar file? (Y/N) ')
+        if (play_again.find('y') == -1) & (play_again.find('Y') == -1):
             again = False
 
 
