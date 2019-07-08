@@ -2,7 +2,7 @@ from Classes.process_las import ProcessLas
 from Classes.reference import reference as ref
 import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
-from Classes.menu import menu
+from Classes.menu import menu as order_menu
 import numpy as np
 import os.path
 from datetime import datetime
@@ -50,6 +50,8 @@ def main():
                 # Saves the persistence diagrams of each grid
                 # and returns the dict of PCPDS
 
+                # TODO: save the PCPDS objects in the dict under their file. 
+                # TODO: move the saving of PCPDS objects to happen as they are generated/updated
                 try:
                     os.makedirs(dir_name)
                     print("Directory " + dir_name + " created.")
