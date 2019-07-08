@@ -19,42 +19,61 @@ class rotated_section_test:
         
 ### Rotates a passed in pcpds's point cloud and regenerates it's persistance diagram.
 
-# Returns the rotation matrix given theta
-def rotation_matrix(theta):
-    return [[math.cos(theta), -math.sin(theta), 0][math.sin(theta), math.cos(theta), 0][0,0,1]]
-
-def rotate_section(pcpds):
+def rotate_section(pcpds, theta):
     point_cloud = pcpds.get_point_cloud()
+    
+    S, C = np.sin(theta), np.cos(theta)
+    rotation_matrix = np.array([[C, -1*S, 0],
+                       [S, C, 0],
+                       [0, 0, 1]])
     
     for point in point_cloud:
         x = point[0]
         y = point[1]
         z = point[2]
         
-        n1, n2, ncalc = [normit()]
+        transform.homography
         
-def rotate(origin, point, angle):
-    """
-    Rotate a point counterclockwise by a given angle around a given origin.
-
-    The angle should be given in radians.
-    """
-    ox, oy = origin
-    px, py = point
-
-    qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
-    qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
-    return qx, qy
-
 def normit(v):
     return v / np.sqrt((v**2).sum())
 
 def rotate_section_x(pcpds, theta):
     point_cloud = pcpds.get_point_cloud()
+    S, C = np.sin(theta), np.cos(theta)
+    rotation_matrix = np.array([[1, 0, 0],
+                       [0, C, -1*S],
+                       [0, S, C]])
+    for point in point_cloud:
+        x = point[0]
+        y = point[1]
+        z = point[2]
     
     
 def rotate_section_y(pcpds, theta):
     point_cloud = pcpds.get_point_cloud()
+    S, C = np.sin(theta), np.cos(theta)
+    rotation_matrix = np.array([[C, 0, S],
+                       [0, 1, 0],
+                       [-1*S, 0, C]])
+    for point in point_cloud:
+        x = point[0]
+        y = point[1]
+        z = point[2]
     
 def rotate_section_z(pcpds, theta):
     point_cloud = pcpds.get_point_cloud()
+    S, C = np.sin(theta), np.cos(theta)
+    rotation_matrix = np.array([[C, -1*S, 0],
+                       [S, C, 0],
+                       [0, 0, 1]])
+    new_point_cloud = []
+    for point in point_cloud:
+        
+        xyz = np.array(point)
+        print("XYZ: "+ str(point_cloud[0]))
+        
+        rotated_xyz = np.dot(xyz, rotation_matrix)
+        print("Rotated XYZ: "+ str(rotated_xyz))
+        
+def main():
+    rotate_section_z(pcpds_util.load_section("Sections/test_2_2019-07-08","1011"), 90)
