@@ -7,6 +7,7 @@ import json
 import jsonpickle
 from Classes.reference import reference as ref
 import dionysus as d
+import os
 
 class PCPDS:
 
@@ -60,7 +61,7 @@ class PCPDS:
         # Transform this object into JSON string:
         pcpds = jsonpickle.encode(self)
 
-        with open(dir_name+':' + str(self.cell_id), 'w') as outfile:
+        with open(os.path.join(dir_name, str(self.cell_id)), 'w') as outfile:
             json.dump(pcpds, outfile)
 
     # Alternate version of save that requires the dir to be set statically in reference class
@@ -69,7 +70,7 @@ class PCPDS:
             # Transform this object into JSON string:
             pcpds = jsonpickle.encode(self)
 
-            with open(ref.get_cur_dir_name()+':' + str(self.cell_id), 'w') as outfile:
+            with open(os.path.join(ref.get_cur_dir_name(), str(self.cell_id)), 'w') as outfile:
                 json.dump(pcpds, outfile)
         else:
             # TODO: Set up project properly so it is easy to then generate the file for storage properly & set it
@@ -83,7 +84,7 @@ class PCPDS:
 # Loads a PCPDS object from the corresponding JSON file provided it exists
 def load_section(dir_name, cell_id):
 
-    with open(dir_name+':'+str(cell_id)) as json_file:
+    with open(os.path.join(dir_name, str(cell_id))) as json_file:
 
         data = json.load(json_file)
         print(data)
@@ -101,7 +102,7 @@ def load_section(dir_name, cell_id):
 def load_section(cell_id):
 
     if ref.get_cur_dir_name() is not None:
-        with open(ref.get_cur_dir_name()+':'+str(cell_id)) as json_file:
+        with open(os.path.join(ref.get_cur_dir_name(), str(cell_id))) as json_file:
 
             data = json.load(json_file)
             print(data)
