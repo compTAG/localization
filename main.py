@@ -81,7 +81,7 @@ def main():
         # ETC, add other options?
 
         # Create menu object with num of partitions, .las object, and points dictionary
-        m = menu(partition, las_obj, points)
+        m = order_menu(partition, las_obj, points)
 
         # TODO: Remove once we can be sure that it properly prints out saved files in this path.
         print(ref.get_cur_dir_name())
