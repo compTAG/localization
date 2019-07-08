@@ -36,6 +36,9 @@ class PCPDS:
         # sets point cloud
         self.point_cloud = point_cloud
         print(f"PCPDS points are {self.point_cloud}")
+        
+    def get_point_cloud(self):
+        return self.point_cloud
 
 
     def distances(self, box_width):
