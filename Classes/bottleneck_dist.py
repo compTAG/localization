@@ -61,3 +61,11 @@ class BottleneckDistances:
 
         # Return idx of lowest bottleneck distance to search_idx
         return top_idx
+
+    # Print results of the top n matches
+    def print_matches(self, guess_grid):
+
+        print('The indexes with the closest match to the random is index are: \n')
+        for i in guess_grid:
+            # TODO: Make index print out x, y, z
+            print(str(i[0]) + ' (bottleneck distance of ' + str(i[1]) + ')\n')

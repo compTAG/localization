@@ -76,9 +76,10 @@ def main():
         #Give the user options about what they want to search for
         print('How would you like to add an image to test against your file?')
         menu_opt = {}
-        menu_opt[1] = ': Choose from a random grid from the data.'
+        menu_opt[1] = ': Test against a random grid from the data.'
         menu_opt[2] = ': Enter your own data from an additional lidar file.'
-        menu_opt[3] = ': Enter an IDX to search for'
+        menu_opt[3] = ': Enter an IDX to search for.'
+        menu_opt[4] = ': Test against a rotated random grid from the data.'
         # ETC, add other options?
 
         # Create menu object with num of partitions, .las object, and points dictionary
@@ -99,16 +100,20 @@ def main():
 
             # Choose random from given file
             if choice == 1:
-                play_menu = m.choice_1()
+                play_menu = m.random_idx_normal()
 
             # TODO: make functional
             # Import new file to find location in orig file
             elif choice == 2:
-                play_menu = m.choice_2()
+                play_menu = m.test_against_file()
 
             #QUESTION should we chanage this to allow for manual idx entry instead?
             elif choice == 3:
-                play_menu = m.choice_3()
+                play_menu = m.manual_idx_normal()
+
+            # Test against rotated, random grid
+            elif choice == 4:
+                play_menu = m.random_idx_rotated()
 
             # Choice is not a viable option
             else: print('Please choose a number 1 through ' + str(len(menu)))

@@ -17,7 +17,7 @@ class menu:
         # Save the dictionary of PCDPS objects
         self.points = points
 
-    # Returns the desired number of results the user wants, under some restrictions
+    # Return the desired number of results the user wants, given n <= partition^3
     def __num_results(self):
 
         n_results = (self.partition**3)+1
@@ -34,10 +34,8 @@ class menu:
 
         return n_results
 
-    # Random grid index
-    def choice_1(self):
-
-        # grabs a random section that is nonempty
+    # Select a random, non-empty grid from the dictionary of points
+    def __random_test_grid(self):
         # TODO: have a check for None and index out of bounds in here
         while True:
             try:
@@ -47,29 +45,32 @@ class menu:
                 continue
             if test_grid != None:
                 break
+        return [test_grid, test_idx]
 
-        # prints information about the selected section
+    # Choice 1: Select an unknown grid and test against all points
+    def random_idx_normal(self):
+
+        # Grab a random section that is nonempty
+        [test_grid, test_idx] = self.__random_test_grid()
+
+        # Prints information about the selected section
         print(f"points are {test_grid.point_cloud}")
         print(f"filt is {test_grid.persistance_diagram}")
 
-        # prints the idx of the section
+        # Prints the idx of the section
         print('The random index is: ' + str(test_idx) + '.')
 
         n_results = self.__num_results()
 
-        #generate bottleneck distances object
+        # Calculate bottleneck distance, print n_result matches
         test_bottleneck = BottleneckDistances(self.points, test_grid)
-        # searches for least bottleneck distances
         guess_grid = test_bottleneck.naive_search_distances(n_results)
-        # prints out the idx values of the lowest bottleneck distances
-        print('The indexes with the closest match to the random is index are: \n')
-        for i in guess_grid:
-            print(str(i[0]) + ' (bottleneck distance of ' + str(i[1]) + ')\n')
+        test_bottleneck.print_matches(guess_grid)
 
         return False
 
-    # Test against other lidar file
-    def choice_2(self):
+    # Choice 2: Import another file, calculate new PCPDS and test against all points
+    def test_against_file(self):
 
         test_file = input("Enter the name of the file you'd wish to import: ")
         temp = str(test_file + '.las')
@@ -84,8 +85,8 @@ class menu:
 
         return False
 
-    # Manual index entry by the user, under some restrictions
-    def choice_3(self):
+    # Choice 3: Manually select a grid and test against all points
+    def manual_idx_normal(self):
 
         # Loop over until a variable test_idx is found
         # Return random index and calculate PCPDS
@@ -106,12 +107,26 @@ class menu:
         # Get desired number of results from user
         n_results = self.__num_results()
 
-        # Calculate bottleneck distance
+        # Calculate bottleneck distance, print n_result matches
         test_bottleneck = BottleneckDistances(self.points, test_grid)
         guess_grid = test_bottleneck.naive_search_distances(n_results)
-        print('The indexes with the closest match to the random is index are: \n')
-        for i in guess_grid:
-            # TODO: Make index print out x, y, z
-            print(str(i[0]) + ' (bottleneck distance of ' + str(i[1]) + ')\n')
+        test_bottleneck.print_matches(guess_grid)
+
+        return False
+
+    # Choice 4: Rotate an unknown grid and test against all points
+    def random_idx_rotated(self):
+
+        # Grab a random section that is nonempty
+        [test_grid, test_idx] = self.__random_test_grid()
+
+        # TODO: Rotate dtest_grid with test_cases.py
+        # Get desired number of results from user
+        n_results = self.__num_results()
+
+        # Calculate bottleneck distance, print n_result matches
+        test_bottleneck = BottleneckDistances(self.points, test_grid)
+        guess_grid = test_bottleneck.naive_search_distances(n_results)
+        test_bottleneck.print_matches(guess_grid)
 
         return False
