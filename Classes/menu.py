@@ -8,12 +8,16 @@ class menu:
 
     def __init__(self, partition, las_obj, points):
 
+        # Save number of partitions on each side of grid
         self.partition = partition
 
+        # Save the las object created in main
         self.las_obj = las_obj
 
+        # Save the dictionary of PCDPS objects
         self.points = points
 
+    # Returns the desired number of results the user wants, under some restrictions
     def num_results(self):
 
         n_results = (self.partition**3)+1
@@ -30,6 +34,7 @@ class menu:
 
         return n_results
 
+    # Random grid index
     def choice_1(self):
 
         # grabs a random section that is nonempty
@@ -63,6 +68,7 @@ class menu:
 
         return False
 
+    # Test against other lidar file
     def choice_2(self):
 
         test_file = input("Enter the name of the file you'd wish to import: ")
@@ -78,6 +84,7 @@ class menu:
 
         return False
 
+    # Manual index entry by the user, under some restrictions
     def choice_3(self):
 
         # Loop over until a variable test_idx is found
@@ -89,7 +96,7 @@ class menu:
             search_y = input("Enter the y value of the search index.\n")
             search_z = input("Enter the z value of the search index.\n")
 
-            search_xyz = self.las_obj.find_index(x, y, z)
+            search_xyz = self.las_obj.find_index(search_x, search_y, search_z)
             test_grid = self.points[search_xyz]
 
             if test_grid == None:

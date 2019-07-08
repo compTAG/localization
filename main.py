@@ -72,12 +72,13 @@ def main():
 
         #Give the user options about what they want to search for
         print('How would you like to add an image to test against your file?')
-        menu = {}
-        menu[1] = ': Choose from a random grid from the data.'
-        menu[2] = ': Enter your own data from an additional lidar file.'
-        menu[3] = ': Enter an IDX to search for'
+        menu_opt = {}
+        menu_opt[1] = ': Choose from a random grid from the data.'
+        menu_opt[2] = ': Enter your own data from an additional lidar file.'
+        menu_opt[3] = ': Enter an IDX to search for'
         # ETC, add other options?
 
+        # Create menu object with num of partitions, .las object, and points dictionary
         m = menu(partition, las_obj, points)
 
         # TODO: Remove once we can be sure that it properly prints out saved files in this path.
@@ -86,9 +87,11 @@ def main():
 
         play_menu = True
         while play_menu:
-            options = menu.keys()
+
+            # Print menu options
+            options = menu_opt.keys()
             for entry in options:
-                print(str(entry)+ str(menu[entry]))
+                print(str(entry)+ str(menu_opt[entry]))
             choice = int(input('Please select an option: '))
 
             # Choose random from given file
@@ -110,7 +113,6 @@ def main():
         play_again = input('Would you like to test another lidar file? (Y/N) ')
         if (play_again.find('y') == -1) & (play_again.find('Y') == -1):
             again = False
-
 
 # Do Main
 if __name__ == '__main__':
