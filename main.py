@@ -2,6 +2,7 @@ from Classes.process_las import ProcessLas
 from Classes.reference import reference as ref
 import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
+from Classes.menu import menu
 import numpy as np
 import os.path
 from datetime import datetime
@@ -77,6 +78,8 @@ def main():
         menu[3] = ': Enter an IDX to search for'
         # ETC, add other options?
 
+        m = menu(partition, las_obj, points)
+
         # TODO: Remove once we can be sure that it properly prints out saved files in this path.
         print(ref.get_cur_dir_name())
         print("files in folder: ", ref.get_files_in_folder())
@@ -90,96 +93,16 @@ def main():
 
             # Choose random from given file
             if choice == 1:
-                play_menu = False
-
-                # grabs a random section that is nonempty
-                # TODO: have a check for None and index out of bounds in here
-                while True:
-                    try:
-                        test_idx = las_obj.random_grid()
-                        test_grid = points[test_idx]
-                    except:
-                        continue
-                    if test_grid != None:
-                        break
-
-                # prints information about the selected section
-                print(f"points are {test_grid.point_cloud}")
-                print(f"filt is {test_grid.persistance_diagram}")
-
-                # prints the idx of the section
-                print('The random index is: ' + str(test_idx) + '.')
-
-                #TODO: add comments here
-                num_results = (partition**3)+1
-                while num_results > partition**3:
-                    num_results = int(input('How many match results would you like?'))
-                    if num_results > partition**3:
-                        print('Please enter an int smaller than ' + str(partition**3) + '.')
-                    elif num_results%1 != 0:
-                        print('Please enter an integer.')
-
-                #generate bottleneck distances object
-                test_bottleneck = BottleneckDistances(points, test_grid)
-                # searches for least bottleneck distances
-                guess_grid = test_bottleneck.naive_search_distances(num_results)
-                # prints out the idx values of the lowest bottleneck distances
-                print('The indexes with the closest match to the random is index are: \n')
-                for i in guess_grid:
-                    print(str(i[0]) + ' (bottleneck distance of ' + str(i[1]) + ')\n')
+                play_menu = m.choice_1()
 
             # TODO: make functional
             # Import new file to find location in orig file
             elif choice == 2:
-                play_menu = False
+                play_menu = m.choice_2()
 
-                test_file = input("Enter the name of the file you'd wish to import: ")
-                temp = str(test_file + '.las')
-                #concatenate('/path/to/'
-                exists = os.path.isfile(temp)
-                if exists:
-                    pass
-                    #Save persistence diagram of found file to test_grid
-                else:
-                    print('Error. No matching file found. Exiting.')
-                    exit()
             #QUESTION should we chanage this to allow for manual idx entry instead?
             elif choice == 3:
-                # Loop over until a variable test_idx is found
-                # Return random index and calculate PCPDS
-                test_grid = None
-                while test_grid == None:
-
-                    search_x = input("Enter the x value of the search index.\n")
-                    search_y = input("Enter the y value of the search index.\n")
-                    search_z = input("Enter the z value of the search index.\n")
-
-                    search_xyz = las_obj.find_index(x, y, z)
-                    test_grid = points[search_xyz]
-
-                    if test_grid == None:
-                        print("Please enter values between 0 and " + str(partition) + "\n")
-
-                # Get desired number of results from user
-                num_results = (partition**3)+1
-                while num_results > partition**3:
-
-                    num_results = int(input('How many match results would you like?'))
-
-                    # If there are more results then there are amount of partitions,
-                    # Then get a new number
-                    if num_results > partition**3:
-                        print('Please enter an int smaller than ' + str(partition**3) + '.')
-                    elif num_results%1 != 0:
-                        print('Please enter an integer.')
-
-                # Calculate bottleneck distance
-                test_bottleneck = BottleneckDistances(points, test_grid)
-                guess_grid = test_bottleneck.naive_search_distances(num_results)
-                print('The indexes with the closest match to the random is index are: \n')
-                for i in guess_grid:
-                    # TODO: Make index print out x, y, z
-                    print(str(i[0]) + ' (bottleneck distance of ' + str(i[1]) + ')\n')
+                play_menu = m.choice_3()
 
             # Choice is not a viable option
             else: print('Please choose a number 1 through ' + str(len(menu)))

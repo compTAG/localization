@@ -57,8 +57,7 @@ class BottleneckDistances:
 
             # Sort from low to high
             top_idx = sorted(top_idx, key=lambda x:x[1])
-            if len(top_idx) > num:
-                top_idx.pop(num-1)
+            top_idx.pop(num-1)
 
         # Return idx of lowest bottleneck distance to search_idx
         return top_idx
