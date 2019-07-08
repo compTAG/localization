@@ -90,7 +90,7 @@ class menu:
             search_y = input("Enter the y value of the search index.\n")
             search_z = input("Enter the z value of the search index.\n")
 
-            search_xyz = self.las_obj.find_index(x, y, z)
+            search_xyz = self.las_obj.find_index(search_x, search_y, search_z)
             test_grid = self.points[search_xyz]
 
             if test_grid == None:
