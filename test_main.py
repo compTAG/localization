@@ -21,5 +21,4 @@ print("\nPoint X Selection Test:\n", pcpds.get_point_cloud()[0][0])
 
 v = pptk.viewer(point_cloud)
 v.set(point_size=0.01)
-
 #test_cases.rotate_section_z(pcpds, 90) 
