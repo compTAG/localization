@@ -36,7 +36,7 @@ class PCPDS:
         # sets point cloud
         self.point_cloud = point_cloud
         print(f"PCPDS points are {self.point_cloud}")
-        
+
     def get_point_cloud(self):
         return self.point_cloud
 
@@ -122,10 +122,10 @@ def load_section(cell_id):
 
 # Parses cell_ID string into X, Y, & Z touple and returns them.
 def get_xyz(cell_id):
-    
+
     # Removes the 1 from the beginning of the string
     cell_id = cell_id[1:]
-    
+
     # Cast cell ID to an int
     xyz = int(cell_id)
 

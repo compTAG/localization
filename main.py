@@ -79,7 +79,7 @@ def main():
         menu_opt[1] = ': Test against a random grid from the data.'
         menu_opt[2] = ': Enter your own data from an additional lidar file.'
         menu_opt[3] = ': Enter an IDX to search for.'
-        menu_opt[4] = ': Test against a rotated random grid from the data.'
+        # menu_opt[4] = ': Test against a rotated random grid from the data.'
         # ETC, add other options?
 
         # Create menu object with num of partitions, .las object, and points dictionary
