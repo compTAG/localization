@@ -61,7 +61,9 @@ def rotate_section_y(pcpds, theta):
         z = point[2]
     
 def rotate_section_z(pcpds, theta):
+    # TODO: Build a np array with every 3 entries in the point_cloud 
     point_cloud = pcpds.get_point_cloud()
+    
     S, C = np.sin(theta), np.cos(theta)
     rotation_matrix = np.array([[C, -1*S, 0],
                        [S, C, 0],
@@ -70,10 +72,14 @@ def rotate_section_z(pcpds, theta):
     for point in point_cloud:
         
         xyz = np.array(point)
-        print("XYZ: "+ str(point_cloud[0]))
+        #print("XYZ: "+ str(point_cloud[0])+ ", ", point_cloud[1], ",", point_cloud[2])
         
         rotated_xyz = np.dot(xyz, rotation_matrix)
         print("Rotated XYZ: "+ str(rotated_xyz))
+        #if rotated_xyz.isempty
+        
+        #np.vstack((new_point_cloud, rotated_xyz))
+    #print("\nNEW POINT_CLOUD:\n", new_point_cloud)
         
 def main():
     rotate_section_z(pcpds_util.load_section("Sections/test_2_2019-07-08","1011"), 90)

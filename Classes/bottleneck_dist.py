@@ -31,8 +31,6 @@ class BottleneckDistances:
             return "Error"
         # Generate persistance diagram to search for
         pd1 = self.test_grid.get_persistance_diagram()
-        # Debug
-        print(pd1)
 
         # Loop through all IDX in parallelograms dictionary and compares
         # their bottleneck distance to pd1

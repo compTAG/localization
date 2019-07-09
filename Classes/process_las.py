@@ -77,7 +77,7 @@ class ProcessLas:
         x_vals.dtype = "float32"
         y_vals.dtype = "float32"
         z_vals.dtype = "float32"
-
+        
         temp = np.array([x_vals,y_vals,z_vals])
         coords = temp.T
 
@@ -96,9 +96,8 @@ class ProcessLas:
             x = self.__hash_it(coords[c][0], min_x, max_x)
             y = self.__hash_it(coords[c][1], min_y, max_y)
             z = self.__hash_it(coords[c][2], min_z, max_z)
-
+            
             idx = int('1' + x + y + z)
-            print(idx)
 
             # Make a dictionary with each [idx].
             # If it already exists, append the coord
@@ -107,13 +106,12 @@ class ProcessLas:
             except:
                 points[idx] = coords[c]
             else:
-                points[idx] = np.concatenate((points[idx],coords[c]))
+                points[idx] = np.vstack((points[idx],coords[c]))
 
         # Creates parallelograms dictionary to give PCPDS object from idx
         parallelograms = {'idx':'PCPDS(idx)'}
 
         # Used in rips
-        print("Debug")
         iX = (max_x - min_x) / self.partition
         iY = (max_y - min_y) / self.partition
         iZ = (max_z - min_z) / self.partition
@@ -135,8 +133,6 @@ class ProcessLas:
 
                     idx = int('1' + x + y + z)
                     try:
-                        #debug
-                        print(idx)
 
                         # Assign a new entry to the parallelograms dict for each idx generated
                         parallelograms[idx] = section.PCPDS(idx, rip_dist) #where ** is file ext
@@ -146,13 +142,10 @@ class ProcessLas:
                         parallelograms[idx].set_point_cloud(points[idx])
 
                         # Generate a persistance diagram for that object
-                        parallelograms[idx].get_persistance_diagram()
+                        #parallelograms[idx].get_persistance_diagram()
 
                         # Pickle the object
                         parallelograms[idx].save()
-
-                        # Temp check
-                        print(idx)
                     except:
                         pass
 

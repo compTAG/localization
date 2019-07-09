@@ -103,3 +103,19 @@ venv.bak/
 # mypy
 .mypy_cache/
 .DS_Store
+
+\.idea/localization\.iml
+
+\.idea/misc\.xml
+
+\.idea/modules\.xml
+
+\.idea/vcs\.xml
+
+\.idea/workspace\.xml
+
+\.vscode/settings\.json
+
+\.vscode/launch\.json
+
+\.idea/inspectionProfiles/Project_Default\.xml

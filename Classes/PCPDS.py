@@ -35,7 +35,6 @@ class PCPDS:
 
         # sets point cloud
         self.point_cloud = point_cloud
-        print(f"PCPDS points are {self.point_cloud}")
         
     def get_point_cloud(self):
         return self.point_cloud
@@ -51,6 +50,7 @@ class PCPDS:
         if self.persistance_diagram != None:
             return self.persistance_diagram
         else:
+            # Does fill_rips need it to be a linear array?
             f = d.fill_rips(self.point_cloud, self.skeleton , self.distance)
             m = d.homology_persistence(f)
             diagram = d.init_diagrams(m,f)
@@ -85,15 +85,13 @@ class PCPDS:
 # already being loaded.
 
 # Loads a PCPDS object from the corresponding JSON file provided it exists
-def load_section(dir_name, cell_id):
+def load_section_dir(dir_name, cell_id):
 
     with open(os.path.join(dir_name, str(cell_id))) as json_file:
 
         data = json.load(json_file)
         print(data)
         pcpds = jsonpickle.decode(data)
-
-    pcpds = jsonpickle.decode(data)
 
     # This returns the decoded pcpds object
     return pcpds
@@ -110,8 +108,6 @@ def load_section(cell_id):
             data = json.load(json_file)
             print(data)
             pcpds = jsonpickle.decode(data)
-
-        pcpds = jsonpickle.decode(data)
 
         # This returns the decoded pcpds object
         return pcpds
