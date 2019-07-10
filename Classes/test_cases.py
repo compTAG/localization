@@ -32,7 +32,6 @@ def rotate_section(pcpds, theta):
         y = point[1]
         z = point[2]
         
-        transform.homography
         
 def normit(v):
     return v / np.sqrt((v**2).sum())

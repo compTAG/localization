@@ -145,7 +145,8 @@ class ProcessLas:
                         #parallelograms[idx].get_persistance_diagram()
 
                         # Pickle the object
-                        parallelograms[idx].save()
+                        # TODO: When refactoring, set up path_manager & file_manager to be able to save the object below properly.
+                        #parallelograms[idx]
                     except:
                         pass
 

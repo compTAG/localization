@@ -1,6 +1,7 @@
 # The FileManager object deals with Saving and Loading Objects
 
 import os.path
+from os import walk
 import json
 import jsonpickle
 
@@ -28,3 +29,22 @@ class FileManager:
             obj = jsonpickle.decode(data)
 
         return obj
+    
+    def find_files(dir):
+        
+        files = []
+        for (dirpath, dirnames, filenames) in walk(dir):
+            files.extend(filenames)
+            break
+        
+        return files
+    
+    def find_folders(dir):
+        
+        folders = []
+        for (dirpath, dirnames, filenames) in walk(dir):
+            folders.extend(dirnames)
+            break
+        
+        return folders
+    

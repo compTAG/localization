@@ -1,5 +1,4 @@
 from Classes.process_las import ProcessLas
-from Classes.reference import reference as ref
 import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
 from Classes.menu import menu as order_menu
@@ -29,15 +28,7 @@ def main():
         # between macs, windows, and linux
         dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
 
-        dir_name = str(os.path.join('Sections', dir_name))
-
-
-        # TODO: Dicuss changing the name of 'Sections' folder to 'Section_Collections' or something similar
-
-        # TODO: Likely will want to handle this in another place in the future,
-        # specifically when selecting the 'Section_Collection' we want to work with.
-        # Currently just set to default to the directory being made.
-        ref.set_cur_dir_name(dir_name)
+        dir_name = str(os.path.join('cell_collections', dir_name))
 
         points = None
 
@@ -84,10 +75,6 @@ def main():
 
         # Create menu object with num of partitions, .las object, and points dictionary
         m = order_menu(partition, las_obj, points)
-
-        # TODO: Remove once we can be sure that it properly prints out saved files in this path.
-        print(ref.get_cur_dir_name())
-        print("files in folder: ", ref.get_files_in_folder())
 
         play_menu = True
         while play_menu:
