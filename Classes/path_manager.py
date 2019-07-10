@@ -7,7 +7,7 @@ class PathManager:
     
     def __init__(self):
         print("PathManager loaded.")
-        self.root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.cur_dir = None
         
     def set_cur_dir(dir_path):
