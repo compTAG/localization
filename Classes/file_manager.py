@@ -1,18 +1,30 @@
 # The FileManager object deals with Saving and Loading Objects
 
-import os
-from pathlib import Path
+import os.path
+import json
+import jsonpickle
 
 class FileManager:
     
     def __init__(self):
-        # TODO: Add support for saving/loading objects with directory refferal
-        pass
+        print("FileManager Loaded.")
     
-    def save(object, path):
-        # TODO: Pickle stuff here
-        pass
+    # TODO: Move folder creation here.
     
+    def save(obj, path, name):
+        # TODO: verify the folder path is valid
+        data = jsonpickle.encode(obj)
+
+        with open(os.path.join(path, str(name)), 'w') as outfile:
+            json.dump(data, outfile)
+    
+    # Returns object stored in json_file from specified path
     def load(path):
-        # TODO: Implement depickle stuff here
-        pass
+        # TODO: Add feedback for when the file dosen't exist/handling.
+        with open(path) as json_file:
+
+            data = json.load(json_file)
+            print(data)
+            obj = jsonpickle.decode(data)
+
+        return obj

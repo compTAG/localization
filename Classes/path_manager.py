@@ -6,7 +6,7 @@ from pathlib import Path
 class PathManager:
     
     def __init__(self):
-        
+        print("PathManager loaded.")
         self.root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.cur_dir = None
         
