@@ -24,7 +24,7 @@ class ProcessLas:
             temp = self.filename + str(ext)
             exists = os.path.isfile(temp)
         else:
-            dir_name = str('Sections/PCPDS/' + dir_name + '/')
+            dir_name = str('cell_collections/' + dir_name + '/')
             exists = os.path.isfile(dir_name + temp + ext)
 
         if exists:
