@@ -3,7 +3,6 @@
 # It contains both a 'chunk' of the larger point cloud, and the 'chunk's processed persistance diagram.
 
 import numpy as np
-from Classes.reference import reference as ref
 import dionysus as d
 
 class PCPDS:
