@@ -3,7 +3,6 @@
 # It contains both a 'chunk' of the larger point cloud, and the 'chunk's processed persistance diagram.
 
 import numpy as np
-from Classes.reference import reference as ref
 import dionysus as d
 
 class PCPDS:
@@ -29,7 +28,7 @@ class PCPDS:
 
     def set_point_cloud(self, point_cloud):
         self.point_cloud = point_cloud
-        
+
     def get_point_cloud(self):
         return self.point_cloud
 
