@@ -6,12 +6,7 @@ import json
 import jsonpickle
 from datetime import datetime
 
-def __init__(self):
-    print("FileManager Loaded.")
-
-# TODO: Move folder creation here.
-
-def save(self, obj, path, name):
+def save(obj, path, name):
     # TODO: verify the folder path is valid
     data = jsonpickle.encode(obj)
 
@@ -19,7 +14,7 @@ def save(self, obj, path, name):
         json.dump(data, outfile)
 
 # Returns object stored in json_file from specified path
-def load(self, path):
+def load(path):
     # TODO: Add feedback for when the file dosen't exist/handling.
     with open(path) as json_file:
 
@@ -29,7 +24,7 @@ def load(self, path):
 
     return obj
 
-def find_files(self, dir):
+def find_files(dir):
     
     files = []
     for (dirpath, dirnames, filenames) in walk(dir):
@@ -38,7 +33,7 @@ def find_files(self, dir):
 
     return files
 
-def find_folders(self, dir):
+def find_folders(dir):
     
     folders = []
     for (dirpath, dirnames, filenames) in walk(dir):
@@ -47,7 +42,7 @@ def find_folders(self, dir):
 
     return folders
 
-def directory(self, filename, partition):
+def directory(filename, partition):
 
     dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
 

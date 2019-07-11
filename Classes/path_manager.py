@@ -17,9 +17,13 @@ class PathManager:
     def get_cur_dir(self):
         return self.cur_dir
     
-    def validate_cur_dir():
-        # TODO: Check if cur_dir is None, or an invalid path, return true or false
-        pass 
+    def validate_cur_dir(self):
+        if self.cur_dir is None:
+            pass
+        elif False:#TODO: Run check for path validity here:
+            pass
+        else:
+            return True
     
     def set_col_dir(self, col_dir):
         self.collection_dir = col_dir
