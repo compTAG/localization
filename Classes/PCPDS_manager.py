@@ -1,4 +1,5 @@
 import Classes.file_manager as file_manager
+
 # This class deals with loading/fetching of PCPDS objects specifically
 
 class PCPDS_Manager:
@@ -11,8 +12,7 @@ class PCPDS_Manager:
     def load_collection(self):
         # TODO: try to load in every file from that directory into a list of PCPDS object names
         self.load_collection.clear()
-        fm = file_manager()
-        self.pcpds_collection = fm.find_files(self.col_dir)
+        self.pcpds_collection = file_manager.find_files(self.col_dir)
         
     def set_col_dir(self, dir):
         self.col_dir = dir
