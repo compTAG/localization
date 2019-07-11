@@ -23,10 +23,18 @@ class PathManager:
     def get_col_dir(self):
         return self.collection_dir
     
-    def validate_dir(self, dir):
+    def validate_dir(self, dir_path):
         if dir is None:
             return False
-        elif os.path.isdir(dir):
+        elif os.path.isdir(dir_path):
+            return False
+        else:
+            return True
+        
+    def validate_file(self, file_path):
+        if dir is None:
+            return False
+        elif os.path.exists(file_path):
             return False
         else:
             return True
