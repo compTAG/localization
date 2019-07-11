@@ -39,15 +39,7 @@ class PCPDS:
 
 
     def get_persistance_diagram(self):
-        if self.persistance_diagram != None:
-            return self.persistance_diagram
-        else:
-            # Does fill_rips need it to be a linear array?
-            f = d.fill_rips(self.point_cloud, self.skeleton , self.distance)
-            m = d.homology_persistence(f)
-            diagram = d.init_diagrams(m,f)
-            self.persistance_diagram = diagram
-            return diagram
+        pass
 
 # Parses cell_ID string into X, Y, & Z touple and returns them.
 def get_xyz(cell_id):
