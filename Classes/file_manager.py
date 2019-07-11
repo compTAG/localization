@@ -4,12 +4,13 @@ import os.path
 from os import walk
 import json
 import jsonpickle
+from datetime import datetime
 
 class FileManager:
-    
+
     def __init__(self):
         print("FileManager Loaded.")
-    
+
     # TODO: Move folder creation here.
     
     def save(self, obj, path, name):
@@ -18,7 +19,7 @@ class FileManager:
 
         with open(os.path.join(path, str(name)), 'w') as outfile:
             json.dump(data, outfile)
-    
+
     # Returns object stored in json_file from specified path
     def load(self, path):
         # TODO: Add feedback for when the file dosen't exist/handling.
@@ -36,7 +37,7 @@ class FileManager:
         for (dirpath, dirnames, filenames) in walk(dir):
             files.extend(filenames)
             break
-        
+
         return files
     
     def find_folders(self, dir):
@@ -45,6 +46,11 @@ class FileManager:
         for (dirpath, dirnames, filenames) in walk(dir):
             folders.extend(dirnames)
             break
-        
+
         return folders
-    
+
+    def directory(self, filename, partition):
+
+        dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
+
+        return str(os.path.join('cell_collections', dir_name))

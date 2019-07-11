@@ -1,5 +1,4 @@
 from Classes.process_las import ProcessLas
-from Classes.reference import reference as ref
 import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
 import numpy as np

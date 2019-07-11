@@ -77,7 +77,7 @@ class ProcessLas:
         x_vals.dtype = "float32"
         y_vals.dtype = "float32"
         z_vals.dtype = "float32"
-        
+
         temp = np.array([x_vals,y_vals,z_vals])
         coords = temp.T
 
@@ -96,7 +96,7 @@ class ProcessLas:
             x = self.__hash_it(coords[c][0], min_x, max_x)
             y = self.__hash_it(coords[c][1], min_y, max_y)
             z = self.__hash_it(coords[c][2], min_z, max_z)
-            
+
             idx = int('1' + x + y + z)
 
             # Make a dictionary with each [idx].
