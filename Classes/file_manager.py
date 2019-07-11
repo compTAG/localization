@@ -12,7 +12,7 @@ class FileManager:
     
     # TODO: Move folder creation here.
     
-    def save(obj, path, name):
+    def save(self, obj, path, name):
         # TODO: verify the folder path is valid
         data = jsonpickle.encode(obj)
 
@@ -20,7 +20,7 @@ class FileManager:
             json.dump(data, outfile)
     
     # Returns object stored in json_file from specified path
-    def load(path):
+    def load(self, path):
         # TODO: Add feedback for when the file dosen't exist/handling.
         with open(path) as json_file:
 
@@ -30,7 +30,7 @@ class FileManager:
 
         return obj
     
-    def find_files(dir):
+    def find_files(self, dir):
         
         files = []
         for (dirpath, dirnames, filenames) in walk(dir):
@@ -39,7 +39,7 @@ class FileManager:
         
         return files
     
-    def find_folders(dir):
+    def find_folders(self, dir):
         
         folders = []
         for (dirpath, dirnames, filenames) in walk(dir):
