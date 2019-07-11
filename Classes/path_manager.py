@@ -14,6 +14,9 @@ class PathManager:
     def set_cur_dir(self, dir_path):
         self.cur_dir = dir_path
         
+    def set_cur_dir(self, dir_path):
+        return self.cur_dir
+        
     def get_cur_dir(self):
         return self.cur_dir
     
@@ -22,6 +25,9 @@ class PathManager:
         
     def get_col_dir(self):
         return self.collection_dir
+    
+    def get_root_dir(self):
+        return self.ROOT_DIR
     
     def validate_dir(self, dir_path):
         if dir is None:

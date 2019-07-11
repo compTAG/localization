@@ -4,7 +4,6 @@ import os.path
 from os import walk
 import json
 import jsonpickle
-from datetime import datetime
 
 def save(obj, path, name):
     # TODO: verify the folder path is valid
@@ -42,8 +41,10 @@ def find_folders(dir):
 
     return folders
 
-def directory(filename, partition):
+def make_folder(dir_name):
+    try:
+        os.makedirs(dir_name)
+        print("Directory " + dir_name + " created.")
 
-    dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
-
-    return str(os.path.join('cell_collections', dir_name))
+    except FileExistsError:
+        print("Directory " + dir_name + " already exists.")
