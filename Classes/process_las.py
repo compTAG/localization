@@ -133,7 +133,6 @@ class ProcessLas:
                     z = str(z).zfill(self.leading_zeros)
 
                     idx = int('1' + x + y + z)
-
                     #try:
 
                         # Assign a new entry to the parallelograms dict for each idx generated
