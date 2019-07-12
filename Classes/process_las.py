@@ -56,13 +56,6 @@ class ProcessLas:
 
         return int('1' + x + y + z)
 
-
-    # Hash function that returns the index of the x y and z values
-    def __hash_it(self, coord, max_par, min_par):
-        h = math.floor((coord - min_par)/ ((max_par - min_par) / self.partition))
-        return str(h).zfill(self.leading_zeros)
-
-
     # Read the file and split it into partitions and create pcpds objects of
     # each partition, returns the dictionary of pcpds objects
     def input_las(self, path):
@@ -102,7 +95,7 @@ class ProcessLas:
 
             x = math.floor((coords[c][0] - min_x) / iX)
             y = math.floor((coords[c][1] - min_y) / iY)
-            z = math.floor((coords[c][2] - min_z) / iZ)
+            z = 1
             idx = int('1' + str(x) + str(y) + str(z))
 
             # Make a dictionary with each [idx].

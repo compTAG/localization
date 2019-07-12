@@ -104,7 +104,7 @@ venv.bak/
 .mypy_cache/
 .DS_Store
 points.las
-Sections/
+cell_collection/
 
 \.idea/localization\.iml
 
