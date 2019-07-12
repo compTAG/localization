@@ -2,7 +2,7 @@ from Classes.process_las import ProcessLas
 import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
 from Classes.menu import menu as order_menu
-from Classes.file_manager import FileManager
+from Classes.file_manager
 from Classes.findign_files import FindingFiles
 import numpy as np
 import os.path
