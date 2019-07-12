@@ -21,7 +21,7 @@ def main():
     # between macs, windows, and linux
     pfm = PCPDS_Manager() #Pass in collection_dir
     dir_name = pfm.generate_collection(filename, partition)
-    print(str(dir_name))
+    print('Dir:' + str(dir_name))
 
     # Check if the final persistence diagram for the las object doesn't exist
     # Check under a given timestamp to avoid multiple same files
