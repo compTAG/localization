@@ -152,10 +152,6 @@ class ProcessLas:
                     #except:
                         #pass
 
-
-                    except:
-                        pass
-
                     # Save the PCPDS object
                     file_manager.save(parallelograms[idx], path, idx)
 
