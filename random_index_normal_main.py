@@ -3,7 +3,8 @@ import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
 from Classes.menu import menu as order_menu
 from Classes.PCPDS_manager import PCPDS_Manager
-from Classes.file_manager
+import Classes.file_manager
+import Classes.user_input
 from Classes.findign_files import FindingFiles
 import numpy as np
 import os.path
@@ -12,8 +13,7 @@ from datetime import datetime
 def main():
 
     #Have the user input their desired file and partition count
-    ff = FindingFiles()
-    [partition, filename] = ff.partitions()
+    [partition, filename] = user_input.input_partitions_file()
 
     # Create las object and calculate corresponding values
     las_obj = ProcessLas(filename, partition, len(str(partition)))
