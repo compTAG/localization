@@ -1,5 +1,5 @@
 from laspy.file import File
-import Classes.PCPDS as section
+from Classes.PCPDS import PCPDS as pcpds
 import Classes.file_manager as file_manager
 import math
 import random
@@ -103,6 +103,7 @@ class ProcessLas:
             x = math.floor((coords[c][0] - min_x) / iX)
             y = math.floor((coords[c][1] - min_y) / iY)
             z = math.floor((coords[c][2] - min_z) / iZ)
+            idx = int('1' + str(x) + str(y) + str(z))
 
             # Make a dictionary with each [idx].
             # If it already exists, append the coord
@@ -113,7 +114,13 @@ class ProcessLas:
             else:
                 points[idx] = np.vstack((points[idx],coords[c]))
 
-        print(points[1000])
+        for id in points:
+            print(id)
+            temp = pcpds(id)
+            temp.set_point_cloud(points[id])
+            file_manager.save(temp, path, id)
+
+
         # Creates parallelograms dictionary to give PCPDS object from idx
         parallelograms = {'idx':'PCPDS(idx)'}
 
