@@ -1,5 +1,6 @@
 from laspy.file import File
 import Classes.PCPDS as section
+import Classes.file_manager as file_manager
 import math
 import random
 import numpy as np
@@ -38,7 +39,7 @@ class ProcessLas:
 
         xRand = random.randint(0, self.partition)
         yRand = random.randint(0, self.partition)
-        zRand = 1
+        zRand = random.randint(0, self.partition)
 
         xRand = str(xRand).zfill(self.leading_zeros)
         yRand = str(yRand).zfill(self.leading_zeros)
@@ -47,7 +48,7 @@ class ProcessLas:
         return int('1' + xRand + yRand + zRand)
 
     # Returns an index given from the user
-    def find_index(self, x, y, 1):
+    def find_index(self, x, y, z):
 
         x = str(x).zfill(self.leading_zeros)
         y = str(y).zfill(self.leading_zeros)
@@ -64,7 +65,7 @@ class ProcessLas:
 
     # Read the file and split it into partitions and create pcpds objects of
     # each partition, returns the dictionary of pcpds objects
-    def input_las(self):
+    def input_las(self, path):
 
         #Load data, put list of touples in an array
         #TODO?: Change to get file off server
@@ -77,7 +78,7 @@ class ProcessLas:
         x_vals.dtype = "float32"
         y_vals.dtype = "float32"
         z_vals.dtype = "float32"
-
+        
         temp = np.array([x_vals,y_vals,z_vals])
         coords = temp.T
 
@@ -96,7 +97,7 @@ class ProcessLas:
             x = self.__hash_it(coords[c][0], min_x, max_x)
             y = self.__hash_it(coords[c][1], min_y, max_y)
             z = self.__hash_it(coords[c][2], min_z, max_z)
-
+            
             idx = int('1' + x + y + z)
 
             # Make a dictionary with each [idx].
@@ -143,12 +144,11 @@ class ProcessLas:
 
                         # Generate a persistance diagram for that object
                         #parallelograms[idx].get_persistance_diagram()
-
-                        # Pickle the object
-                        # TODO: When refactoring, set up path_manager & file_manager to be able to save the object below properly.
-                        #parallelograms[idx]
                     except:
                         pass
+                    
+                    # Save the PCPDS object
+                    file_manager.save(parallelograms[idx], path, idx)
 
         return parallelograms
 
