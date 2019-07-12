@@ -20,7 +20,7 @@ class BottleneckDistances:
         pass
 
     def search_distances(num, searchfilt):
-        collectionfilts = get_collectionset())
+        collectionfilts = get_collectionset()
         found_idx = 'Error'
         top_idx = []
         for i in collectionfilts:
