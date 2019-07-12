@@ -38,7 +38,7 @@ class PCPDS_Manager:
 
     def generate_collection(self, filename, partition):
         dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
-        dir_name = os.path.join(self.path_manager.get_root_dir(), self.path_manager.get_cols_dir(), dir_name)
+        dir_name = self.path_manager.get_full_cur_dir(dir_name)
 
         fm.make_folder(dir_name)
         self.path_manager.set_cur_dir(dir_name)
