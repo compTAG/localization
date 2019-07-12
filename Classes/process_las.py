@@ -134,7 +134,6 @@ class ProcessLas:
 
                     idx = int('1' + x + y + z)
 
-                    file_manager.save(parallelograms[idx])
                     #try:
 
                         # Assign a new entry to the parallelograms dict for each idx generated
