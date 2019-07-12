@@ -14,9 +14,6 @@ class PathManager:
     def set_cur_dir(self, dir_path):
         self.cur_dir = dir_path
         
-    def set_cur_dir(self, dir_path):
-        return self.cur_dir
-        
     def get_cur_dir(self):
         return self.cur_dir
     

@@ -1,5 +1,5 @@
 import Classes.file_manager as fm
-import Classes.path_manager as pm
+from Classes.path_manager import PathManager as pm
 from datetime import datetime
 import os.path
 
@@ -8,19 +8,19 @@ import os.path
 class PCPDS_Manager:
     
     def __init__(self):
+        self.path_manager = pm()
         self.pcpds_collection = []
         self.load_collection()
-        self.path_manager = pm()
         
     def load_collection(self):
-        self.load_collection.clear()
-        self.pcpds_collection = fm.find_files(self.col_dir)
+        collection_path = self.path_manager.get_cur_dir()
+        if collection_path is not None and self.path_manager.validate_dir(collection_path):
+            self.pcpds_collection.clear()
+            self.pcpds_collection = fm.find_files(collection_path)
         
-    def set_col_dir(self, dir):
-        self.col_dir = dir
-        
-    def get_col_dir(self):
-        return self.col_dir
+    def set_collection(self, path):
+        # TODO: have path_manager create full string from set_cur_path() by passing in only the folder name.
+        self.path_manager.set_cur_dir(path)
     
     # Can grab the path manager to make changes to it such as changing the collections directory.
     def get_path_manager(self):
