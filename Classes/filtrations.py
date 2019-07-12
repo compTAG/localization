@@ -2,14 +2,13 @@ import dionysus as d
 import numpy as np
 
 class Filtration:
-    def __init__(self, point_cloud):
-        self.point_cloud = point_cloud
+    def __init__(self):
+        pass
 
-    def get_rips_diagram(self, skeleton = 1, distance = 1):
-        f = d.fill_rips(self.point_cloud, skeleton , distance)
+    def get_rips_diagram(point_cloud, skeleton = 1, distance = 1):
+        f = d.fill_rips(point_cloud, skeleton , distance)
         m = d.homology_persistence(f)
         diagram = d.init_diagrams(m,f)
-        self.persistance_diagram = diagram
         return diagram
 
     # TODO
