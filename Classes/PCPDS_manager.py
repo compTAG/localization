@@ -42,6 +42,7 @@ class PCPDS_Manager:
 
         fm.make_folder(dir_name)
         self.path_manager.set_cur_dir(dir_name)
+        return dir_name
 
     def get_xyz(self, cell_id):
 
