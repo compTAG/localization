@@ -16,11 +16,12 @@ class BottleneckDistances:
         # TODO
         # return a list of touples of idx and filtrations from PCPDS objects
         # ex[(identifier1, ripsfilt1), (identifier2, ripsfilt2),...]
+        pass
 
     def search_distances(num, searchfilt, collectionfilts = get_collectionset()):
         found_idx = 'Error'
         top_idx = []
-        for i in collectionfilts
+        for i in collectionfilts:
             testfilt = collectionfilts[i][1]
             result = get_distances(testfilt, searchfilt)
             top_idx.append(collectionfilts[i][0], result)

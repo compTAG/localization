@@ -47,7 +47,7 @@ class ProcessLas:
         return int('1' + xRand + yRand + zRand)
 
     # Returns an index given from the user
-    def find_index(self, x, y, 1):
+    def find_index(self, x, y, z):
 
         x = str(x).zfill(self.leading_zeros)
         y = str(y).zfill(self.leading_zeros)
@@ -132,14 +132,16 @@ class ProcessLas:
                     z = str(z).zfill(self.leading_zeros)
 
                     idx = int('1' + x + y + z)
-                    try:
+
+                    file_manager.save(parallelograms[idx])
+                    #try:
 
                         # Assign a new entry to the parallelograms dict for each idx generated
-                        parallelograms[idx] = section.PCPDS(idx, rip_dist) #where ** is file ext
+                        #parallelograms[idx] = section.PCPDS(idx, rip_dist) #where ** is file ext
 
                         # Add points to PCPDS object
-                        print(f"I set points to be {points[idx]}")
-                        parallelograms[idx].set_point_cloud(points[idx])
+                        #print(f"I set points to be {points[idx]}")
+                        #parallelograms[idx].set_point_cloud(points[idx])
 
                         # Generate a persistance diagram for that object
                         #parallelograms[idx].get_persistance_diagram()
@@ -147,9 +149,10 @@ class ProcessLas:
                         # Pickle the object
                         # TODO: When refactoring, set up path_manager & file_manager to be able to save the object below properly.
                         #parallelograms[idx]
-                    except:
-                        pass
+                    #except:
+                        #pass
 
-        return parallelograms
+
+
 
                 #section.generate_persistance_diagram(points[idx])

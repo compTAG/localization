@@ -11,7 +11,8 @@ def input_partitions_file():
         if (partition%1) != 0:
             print('Please enter a whole number.')
 
-    fn = False, filename = ''
+    fn = False
+    filename = ''
     while fn == False:
         filename = input("Enter the name of the file you'd wish to import: ")
         temp = filename + '.las'
