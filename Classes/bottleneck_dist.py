@@ -6,66 +6,25 @@ import Classes.PCPDS
 
 class BottleneckDistances:
 
-    def __init__(self, parallelograms, test_grid):
+    def __init__(self):
+        pass
 
-        # Dictionary of PCPDS objects
-        self.parallelograms = parallelograms
+    def get_distances(filt1, filt2):
+        return d.bottleneck_distance(filt1,filt2)
 
-        # A single PCPDS object
-        self.test_grid = test_grid
+    def get_collectionset():
+        # TODO
+        # return a list of touples of idx and filtrations from PCPDS objects
+        # ex[(identifier1, ripsfilt1), (identifier2, ripsfilt2),...]
 
-    def naive_search_distances(self, num):
+    def search_distances(num, searchfilt, collectionfilts = get_collectionset()):
         found_idx = 'Error'
-
-        # Set max bottlenect dist
-        best_dist = 1.01
-
         top_idx = []
-
-        for i in range(num):
-            top_idx.append((0, best_dist))
-
-        # temporary fix to null pointcloud issue
-        if np.all(self.test_grid.point_cloud) == None:
-            print("Error: No points in this section")
-            return "Error"
-        # Generate persistance diagram to search for
-        pd1 = self.test_grid.get_persistance_diagram()
-
-        # Loop through all IDX in parallelograms dictionary and compares
-        # their bottleneck distance to pd1
-        for i in self.parallelograms:
-
-            # Get persistance diagram for i which should be an idx
-            # because of how the dict is defined, there is one object that cant get pd
-            try:
-                pd2 = self.parallelograms[i].get_persistance_diagram()
-            except:
-                pass
-
-            # Check bottleneck distance against current lowest,
-            # if it is lower, saves new distance and that idx value
-            try:
-                result = d.bottleneck_distance(pd1[0],pd2[0])
-            except:
-                continue
-
-            # Save a list of top 5 indexes, keep sorted based off the result dist
-            top_idx.append((i, result))
-
-            # Sort from low to high
+        for i in collectionfilts
+            testfilt = collectionfilts[i][1]
+            result = get_distances(testfilt, searchfilt)
+            top_idx.append(collectionfilts[i][0], result)
             top_idx = sorted(top_idx, key=lambda x:x[1])
-            top_idx.pop(num-1)
-
-        # Return idx of lowest bottleneck distance to search_idx
+            if len(top_idx) > num:
+                top_idx.pop(num-1)
         return top_idx
-
-    # Print results of the top n matches
-    def print_matches(self, guess_grid):
-
-        print('The indexes with the closest match to the random is index are: \n')
-        n = 1
-        for i in guess_grid:
-            # TODO: Make index print out x, y, z
-            print(str(i[0]) + ' (bottleneck distance of ' + str(i[1]) + ')\n')
-            n = n + 1

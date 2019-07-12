@@ -38,7 +38,7 @@ class ProcessLas:
 
         xRand = random.randint(0, self.partition)
         yRand = random.randint(0, self.partition)
-        zRand = random.randint(0, self.partition)
+        zRand = 1
 
         xRand = str(xRand).zfill(self.leading_zeros)
         yRand = str(yRand).zfill(self.leading_zeros)
@@ -47,7 +47,7 @@ class ProcessLas:
         return int('1' + xRand + yRand + zRand)
 
     # Returns an index given from the user
-    def find_index(self, x, y, z):
+    def find_index(self, x, y, 1):
 
         x = str(x).zfill(self.leading_zeros)
         y = str(y).zfill(self.leading_zeros)
