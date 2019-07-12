@@ -92,13 +92,17 @@ class ProcessLas:
 
         # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
+
+        iX = (max_x - min_x) / self.partition
+        iY = (max_y - min_y) / self.partition
+        iZ = (max_z - min_z) / self.partition
+        rip_dist = iX * iY * iZ / 2
+
         for c,_  in enumerate(coords):
 
-            x = self.__hash_it(coords[c][0], min_x, max_x)
-            y = self.__hash_it(coords[c][1], min_y, max_y)
-            z = self.__hash_it(coords[c][2], min_z, max_z)
-
-            idx = int('1' + x + y + z)
+            x = math.floor((coords[c][0] - min_x) / iX)
+            y = math.floor((coords[c][1] - min_y) / iY)
+            z = math.floor((coords[c][2] - min_z) / iZ)
 
             # Make a dictionary with each [idx].
             # If it already exists, append the coord
@@ -109,14 +113,12 @@ class ProcessLas:
             else:
                 points[idx] = np.vstack((points[idx],coords[c]))
 
+        print(points[1000])
         # Creates parallelograms dictionary to give PCPDS object from idx
         parallelograms = {'idx':'PCPDS(idx)'}
 
         # Used in rips
-        iX = (max_x - min_x) / self.partition
-        iY = (max_y - min_y) / self.partition
-        iZ = (max_z - min_z) / self.partition
-        rip_dist = iX * iY * iZ / 2
+
 
         # Iterate over concatenations of x, y, z to find all point clouds
         x = 0
@@ -151,7 +153,10 @@ class ProcessLas:
                         #pass
 
                     # Save the PCPDS object
-                    file_manager.save(parallelograms[idx], path, idx)
+                    try:
+                        file_manager.save(parallelograms[idx], path, idx)
+                    except:
+                        continue
 
 
                 #section.generate_persistance_diagram(points[idx])
