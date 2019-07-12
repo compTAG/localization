@@ -18,7 +18,7 @@ def load(path):
     with open(path) as json_file:
 
         data = json.load(json_file)
-        print(data)
+        # print(data)
         obj = jsonpickle.decode(data)
 
     return obj
