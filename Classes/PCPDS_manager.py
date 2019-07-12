@@ -18,9 +18,16 @@ class PCPDS_Manager:
             self.pcpds_collection.clear()
             self.pcpds_collection = fm.find_files(collection_path)
         
-    def set_collection(self, path):
-        # TODO: have path_manager create full string from set_cur_path() by passing in only the folder name.
-        self.path_manager.set_cur_dir(path)
+    def set_collection_dir(self, dir):
+        if dir is not None:
+            path = self.path_manager.get_full_cur_dir(dir)
+            if self.path_manager.validate_dir(path):
+                self.path_manager.set_cur_dir(path)
+                print("Collection path set to:", path)
+                return True
+            else:
+                print("Collection Path", path, ", is Invalid.")
+                return False
     
     # Can grab the path manager to make changes to it such as changing the collections directory.
     def get_path_manager(self):

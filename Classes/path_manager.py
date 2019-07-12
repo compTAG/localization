@@ -26,6 +26,9 @@ class PathManager:
     def get_root_dir(self):
         return self.ROOT_DIR
     
+    def get_full_cur_dir(self, dir):
+        return os.path.join(self.get_root_dir(), self.get_cols_dir(), dir)
+    
     def validate_dir(self, dir_path):
         if dir is None:
             return False
