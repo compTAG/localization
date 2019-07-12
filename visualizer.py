@@ -4,6 +4,7 @@ import Classes.file_manager as fm
 from Classes.PCPDS_manager import PCPDS_Manager as pm
 import pptk
 import numpy as np
+import os.path
 
 path_manager = pm()
 dir = path_manager.get_path_manager().get_full_cur_dir("small_3_2019-07-12/")
