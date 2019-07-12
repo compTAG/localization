@@ -8,7 +8,7 @@ class PathManager:
     def __init__(self):
         print("PathManager loaded.")
         self.ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.collection_dir = "cell_collection"
+        self.collections_dir = "cell_collection"
         self.cur_dir = None
         
     def set_cur_dir(self, dir_path):
@@ -20,11 +20,11 @@ class PathManager:
     def get_cur_dir(self):
         return self.cur_dir
     
-    def set_col_dir(self, col_dir):
-        self.collection_dir = col_dir
+    def set_cols_dir(self, col_dir):
+        self.collections_dir = col_dir
         
-    def get_col_dir(self):
-        return self.collection_dir
+    def get_cols_dir(self):
+        return self.collections_dir
     
     def get_root_dir(self):
         return self.ROOT_DIR
