@@ -3,7 +3,8 @@ import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
 from Classes.menu import menu as order_menu
 from Classes.PCPDS_manager import PCPDS_Manager
-import Classes.file_manager
+from Classes.file_manager
+from Classes.finding_files import FindingFiles
 import Classes.user_input as user_input
 import numpy as np
 import os.path
