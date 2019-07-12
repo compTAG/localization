@@ -40,27 +40,3 @@ class PCPDS:
 
     def get_persistance_diagram(self):
         pass
-
-# Parses cell_ID string into X, Y, & Z touple and returns them.
-def get_xyz(cell_id):
-
-    # Removes the 1 from the beginning of the string
-    cell_id = cell_id[1:]
-
-    xyz = int(cell_id)
-
-    if xyz is 0:
-        return (0, 0, 0)
-
-    trunc_val = 10**(int(len(cell_id)/3))
-
-    Z = xyz % trunc_val
-    xyz = int(xyz/trunc_val)
-
-    Y = xyz % trunc_val
-    xyz = int(xyz/trunc_val)
-
-    X = xyz
-
-    result = (X, Y, Z)
-    return result
