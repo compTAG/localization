@@ -146,38 +146,36 @@ class ProcessLas:
         for x in range(self.partition):
             y = 0
             for y in range(self.partition):
-                z = 0
-                for z in range(self.partition):
 
-                    # Leave format() if you just add leadingZeros to the encode
-                    # of x y z, it defeats the point of leadingZeros
-                    x = str(x).zfill(self.leading_zeros)
-                    y = str(y).zfill(self.leading_zeros)
-                    z = str(z).zfill(self.leading_zeros)
+                # Leave format() if you just add leadingZeros to the encode
+                # of x y z, it defeats the point of leadingZeros
+                x = str(x).zfill(self.leading_zeros)
+                y = str(y).zfill(self.leading_zeros)
+                z = str(1).zfill(self.leading_zeros)
 
-                    idx = int('1' + x + y + z)
-                    #try:
+                idx = int('1' + x + y + z)
+                #try:
 
-                        # Assign a new entry to the parallelograms dict for each idx generated
-                        #parallelograms[idx] = section.PCPDS(idx, rip_dist) #where ** is file ext
+                    # Assign a new entry to the parallelograms dict for each idx generated
+                    #parallelograms[idx] = section.PCPDS(idx, rip_dist) #where ** is file ext
 
-                        # Add points to PCPDS object
-                        #print(f"I set points to be {points[idx]}")
-                        #parallelograms[idx].set_point_cloud(points[idx])
+                    # Add points to PCPDS object
+                    #print(f"I set points to be {points[idx]}")
+                    #parallelograms[idx].set_point_cloud(points[idx])
 
-                        # Generate a persistance diagram for that object
-                        #parallelograms[idx].get_persistance_diagram()
-                        # Pickle the object
-                        # TODO: When refactoring, set up path_manager & file_manager to be able to save the object below properly.
-                        #parallelograms[idx]
-                    #except:
-                        #pass
+                    # Generate a persistance diagram for that object
+                    #parallelograms[idx].get_persistance_diagram()
+                    # Pickle the object
+                    # TODO: When refactoring, set up path_manager & file_manager to be able to save the object below properly.
+                    #parallelograms[idx]
+                #except:
+                    #pass
 
-                    # Save the PCPDS object
-                    try:
-                        file_manager.save(parallelograms[idx], path, idx)
-                    except:
-                        continue
+                # Save the PCPDS object
+                try:
+                    file_manager.save(parallelograms[idx], path, idx)
+                except:
+                    continue
 
 
-                #section.generate_persistance_diagram(points[idx])
+            #section.generate_persistance_diagram(points[idx])
