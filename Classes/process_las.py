@@ -16,6 +16,31 @@ class ProcessLas:
         #Takes into account the digits as to not get confused in the string of x y z
         self.leading_zeros = leading_zeros
 
+    def format_data(self, x_vals, y_vals, z_vals):
+        # move data
+        for x in x_vals:
+            x_vals[x] = x_vals[x] - max(x_vals)
+        for y in y_vals:
+            y_vals[y] = x_vals[y] - max(y_vals)
+        for z in z_vals:
+            z_vals[z] = z_vals[y] - max(z_vals)
+        #scale data between [0,1]
+        temp = np.array([max(x_vals),max(y_vals),max(z_vals)])
+        scale_factor = 1 / max(temp)
+        for x in x_vals:
+            x_vals[x] = x_vals[x] * scale_factor
+        for y in y_vals:
+            y_vals[y] = y_vals[y] * scale_factor
+        for z in z_vals:
+            z_vals[z] = x_vals[z] * scale_factor
+        #convert to float32
+        x_vals.dtype = "float32"
+        y_vals.dtype = "float32"
+        z_vals.dtype = "float32"
+        temp = np.array([x_vals,y_vals,z_vals])
+        return temp.T
+
+
 
     # Returns a boolean if a file.ext exists in dir_name/
     def check_file(self, idx, ext, dir_name):
@@ -68,12 +93,9 @@ class ProcessLas:
         x_vals = in_file.X
         y_vals = in_file.Y
         z_vals = in_file.Z
-        x_vals.dtype = "float32"
-        y_vals.dtype = "float32"
-        z_vals.dtype = "float32"
 
-        temp = np.array([x_vals,y_vals,z_vals])
-        coords = temp.T
+        coords = format_data(x_vals,y_vals,z_vals)
+
 
         #Set width, height, and depth
         max_x = max(x_vals)
