@@ -33,8 +33,9 @@ class PCPDS_Manager:
     def get_path_manager(self):
         return self.path_manager
 
+    # Checks that the currently selected collection directory exists and is a valid path
     def verify_col_dir(self):
-        return self.path_manager.validate_dir(self.col_dir)
+        return self.path_manager.validate_dir(self.path_manager.get_cur_dir())
 
     def generate_collection(self, filename, partition):
         dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))

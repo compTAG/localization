@@ -40,4 +40,4 @@ class PCPDS:
 
 
     def get_persistance_diagram(self):
-        pass
+        return persistance_diagram
