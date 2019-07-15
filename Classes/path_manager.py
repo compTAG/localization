@@ -29,8 +29,16 @@ class PathManager:
     def get_full_cur_dir(self, dir):
         return os.path.join(self.get_root_dir(), self.get_cols_dir(), dir)
     
+    def get_full_cur_dir(self):
+        path = os.path.join(self.get_root_dir(), self.get_cols_dir(), self.get_cur_dir())
+        if validate_dir(path):
+            return path
+        else:
+            print("Current directory path is invalid.")
+            return False
+    
     def validate_dir(self, dir_path):
-        if dir is None:
+        if dir_path is None:
             return False
         elif os.path.isdir(dir_path):
             return False
@@ -38,9 +46,11 @@ class PathManager:
             return True
         
     def validate_file(self, file_path):
-        if dir is None:
+        if file_path is None:
+            print("file @:", file_path, "already exists.")
             return False
         elif os.path.exists(file_path):
+            print("file @:", file_path, "already exists.")
             return False
         else:
             return True

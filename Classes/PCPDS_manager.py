@@ -28,10 +28,6 @@ class PCPDS_Manager:
             else:
                 print("Collection Path", path, ", is Invalid.")
                 return False
-    
-    # Can grab the path manager to make changes to it such as changing the collections directory.
-    def get_path_manager(self):
-        return self.path_manager
 
     # Checks that the currently selected collection directory exists and is a valid path
     def verify_col_dir(self):
@@ -44,6 +40,19 @@ class PCPDS_Manager:
         fm.make_folder(dir_name)
         self.path_manager.set_cur_dir(dir_name)
         return dir_name
+    
+    # Pass in a filename in the collection directory, and get it's supposed full path
+    def get_file_path(self, filename):
+        path = self.path_manager.get_full_cur_dir()
+        if path is not False:
+            file_path = os.path.join(path, filename)
+            if self.path_manager.validate_file(file_path):
+                return file_path
+        return False
+    
+    # Can grab the path manager to make changes to it such as changing the collections directory.
+    def get_path_manager(self):
+        return self.path_manager
 
     def get_xyz(self, cell_id):
 
