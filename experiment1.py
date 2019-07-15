@@ -5,9 +5,6 @@ from Classes.menu import menu as order_menu
 from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.user_input as user_input
 import Classes.file_manager as file_manager
-import numpy as np
-import os.path
-from datetime import datetime
 
 def main():
 
