@@ -5,6 +5,25 @@ from os import walk
 import json
 import jsonpickle
 
+def input_partitions_file():
+
+    partition = 0.1
+    while (partition%1) != 0:
+        partition = float(input("Enter Partition Count (1D): "))
+        if (partition%1) != 0:
+            print('Please enter a whole number.')
+
+    fn = False
+    filename = ''
+    while fn == False:
+        filename = input("Enter the name of the file you'd wish to import: ")
+        temp = filename + '.las'
+        fn = os.path.isfile(temp)
+        if fn == False:
+            print('File not found.')
+
+    return [int(partition), filename]
+
 def save(obj, path, name):
     # TODO: verify the folder path is valid
     data = jsonpickle.encode(obj)
@@ -24,7 +43,7 @@ def load(path):
     return obj
 
 def find_files(dir):
-    
+
     files = []
     for (dirpath, dirnames, filenames) in walk(dir):
         files.extend(filenames)
@@ -33,7 +52,7 @@ def find_files(dir):
     return files
 
 def find_folders(dir):
-    
+
     folders = []
     for (dirpath, dirnames, filenames) in walk(dir):
         folders.extend(dirnames)

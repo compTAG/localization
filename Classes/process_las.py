@@ -16,7 +16,7 @@ class ProcessLas:
         #Takes into account the digits as to not get confused in the string of x y z
         self.leading_zeros = leading_zeros
 
-    def format_data(self, x_vals, y_vals, z_vals):
+    def __format_data(self, x_vals, y_vals, z_vals):
         # move data
         for x in x_vals:
             x_vals[x] = x_vals[x] - max(x_vals)
@@ -64,7 +64,7 @@ class ProcessLas:
 
         xRand = random.randint(0, self.partition)
         yRand = random.randint(0, self.partition)
-        zRand = random.randint(0, self.partition)
+        zRand = 1
 
         xRand = str(xRand).zfill(self.leading_zeros)
         yRand = str(yRand).zfill(self.leading_zeros)
@@ -77,7 +77,7 @@ class ProcessLas:
 
         x = str(x).zfill(self.leading_zeros)
         y = str(y).zfill(self.leading_zeros)
-        z = str(z).zfill(self.leading_zeros)
+        z = str(1).zfill(self.leading_zeros)
 
         return int('1' + x + y + z)
 
@@ -94,7 +94,7 @@ class ProcessLas:
         y_vals = in_file.Y
         z_vals = in_file.Z
 
-        coords = format_data(x_vals,y_vals,z_vals)
+        coords = __format_data(x_vals,y_vals,z_vals)
 
 
         #Set width, height, and depth
@@ -140,7 +140,6 @@ class ProcessLas:
         parallelograms = {'idx':'PCPDS(idx)'}
 
         # Used in rips
-
 
         # Iterate over concatenations of x, y, z to find all point clouds
         x = 0

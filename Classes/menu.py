@@ -3,6 +3,8 @@ import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
 import numpy as np
 
+# TODO: Change these to reflect how bottleneck is called
+
 class menu:
 
     def __init__(self, partition, las_obj, points):
