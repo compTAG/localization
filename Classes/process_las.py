@@ -8,7 +8,7 @@ import os.path
 
 class ProcessLas:
 
-    def __init__(self, filename, partition):
+    def __init__(self, filename):
         # The name of the file being processed
         self.filename = filename
         # The amount of grids on the x y and z axis
