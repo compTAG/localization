@@ -18,12 +18,15 @@ class ProcessLas:
 
     def format_data(self, x_vals, y_vals, z_vals):
         # move data
+        maxx = max(x_vals)
+        maxy = max(y_vals)
+        maxz = max(z_vals)
         for x in x_vals:
-            x_vals[x] = x_vals[x] - max(x_vals)
+            x_vals[x] = x_vals[x] - maxx
         for y in y_vals:
-            y_vals[y] = x_vals[y] - max(y_vals)
+            y_vals[y] = x_vals[y] - maxy
         for z in z_vals:
-            z_vals[z] = z_vals[y] - max(z_vals)
+            z_vals[z] = z_vals[y] - maxz
         #scale data between [0,1]
         temp = np.array([max(x_vals),max(y_vals),max(z_vals)])
         scale_factor = 1 / max(temp)
@@ -89,13 +92,12 @@ class ProcessLas:
         #TODO?: Change to get file off server
         in_file = File(self.filename + '.las', mode='r')
 
-        # Import coordinates and change them to manipulative type float32
+        # Import coordinates
         x_vals = in_file.X
         y_vals = in_file.Y
         z_vals = in_file.Z
-
+        #returns data formatted over [0,1] as a 32float array
         coords = format_data(x_vals,y_vals,z_vals)
-
 
         #Set width, height, and depth
         max_x = max(x_vals)
