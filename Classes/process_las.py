@@ -8,13 +8,13 @@ import os.path
 
 class ProcessLas:
 
-    def __init__(self, filename, partition, leading_zeros):
+    def __init__(self, filename, partition):
         # The name of the file being processed
         self.filename = filename
         # The amount of grids on the x y and z axis
         self.partition = partition
         #Takes into account the digits as to not get confused in the string of x y z
-        self.leading_zeros = leading_zeros
+        self.leading_zeros = len(str(partition))
 
     def __format_data(self, x_vals, y_vals, z_vals):
         # move data

@@ -11,7 +11,7 @@ def main():
     [partition, filename] = file_manager.input_partitions_file()
 
     # Create las object and calculate corresponding values
-    las_obj = ProcessLas(filename, partition, len(str(partition)))
+    las_obj = ProcessLas(filename, partition)
 
     # Makes a string of the folder path, os.path.join makes it compatible
     # between macs, windows, and linux
