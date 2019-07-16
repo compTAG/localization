@@ -111,6 +111,7 @@ class ProcessLas:
 
         # Creates a pcpds object for each idx and stores it's respective point cloud in it before saving the file.
         points.pop('idx')
+        i = 0
         for id in points:
             # print(id)
             temp = pcpds(id)
@@ -124,4 +125,6 @@ class ProcessLas:
             print('saved')
 
             # Keeps track of the PCPDS objects being generated
-            menu.progress(id.index, len(points), "Processing PCPDS object for idx: "+id)
+            menu.progress(i, len(points), "Processing PCPDS object for idx: "+str(id))
+
+            i = i + 1
