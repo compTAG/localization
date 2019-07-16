@@ -68,7 +68,6 @@ class menu:
         guess_grid  = get_distance(n_results, test_grid.get_persistance_diagram(), "PATH")
         for idx, _ in guess_grid:
             print(guess_grid[idx])
-
         return False
 
     # Choice 2: Import another file, calculate new PCPDS and test against all points
