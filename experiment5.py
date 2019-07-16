@@ -1,7 +1,7 @@
 from Classes.process_las import ProcessLas
 import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
-from Classes.menu import menu as order_menu
+from Classes.menu import menu as menu
 from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.file_manager as file_manager
 
@@ -30,7 +30,7 @@ def main():
 
     for _ in range(number_of_data):
         search_idx = randidx(dir_name)
-        # search_pcpds = load pcpds with search_idx
+        search_pcpds = file_manager.load(pfm.get_file_path(search_idx)) # load pcpds with search_idx
         searchfilt = search_pcpds.get_persistance_diagram()
         datafile.write(search_idx)
         datafile.write(":")

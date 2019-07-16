@@ -54,6 +54,10 @@ class PCPDS_Manager:
             file_path = os.path.join(path, filename)
             if self.path_manager.validate_file(file_path):
                 return file_path
+            else:
+                print("File name specified not found in directory: ", path)
+        else:
+            print("Collection path appears to not be set.")
         return False
     
     # Can grab the path manager to make changes to it such as changing the collections directory.
