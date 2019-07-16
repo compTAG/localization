@@ -4,14 +4,10 @@ from Classes.bottleneck_dist import BottleneckDistances
 from Classes.menu import menu as order_menu
 from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.file_manager as file_manager
-import Classes.user_input as user_input
-import numpy as np
-import os.path
-from datetime import datetime
 
 def main():
+    
     number_of_data = 400
-
 
     #Have the user input their desired file and partition count
     [partition, filename] = user_input.input_partitions_file()
