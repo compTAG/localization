@@ -4,6 +4,7 @@ from Classes.bottleneck_dist import BottleneckDistances
 import numpy as np
 import Classes.file_manager as fm
 import Classes.path_manager as path_manager
+import os.path
 
 # TODO: Change these to reflect how bottleneck is called
 
@@ -42,11 +43,11 @@ class menu:
     def __random_test_grid(self):
         # TODO: have a check for None and index out of bounds in here
         test_idx = self.las_obj.random_grid()
-        path_manager = pm()
+        path_manager = path_manager()
         dir = path_manager.get_path_manager().get_full_cur_dir(dir_name)
         test_pcpds = fm.load(os.path.join(dir, str(test_idx)))
         return [test_pcpds, test_idx]
-
+    
     # Choice 1: Select an unknown grid and test against all points
     def random_idx_normal(self, collection_path):
 
@@ -64,7 +65,7 @@ class menu:
 
         # Calculate bottleneck distance, print n_result matches
         get_distance = BottleneckDistances.search_distances
-        guess_grid  = get_distance(n_results, test_grid.get_persistance_diagram(), collection_path)
+        guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
         for idx, _ in guess_grid:
             print(str(idx)  + '. ' + str(guess_grid[idx]))
 
@@ -88,8 +89,8 @@ class menu:
 
         # Loop over until a variable test_idx is found
         # Return random index and calculate PCPDS
-        test_grid = None
-        while test_grid == None:
+        test_pcpds = None
+        while test_pcpds == None:
 
             search_x = input("Enter the x value of the search index.\n")
             search_y = input("Enter the y value of the search index.\n")
@@ -98,7 +99,7 @@ class menu:
             print(str(search_xyz))
             #test_grid = self.points[search_xyz]
 
-            if test_grid == None:
+            if test_pcpds == None:
                 print("Please enter values between 0 and " + str(self.partition) + "\n")
 
         # Get desired number of results from user
@@ -114,7 +115,7 @@ class menu:
     def random_idx_rotated(self):
 
         # Grab a random section that is nonempty
-        [test_grid, test_idx] = self.__random_test_grid()
+        [test_pcpds, test_idx] = self.__random_test_grid()
 
         # TODO: Rotate dtest_grid with test_cases.py
         # Get desired number of results from user
