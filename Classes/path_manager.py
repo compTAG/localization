@@ -33,6 +33,7 @@ class PathManager:
 
 
     def get_full_cur_dir_var(self, dir):
+        self.cur_dir = dir
         return os.path.join(self.get_root_dir(), self.get_cols_dir(), dir)
 
 
@@ -60,7 +61,7 @@ class PathManager:
         if dir_path is None:
             return False
         elif os.path.isdir(dir_path):
-            return False
+            return True
         else:
             return True
 
@@ -71,6 +72,6 @@ class PathManager:
             return False
         elif os.path.exists(file_path):
             print("file @:", file_path, "already exists.")
-            return False
+            return True
         else:
             return True

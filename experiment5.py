@@ -21,8 +21,6 @@ def main():
     dir_name = pfm.generate_collection(filename, partition)
     print('Dir:' + str(dir_name))
 
-    pfm.get_path_manager().set_cur_dir(dir_name)
-
     las_obj.input_las(dir_name)
     datafile = open("bdripson70partitions.txt", "a")
 
