@@ -36,10 +36,8 @@ def main():
         [test_idx, guess_grid] = m.random_idx_normal(dir_name)
         datafile.write(test_idx)
         datafile.write(":")
-        for bd, idx in bd_idx:
-            datafile.write(str(guess_grid[idx]))
-            datafile.write(",")
-            datafile.write(bd)
+        for idx in guess_grid:
+            datafile.write(str(idx))
             datafile.write(",")
         datafile.write('\n')
 
