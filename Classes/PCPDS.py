@@ -44,7 +44,4 @@ class PCPDS:
 
     def generate_persistance_diagram(self):
         diagram_gen = Filtration.get_rips_diagram
-        #Debug/TODO
-        print("Point Cloud:")
-        print(self.point_cloud)
         self.persistance_diagram = diagram_gen(self.point_cloud, self.distance)
