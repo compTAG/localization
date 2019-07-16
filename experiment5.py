@@ -1,3 +1,4 @@
+import random
 from Classes.process_las import ProcessLas
 import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
@@ -9,7 +10,7 @@ def main():
 
     number_of_data = 400
     # Create las object and calculate corresponding values
-    filename = 'small'
+    filename = 'tiny'
     partition = 70
     las_obj = ProcessLas(filename, partition)
 
@@ -21,15 +22,20 @@ def main():
     dir_name = pfm.generate_collection(filename, partition)
     print('Dir:' + str(dir_name))
 
+    pfm.get_path_manager().set_cur_dir(dir_name)
+
     las_obj.input_las(dir_name)
     datafile = open("bdripson70partitions.txt", "a")
 
     #import functions
-    randidx = menu.__random_test_grid
+    pcpdslist = file_manager.find_files(dir_name)
+    randidx = random.choice(pcpdslist)
     search_distances = BottleneckDistances.search_distances
 
+    print("COLLECTION VAR:", pfm.get_path_manager().get_cur_dir(), "Collection path:", pfm.get_collection_dir())
+
     for _ in range(number_of_data):
-        search_idx = randidx(dir_name)
+        search_idx = randidx
         search_pcpds = file_manager.load(pfm.get_file_path(search_idx)) # load pcpds with search_idx
         searchfilt = search_pcpds.get_persistance_diagram()
         datafile.write(search_idx)

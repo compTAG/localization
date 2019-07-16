@@ -30,7 +30,7 @@ class PCPDS_Manager:
                 return False
 
     def get_collection_dir(self):
-        result = self.get_path_manager.get_full_cur_dir()
+        result = self.get_path_manager().get_full_cur_dir()
         if result is not False:
             return result
         return False
@@ -41,10 +41,10 @@ class PCPDS_Manager:
 
     def generate_collection(self, filename, partition):
         dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
+        self.path_manager.set_cur_dir(dir_name)
         dir_name = self.path_manager.get_full_cur_dir_var(dir_name)
 
         fm.make_folder(dir_name)
-        self.path_manager.set_cur_dir(dir_name)
         return dir_name
 
     # Pass in a filename in the collection directory, and get it's supposed full path

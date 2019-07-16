@@ -40,7 +40,7 @@ class menu:
 
     # Select a random, non-empty grid from the dictionary of points
     # TODO: Return the loaded random index's PCPDS obj
-    def __random_test_grid(self):
+    def random_test_grid(self):
         # TODO: have a check for None and index out of bounds in here
         test_idx = self.las_obj.random_grid()
         path_manager = path_manager()
@@ -52,7 +52,7 @@ class menu:
     def random_idx_normal(self, collection_path):
 
         # Grab a random section that is nonempty
-        [test_pcpds, test_idx] = self.__random_test_grid()
+        [test_pcpds, test_idx] = self.random_test_grid()
 
         n_results = self.__num_results()
 
@@ -111,7 +111,7 @@ class menu:
     def random_idx_rotated(self, collection_path):
 
         # Grab a random section that is nonempty
-        [test_pcpds, test_idx] = self.__random_test_grid()
+        [test_pcpds, test_idx] = self.random_test_grid()
 
         # Get desired number of results from user
         n_results = self.__num_results()

@@ -38,8 +38,8 @@ class PathManager:
 
     def get_full_cur_dir(self):
         path = os.path.join(self.get_root_dir(), self.get_cols_dir(), self.get_cur_dir())
-        if validate_dir(path):
-            if is_collection_path():
+        if self.validate_dir(path):
+            if self.is_collection_path():
                 return path
             else:
                 print("Collection Path appears to have not been set yet.")
@@ -52,6 +52,7 @@ class PathManager:
         full_path = os.path.join(self.ROOT_DIR, self.collections_dir, self.cur_dir)
         if full_path is collections_path:
             return False
+            print("full_path & collections_path are the same.")
         else:
             return True
 
