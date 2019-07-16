@@ -47,7 +47,7 @@ class menu:
         dir = path_manager.get_path_manager().get_full_cur_dir(dir_name)
         test_pcpds = fm.load(os.path.join(dir, str(test_idx)))
         return [test_pcpds, test_idx]
-    
+
     # Choice 1: Select an unknown grid and test against all points
     def random_idx_normal(self, collection_path):
 
@@ -85,7 +85,10 @@ class menu:
 
 
     # Choice 3: Manually select a grid and test against all points
-    def manual_idx_normal(self):
+    def manual_idx_normal(self, collection_path):
+
+        path_manager = pm()
+        dir = path_manager.get_path_manager().get_full_cur_dir(dir_name)
 
         # Loop over until a variable test_idx is found
         # Return random index and calculate PCPDS
@@ -97,33 +100,32 @@ class menu:
 
             search_xyz = self.las_obj.find_index(search_x, search_y)
             print(str(search_xyz))
-            #test_grid = self.points[search_xyz]
+            test_pcpds = fm.load(os.path.join(dir, str(test_idx)))
 
             if test_pcpds == None:
                 print("Please enter values between 0 and " + str(self.partition) + "\n")
 
-        # Get desired number of results from user
         n_results = self.__num_results()
 
         # Calculate bottleneck distance, print n_result matches
         get_distance = BottleneckDistances.search_distances
-        guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), "PATH")
+        guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
         for idx, _ in guess_grid:
             print(str(idx)  + '. ' + str(guess_grid[idx]))
 
+
     # Choice 4: Rotate an unknown grid and test against all points
-    def random_idx_rotated(self):
+    def random_idx_rotated(self, collection_path):
 
         # Grab a random section that is nonempty
         [test_pcpds, test_idx] = self.__random_test_grid()
 
-        # TODO: Rotate dtest_grid with test_cases.py
         # Get desired number of results from user
         n_results = self.__num_results()
 
         # Calculate bottleneck distance, print n_result matches
         get_distance = BottleneckDistances.search_distances
-        guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), "PATH")
+        guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
         for idx, _ in guess_grid:
             print(str(idx)  + '. ' + str(guess_grid[idx]))
 
