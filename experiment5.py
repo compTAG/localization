@@ -31,8 +31,8 @@ def main():
     datafile = open("bdripson7partitions.txt", "a")
     for _ in range(number_of_data):
         #TODO Get random_idx_normal
-        searchfilt = #filt from random idx
-        datafile.write(#random_idx_we're_searching_for)
+        searchfilt = 'filt from random idx'
+        datafile.write('random_idx_we're_searching_for')
         datafile.write(":")
         bd_idx = search_distances(10, searchfilt, collection_path):
         for bd, idx in bd_idx:
