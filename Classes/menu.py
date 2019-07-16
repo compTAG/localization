@@ -112,7 +112,7 @@ class menu:
     def random_idx_rotated(self, collection_path):
 
         # Grab a random section that is nonempty
-        [test_pcpds, test_idx] = self.__random_test_grid()
+        [test_pcpds, test_idx] = self.random_test_grid()
 
         # Get desired number of results from user
         n_results = self.__num_results()

@@ -1,3 +1,4 @@
+import random
 from Classes.process_las import ProcessLas
 import Classes.PCPDS
 from Classes.menu import menu as menu
@@ -20,6 +21,8 @@ def main():
     dir_name = pfm.generate_collection(filename, partition)
     print('Dir:' + str(dir_name))
 
+    pfm.get_path_manager().set_cur_dir(dir_name)
+
     las_obj.input_las(dir_name)
     datafile = open("bdripson70partitions.txt", "a")
 
@@ -27,6 +30,8 @@ def main():
     m = menu(partition, las_obj, dir_name)
     #randidx = menu.random_idx_normal()
     #search_distances = BottleneckDistances.search_distances
+
+    print("COLLECTION VAR:", pfm.get_path_manager().get_cur_dir(), "Collection path:", pfm.get_collection_dir())
 
     for _ in range(number_of_data):
         #search_idx = randidx(dir_name)
