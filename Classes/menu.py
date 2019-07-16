@@ -64,9 +64,10 @@ class menu:
         n_results = self.__num_results()
 
         # Calculate bottleneck distance, print n_result matches
-        test_bottleneck = BottleneckDistances(self.points, test_grid)
-        guess_grid = test_bottleneck.naive_search_distances(n_results)
-        test_bottleneck.print_matches(guess_grid)
+        get_distance = BottleneckDistances.search_distances
+        guess_grid  = get_distance(n_results, test_grid.get_persistance_diagram(), "PATH")
+        for idx, _ in guess_grid:
+            print(guess_grid[idx])
 
         return False
 
