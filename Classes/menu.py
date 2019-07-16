@@ -48,7 +48,7 @@ class menu:
         return [test_pcpds, test_idx]
 
     # Choice 1: Select an unknown grid and test against all points
-    def random_idx_normal(self):
+    def random_idx_normal(self, collection_path):
 
         # Grab a random section that is nonempty
         [test_pcpds, test_idx] = self.__random_test_grid()
@@ -64,7 +64,7 @@ class menu:
 
         # Calculate bottleneck distance, print n_result matches
         get_distance = BottleneckDistances.search_distances
-        guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), "PATH")
+        guess_grid  = get_distance(n_results, test_grid.get_persistance_diagram(), collection_path)
         for idx, _ in guess_grid:
             print(str(idx)  + '. ' + str(guess_grid[idx]))
 
