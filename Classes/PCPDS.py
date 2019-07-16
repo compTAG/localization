@@ -16,7 +16,6 @@ class PCPDS:
 
         # cell_id is not only the filename, but the xyz coordinates in string form
         self.cell_id = cell_id
-        print(f"my cellid is {self.cell_id}")
 
         # determines n skeleton for rips filtration
         self.skeleton = 1
@@ -36,7 +35,7 @@ class PCPDS:
 
     def distances(self, box_width):
         # Temporary - we should play with this to determine best distance
-        return box_width*self.scalar
+        return box_width * self.scalar
 
 
     def get_persistance_diagram(self):

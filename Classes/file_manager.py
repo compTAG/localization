@@ -24,12 +24,14 @@ def input_partitions_file():
 
     return [int(partition), filename]
 
+
 def save(obj, path, name):
     # TODO: verify the folder path is valid
     data = jsonpickle.encode(obj)
 
     with open(os.path.join(path, str(name)), 'w') as outfile:
         json.dump(data, outfile)
+
 
 # Returns object stored in json_file from specified path
 def load(path):
@@ -42,6 +44,7 @@ def load(path):
 
     return obj
 
+
 def find_files(dir):
 
     files = []
@@ -50,6 +53,7 @@ def find_files(dir):
         break
 
     return files
+
 
 def find_folders(dir):
 
@@ -60,7 +64,9 @@ def find_folders(dir):
 
     return folders
 
+
 def make_folder(dir_name):
+    
     try:
         os.makedirs(dir_name)
         print("Directory " + dir_name + " created.")

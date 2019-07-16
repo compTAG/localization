@@ -93,9 +93,8 @@ class menu:
 
             search_x = input("Enter the x value of the search index.\n")
             search_y = input("Enter the y value of the search index.\n")
-            search_z = input("Enter the z value of the search index.\n")
 
-            search_xyz = self.las_obj.find_index(search_x, search_y, search_z)
+            search_xyz = self.las_obj.find_index(search_x, search_y)
             print(str(search_xyz))
             #test_grid = self.points[search_xyz]
 
