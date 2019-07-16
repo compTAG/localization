@@ -8,7 +8,7 @@ import os.path
 import laspy
 
 path_manager = pm()
-dir = path_manager.get_path_manager().get_full_cur_dir("small_3_2019-07-12/")
+dir = path_manager.get_path_manager().get_full_cur_dir_var("small_3_2019-07-12/")
 
 file_name = "1001"
 

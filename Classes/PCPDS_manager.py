@@ -20,7 +20,7 @@ class PCPDS_Manager:
         
     def set_collection_dir(self, dir):
         if dir is not None:
-            path = self.path_manager.get_full_cur_dir(dir)
+            path = self.path_manager.get_full_cur_dir_var(dir)
             if self.path_manager.validate_dir(path):
                 self.path_manager.set_cur_dir(path)
                 print("Collection path set to:", path)
