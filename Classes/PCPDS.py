@@ -4,7 +4,7 @@
 
 import numpy as np
 import dionysus as d
-import filtrations.py
+from Classes.filtrations import Filtration
 
 class PCPDS:
 
