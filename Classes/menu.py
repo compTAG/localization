@@ -87,7 +87,7 @@ class menu:
     # Choice 3: Manually select a grid and test against all points
     def manual_idx_normal(self, collection_path):
 
-        path_manager = pm()
+        path_manager = path_manager()
         dir = path_manager.get_path_manager().get_full_cur_dir(dir_name)
 
         # Loop over until a variable test_idx is found
@@ -100,7 +100,7 @@ class menu:
 
             search_xyz = self.las_obj.find_index(search_x, search_y)
             print(str(search_xyz))
-            test_pcpds = fm.load(os.path.join(dir, str(test_idx)))
+            test_pcpds = fm.load(os.path.join(dir, str(search_xyz)))
 
             if test_pcpds == None:
                 print("Please enter values between 0 and " + str(self.partition) + "\n")
@@ -131,6 +131,8 @@ class menu:
 
     # Acts as a progress bar
     def progress(count, total, status=''):
+        print("COUNT:", count)
+        print("TOTAL:", total)
         bar_len = 60
         filled_len = int(round(bar_len * count / float(total)))
 

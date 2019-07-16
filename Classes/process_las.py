@@ -112,14 +112,14 @@ class ProcessLas:
         # Creates a pcpds object for each idx and stores it's respective point cloud in it before saving the file.
         points.pop('idx')
         for id in points:
-            print(id)
+            # print(id)
             temp = pcpds(id)
-            print('pcpds set')
+            # print('pcpds set')
             temp.set_point_cloud(points[id])
             # TODO: contemplate seperating the generation of persistance diagrams to another area/file for reducing time complexity here
-            print('pointcloud set')
+            # print('pointcloud set')
             temp.generate_persistance_diagram()
-            print('diagram set')
+            # print('diagram set')
             file_manager.save(temp, path, id)
             print('saved')
 
