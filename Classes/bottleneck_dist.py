@@ -5,29 +5,24 @@ from sys         import argv, exit
 import Classes.PCPDS
 import Classes.file_manager as fm
 
-class BottleneckDistances:
+def get_distances(filt1, filt2):
+    return d.bottleneck_distance(filt1,filt2)
 
-    def __init__(self):
-        pass
+def get_collectionset(dir_path):
+    return fm.find_files(dir_path)
 
-    def get_distances(filt1, filt2):
-        return d.bottleneck_distance(filt1,filt2)
+def search_distances(num, searchfilt, collection_path):
+    cell_IDs = get_collectionset(collection_path)
+    top_idx = []
+    for id in cell_IDs:
+        pcpds = fm.load(collection_path+id)
 
-    def get_collectionset(dir_path):
-        return fm.find_files(dir_path)
-    
-    def search_distances(num, searchfilt, collection_path):
-        cell_IDs = get_collectionset()
-        top_idx = []
-        for id in cell_IDs:
-            pcpds = fm.load(collection_path+id)
-            
-            testfilt = pcpds.get_persistance_diagram()
-            
-            result = get_distances(testfilt, searchfilt)
-            
-            top_idx.append(id, result)
-            top_idx = sorted(top_idx, key=lambda x:x[1])
-            if len(top_idx) > num:
-                top_idx.pop(num-1)
-        return top_idx
+        testfilt = pcpds.get_persistance_diagram()
+
+        result = self.get_distances(testfilt, searchfilt)
+
+        top_idx.append(id, result)
+        top_idx = sorted(top_idx, key=lambda x:x[1])
+        if len(top_idx) > num:
+            top_idx.pop(num-1)
+    return top_idx

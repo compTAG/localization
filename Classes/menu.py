@@ -1,8 +1,9 @@
 import Classes.PCPDS
-from Classes.bottleneck_dist import BottleneckDistances
+import Classes.bottleneck_dist as bottleneck_distances
 import numpy as np
 import Classes.file_manager as fm
-import Classes.path_manager as path_manager
+from Classes.path_manager import PathManager as path_manager
+from Classes.PCPDS_manager import PCPDS_Manager as pcpds_manager
 import os.path
 import sys
 
@@ -40,11 +41,11 @@ class menu:
 
     # Select a random, non-empty grid from the dictionary of points
     # TODO: Return the loaded random index's PCPDS obj
-    def __random_test_grid(self):
+    def __random_test_grid(self, dir_name):
         # TODO: have a check for None and index out of bounds in here
         test_idx = self.las_obj.random_grid()
-        path_manager = path_manager()
-        dir = path_manager.get_path_manager().get_full_cur_dir(dir_name)
+        pcpds_m = pcpds_manager()
+        dir = pcpds_m.get_path_manager().get_full_cur_dir_var(dir_name)
         test_pcpds = fm.load(os.path.join(dir, str(test_idx)))
         return [test_pcpds, test_idx]
 
@@ -52,15 +53,15 @@ class menu:
     def random_idx_normal(self, collection_path):
 
         # Grab a random section that is nonempty
-        [test_pcpds, test_idx] = self.__random_test_grid()
+        [test_pcpds, test_idx] = self.__random_test_grid(collection_path)
+        n_results = 4 #self.__num_results()
 
-        n_results = self.__num_results()
-
+        pass_string = ''
         # Calculate bottleneck distance, print n_result matches
-        get_distance = BottleneckDistances.search_distances
-        guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
-        for idx, _ in guess_grid:
-            print(str(idx)  + '. ' + str(guess_grid[idx]))
+        guess_grid  = bottleneck_distances.search_distances(n_results, test_pcpds.get_persistance_diagram(), collection_path)
+        # for idx, _ in guess_grid:
+        #     pass_string = pass_string + (str(idx)  + '. ' + str(guess_grid[idx]) + '\n')
+        return [test_idx, guess_grid]
 
     # Choice 2: Import another file, calculate new PCPDS and test against all points
     def test_against_file(self):
@@ -116,7 +117,7 @@ class menu:
         # Get desired number of results from user
         n_results = self.__num_results()
 
-        # Calculate bottleneck distance, print n_result matches
+        # Calculate bottleneck distance, print n_result mat ches
         get_distance = BottleneckDistances.search_distances
         guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
         for idx, _ in guess_grid:

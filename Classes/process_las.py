@@ -46,7 +46,7 @@ class ProcessLas:
 
         xRand = str(xRand).zfill(self.leading_zeros)
         yRand = str(yRand).zfill(self.leading_zeros)
-        zRand = str(zRand).zfill(self.leading_zeros)
+        zRand = str(zRand)
 
         return int('1' + xRand + yRand + zRand)
 
@@ -76,12 +76,12 @@ class ProcessLas:
 
         coords = self.__format_data(x_vals,y_vals,z_vals)
         #Set width, height, and depth
-#        max_x = max(x_vals)
-#        min_x = min(x_vals)
-#        max_y = max(y_vals)
-#        min_y = min(y_vals)
-#        max_z = max(z_vals)
-#        min_z = min(z_vals)
+       # max_x = max(x_vals)
+       # min_x = min(x_vals)
+       # max_y = max(y_vals)
+       # min_y = min(y_vals)
+       # max_z = max(z_vals)
+       # min_z = min(z_vals)
 
         # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
@@ -96,6 +96,10 @@ class ProcessLas:
             x = math.floor(coords[c][0] * self.partition)
             y = math.floor(coords[c][1] * self.partition)
             z = 1
+
+            x = str(x).zfill(self.leading_zeros)
+            y = str(y).zfill(self.leading_zeros)
+
             idx = int('1' + str(x) + str(y) + str(z))
 
             # Make a dictionary with each [idx].

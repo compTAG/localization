@@ -40,7 +40,7 @@ class PCPDS:
 
 
     def get_persistance_diagram(self):
-        return persistance_diagram
+        return self.persistance_diagram
 
     def generate_persistance_diagram(self):
         diagram_gen = Filtration.get_rips_diagram
