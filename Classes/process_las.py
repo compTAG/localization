@@ -109,6 +109,7 @@ class ProcessLas:
             # Keeps track of the progress of dividing up points
             menu.progress(c, len(coords), ("Processing point: "+str(idx)+"..."))
 
+        tracker = 0
         # Creates a pcpds object for each idx and stores it's respective point cloud in it before saving the file.
         points.pop('idx')
         for id in points:
@@ -121,7 +122,7 @@ class ProcessLas:
             temp.generate_persistance_diagram()
             # print('diagram set')
             file_manager.save(temp, path, id)
-            print('saved')
-
+            # print('saved')
             # Keeps track of the PCPDS objects being generated
-            menu.progress(id.index, len(points), "Processing PCPDS object for idx: "+id)
+            menu.progress(tracker, len(points), ("Processing PCPDS object for idx: "+str(id)))
+            tracker = tracker + 1
