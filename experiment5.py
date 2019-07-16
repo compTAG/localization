@@ -28,8 +28,6 @@ def main():
 
     #import functions
     m = menu(partition, las_obj, dir_name)
-    #randidx = menu.random_idx_normal()
-    #search_distances = BottleneckDistances.search_distances
 
     print("COLLECTION VAR:", pfm.get_path_manager().get_cur_dir(), "Collection path:", pfm.get_collection_dir())
 
@@ -37,12 +35,11 @@ def main():
         #search_idx = randidx(dir_name)
         #search_pcpds = file_manager.load(pfm.get_file_path(search_idx)) # load pcpds with search_idx
         #searchfilt = search_pcpds.get_persistance_diagram()
-        [test_idx, pass_string] = m.random_idx_normal(dir_name)
+        [test_idx, guess_grid] = m.random_idx_normal(dir_name)
         datafile.write(test_idx)
         datafile.write(":")
-        bd_idx = search_distances(10, searchfilt, dir_name)
         for bd, idx in bd_idx:
-            datafile.write(pass_string)
+            datafile.write(str(guess_grid[idx]))
             datafile.write(",")
             datafile.write(bd)
             datafile.write(",")
