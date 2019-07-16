@@ -6,14 +6,10 @@ from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.file_manager as file_manager
 
 def main():
-    
+
     number_of_data = 400
-
-    #Have the user input their desired file and partition count
-    [partition, filename] = user_input.input_partitions_file()
-
     # Create las object and calculate corresponding values
-    las_obj = ProcessLas(filename, 7, len(str(7)))
+    las_obj = ProcessLas('small', 7, len(str(7)))
 
     # Makes a string of the folder path, os.path.join makes it compatible
     # between macs, windows, and linux
