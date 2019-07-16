@@ -32,7 +32,7 @@ class PathManager:
         return self.ROOT_DIR
 
 
-    def get_full_cur_dir(self, dir):
+    def get_full_cur_dir_var(self, dir):
         return os.path.join(self.get_root_dir(), self.get_cols_dir(), dir)
 
 

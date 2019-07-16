@@ -1,9 +1,10 @@
-from Classes.process_las import ProcessLas
 import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
 import numpy as np
 import Classes.file_manager as fm
 import Classes.path_manager as path_manager
+import os.path
+import sys
 
 # TODO: Change these to reflect how bottleneck is called
 
@@ -42,7 +43,7 @@ class menu:
     def __random_test_grid(self):
         # TODO: have a check for None and index out of bounds in here
         test_idx = self.las_obj.random_grid()
-        path_manager = pm()
+        path_manager = path_manager()
         dir = path_manager.get_path_manager().get_full_cur_dir(dir_name)
         test_pcpds = fm.load(os.path.join(dir, str(test_idx)))
         return [test_pcpds, test_idx]
@@ -119,8 +120,6 @@ class menu:
         # Grab a random section that is nonempty
         [test_pcpds, test_idx] = self.__random_test_grid()
 
-        # TODO: Rotate test_pcpds
-
         # Get desired number of results from user
         n_results = self.__num_results()
 
@@ -129,3 +128,14 @@ class menu:
         guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
         for idx, _ in guess_grid:
             print(str(idx)  + '. ' + str(guess_grid[idx]))
+
+    # Acts as a progress bar
+    def progress(count, total, status=''):
+        bar_len = 60
+        filled_len = int(round(bar_len * count / float(total)))
+
+        percents = round(100.0 * count / float(total), 1)
+        bar = '=' * filled_len + '-' * (bar_len - filled_len)
+
+        sys.stdout.write('\r[%s] %s%s ...%s\r' % (bar, percents, '%', status))
+        sys.stdout.flush()

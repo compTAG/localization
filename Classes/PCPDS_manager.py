@@ -11,16 +11,16 @@ class PCPDS_Manager:
         self.path_manager = pm()
         self.pcpds_collection = []
         self.load_collection()
-        
+
     def load_collection(self):
         collection_path = self.path_manager.get_cur_dir()
         if collection_path is not None and self.path_manager.validate_dir(collection_path):
             self.pcpds_collection.clear()
             self.pcpds_collection = fm.find_files(collection_path)
-        
+
     def set_collection_dir(self, dir):
         if dir is not None:
-            path = self.path_manager.get_full_cur_dir(dir)
+            path = self.path_manager.get_full_cur_dir_var(dir)
             if self.path_manager.validate_dir(path):
                 self.path_manager.set_cur_dir(path)
                 print("Collection path set to:", path)
@@ -28,7 +28,7 @@ class PCPDS_Manager:
             else:
                 print("Collection Path", path, ", is Invalid.")
                 return False
-            
+
     def get_collection_dir(self):
         result = self.get_path_manager.get_full_cur_dir()
         if result is not False:
@@ -41,12 +41,12 @@ class PCPDS_Manager:
 
     def generate_collection(self, filename, partition):
         dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
-        dir_name = self.path_manager.get_full_cur_dir(dir_name)
+        dir_name = self.path_manager.get_full_cur_dir_var(dir_name)
 
         fm.make_folder(dir_name)
         self.path_manager.set_cur_dir(dir_name)
         return dir_name
-    
+
     # Pass in a filename in the collection directory, and get it's supposed full path
     def get_file_path(self, filename):
         path = self.path_manager.get_full_cur_dir()
@@ -59,7 +59,7 @@ class PCPDS_Manager:
         else:
             print("Collection path appears to not be set.")
         return False
-    
+
     # Can grab the path manager to make changes to it such as changing the collections directory.
     def get_path_manager(self):
         return self.path_manager

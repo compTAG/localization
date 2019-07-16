@@ -5,6 +5,7 @@ import math
 import random
 import numpy as np
 import os.path
+from Classes.menu import menu
 
 class ProcessLas:
 
@@ -19,31 +20,22 @@ class ProcessLas:
 
 
     def __format_data(self, x_vals, y_vals, z_vals):
-
-        # Move data
-        for x in x_vals:
-            x_vals[x] = x_vals[x] - max(x_vals)
-        for y in y_vals:
-            y_vals[y] = x_vals[y] - max(y_vals)
-        for z in z_vals:
-            z_vals[z] = z_vals[y] - max(z_vals)
-
-        # Scale data between [0,1]
+        # move data
+        minx = min(x_vals)
+        miny = min(y_vals)
+        minz = min(z_vals)
+        x_vals = x_vals - minx
+        y_vals = y_vals  - miny
+        z_vals = z_vals  - minz
+        #scale data between [0,1]
         temp = np.array([max(x_vals),max(y_vals),max(z_vals)])
+        print(max(temp))
         scale_factor = 1 / max(temp)
-        for x in x_vals:
-            x_vals[x] = x_vals[x] * scale_factor
-        for y in y_vals:
-            y_vals[y] = y_vals[y] * scale_factor
-        for z in z_vals:
-            z_vals[z] = x_vals[z] * scale_factor
-
-        # Convert to float32
-        x_vals.dtype = "float32"
-        y_vals.dtype = "float32"
-        z_vals.dtype = "float32"
+        x_vals = x_vals  * scale_factor
+        y_vals = y_vals  * scale_factor
+        z_vals = z_vals  * scale_factor
         temp = np.array([x_vals,y_vals,z_vals])
-
+        print(temp.T)
         return temp.T
 
 
@@ -84,28 +76,20 @@ class ProcessLas:
         y_vals = in_file.Y
         z_vals = in_file.Z
 
-        coords = __format_data(x_vals,y_vals,z_vals)
-
-        #Set width, height, and depth
-        max_x = max(x_vals)
-        min_x = min(x_vals)
-        max_y = max(y_vals)
-        min_y = min(y_vals)
-        max_z = max(z_vals)
-        min_z = min(z_vals)
+        coords = self.__format_data(x_vals,y_vals,z_vals)
+        print(coords)
 
         # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
 
-        iX = (max_x - min_x) / self.partition
-        iY = (max_y - min_y) / self.partition
-        iZ = (max_z - min_z) / self.partition
-        rip_dist = iX * iY * iZ / 2
+        iX = 1 / self.partition
+        iY = 1 / self.partition
+        iZ = 1
 
         for c,_  in enumerate(coords):
 
-            x = math.floor((coords[c][0] - min_x) / iX)
-            y = math.floor((coords[c][1] - min_y) / iY)
+            x = math.floor(coords[c][0] * self.partition)
+            y = math.floor(coords[c][1] * self.partition)
             z = 1
             idx = int('1' + str(x) + str(y) + str(z))
 
@@ -117,27 +101,22 @@ class ProcessLas:
                 points[idx] = coords[c]
             else:
                 points[idx] = np.vstack((points[idx],coords[c]))
+            # Keeps track of the progress of dividing up points
+            menu.progress(c, len(coords), ("Processing point: "+str(points[idx])+"..."))
 
         # Creates a pcpds object for each idx and stores it's respective point cloud in it before saving the file.
+        points.pop('idx')
         for id in points:
             print(id)
             temp = pcpds(id)
+            print('pcpds set')
             temp.set_point_cloud(points[id])
+            # TODO: contemplate seperating the generation of persistance diagrams to another area/file for reducing time complexity here
+            print('pointcloud set')
             temp.generate_persistance_diagram()
+            print('diagram set')
             file_manager.save(temp, path, id)
-
-        # Creates parallelograms dictionary to give PCPDS object from idx
-        parallelograms = {'idx':'PCPDS(idx)'}
-
-        # Iterate over concatenations of x, y, z to find all point clouds
-        x = 0
-        for x in range(self.partition):
-            y = 0
-            for y in range(self.partition):
-
-                idx = self.find_index(x, y)
-                # Save the PCPDS object
-                try:
-                    file_manager.save(parallelograms[idx], path, idx)
-                except:
-                    continue
+            print('saved')
+            
+            # Keeps track of the PCPDS objects being generated
+            menu.progress(id.index, len(points), "Processing PCPDS object for idx: "+id)
