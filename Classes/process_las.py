@@ -29,13 +29,11 @@ class ProcessLas:
         z_vals = z_vals  - minz
         #scale data between [0,1]
         temp = np.array([max(x_vals),max(y_vals),max(z_vals)])
-        print(max(temp))
         scale_factor = 1 / max(temp)
         x_vals = x_vals  * scale_factor
         y_vals = y_vals  * scale_factor
         z_vals = z_vals  * scale_factor
         temp = np.array([x_vals,y_vals,z_vals])
-        print(temp.T)
         return temp.T
 
 
@@ -77,7 +75,6 @@ class ProcessLas:
         z_vals = in_file.Z
 
         coords = self.__format_data(x_vals,y_vals,z_vals)
-        print(coords)
         #Set width, height, and depth
 #        max_x = max(x_vals)
 #        min_x = min(x_vals)
@@ -125,6 +122,6 @@ class ProcessLas:
             print('diagram set')
             file_manager.save(temp, path, id)
             print('saved')
-            
+
             # Keeps track of the PCPDS objects being generated
             menu.progress(id.index, len(points), "Processing PCPDS object for idx: "+id)
