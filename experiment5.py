@@ -10,7 +10,7 @@ def main():
     number_of_data = 400
     # Create las object and calculate corresponding values
     filename = 'small'
-    partition = 7
+    partition = 70
     las_obj = ProcessLas(filename, partition)
 
     # Makes a string of the folder path, os.path.join makes it compatible
@@ -22,7 +22,7 @@ def main():
     print('Dir:' + str(dir_name))
 
     las_obj.input_las(dir_name)
-    datafile = open("bdripson7partitions.txt", "a")
+    datafile = open("bdripson70partitions.txt", "a")
 
     #import functions
     randidx = menu.__random_test_grid
