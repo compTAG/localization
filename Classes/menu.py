@@ -54,13 +54,6 @@ class menu:
         # Grab a random section that is nonempty
         [test_pcpds, test_idx] = self.__random_test_grid()
 
-        # Prints information about the selected section
-        print(f"points are {test_pcpds.point_cloud}")
-        print(f"filt is {test_pcpds.persistance_diagram}")
-
-        # Prints the idx of the section
-        print('The random index is: ' + str(test_idx) + '.')
-
         n_results = self.__num_results()
 
         # Calculate bottleneck distance, print n_result matches
@@ -87,7 +80,7 @@ class menu:
     # Choice 3: Manually select a grid and test against all points
     def manual_idx_normal(self, collection_path):
 
-        path_manager = pm()
+        path_manager = path_manager()
         dir = path_manager.get_path_manager().get_full_cur_dir(dir_name)
 
         # Loop over until a variable test_idx is found
