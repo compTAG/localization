@@ -78,18 +78,26 @@ class ProcessLas:
 
         coords = self.__format_data(x_vals,y_vals,z_vals)
         print(coords)
+        #Set width, height, and depth
+#        max_x = max(x_vals)
+#        min_x = min(x_vals)
+#        max_y = max(y_vals)
+#        min_y = min(y_vals)
+#        max_z = max(z_vals)
+#        min_z = min(z_vals)
 
         # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
 
-        iX = 1 / self.partition
-        iY = 1 / self.partition
-        iZ = 1
+#        iX = (max_x - min_x) / self.partition
+#        iY = (max_y - min_y) / self.partition
+#        iZ = (max_z - min_z) / self.partition
+#        rip_dist = iX * iY * iZ / 2
 
         for c,_  in enumerate(coords):
 
-            x = math.floor(coords[c][0] * self.partition)
-            y = math.floor(coords[c][1] * self.partition)
+            x = 1 #math.floor((coords[c][0])
+            y = 1 #math.floor((coords[c][1])
             z = 1
             idx = int('1' + str(x) + str(y) + str(z))
 
