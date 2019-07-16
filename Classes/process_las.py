@@ -56,7 +56,7 @@ class ProcessLas:
 
         x = str(x).zfill(self.leading_zeros)
         y = str(y).zfill(self.leading_zeros)
-        z = str(1).zfill(self.leading_zeros)
+        z = str(1)
 
         return int('1' + x + y + z)
 

@@ -34,7 +34,7 @@ def main():
         #search_pcpds = file_manager.load(pfm.get_file_path(search_idx)) # load pcpds with search_idx
         #searchfilt = search_pcpds.get_persistance_diagram()
         [test_idx, guess_grid] = m.random_idx_normal(dir_name)
-        datafile.write(test_idx)
+        datafile.write(str(test_idx))
         datafile.write(":")
         for idx in guess_grid:
             datafile.write(str(idx))

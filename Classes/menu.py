@@ -46,7 +46,8 @@ class menu:
         test_idx = self.las_obj.random_grid()
         pcpds_m = pcpds_manager()
         dir = pcpds_m.get_path_manager().get_full_cur_dir_var(dir_name)
-        test_pcpds = fm.load(os.path.join(dir, str(test_idx)))
+        #import pdb; pdb.set_trace()
+        test_pcpds = fm.load(os.path.join(dir, str(test_idx))) #
         return [test_pcpds, test_idx]
 
     # Choice 1: Select an unknown grid and test against all points
