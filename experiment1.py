@@ -25,7 +25,7 @@ def main():
     # Import points dictionary or other structure
 
     # Create menu object with num of partitions, .las object, and points dictionary
-    # m = order_menu(partition, las_obj, points)
+    # m = order_menu(partition, las_obj, dir_name)
     # m.random_idx_normal()
 
 

@@ -8,7 +8,7 @@ import os.path
 
 class ProcessLas:
 
-    def __init__(self, filename):
+    def __init__(self, filename, partition):
         # The name of the file being processed
         self.filename = filename
         # The amount of grids on the x y and z axis
@@ -129,6 +129,7 @@ class ProcessLas:
             else:
                 points[idx] = np.vstack((points[idx],coords[c]))
 
+        # Creates a pcpds object for each idx and stores it's respective point cloud in it before saving the file.
         for id in points:
             print(id)
             temp = pcpds(id)
