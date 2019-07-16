@@ -4,6 +4,7 @@
 
 import numpy as np
 import dionysus as d
+from Classes.filtrations import Filtration
 
 class PCPDS:
 
@@ -40,3 +41,7 @@ class PCPDS:
 
     def get_persistance_diagram(self):
         return persistance_diagram
+
+    def generate_persistance_diagram(self):
+        diagram_gen = Filtration.get_rips_diagram
+        self.persistance_diagram = diagram_gen(self.point_cloud, self.distance)

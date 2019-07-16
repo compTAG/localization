@@ -1,7 +1,7 @@
 from Classes.process_las import ProcessLas
 import Classes.PCPDS
 from Classes.bottleneck_dist import BottleneckDistances
-from Classes.menu import menu as order_menu
+from Classes.menu import menu as menu
 from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.file_manager as file_manager
 
@@ -17,7 +17,7 @@ def main():
 
     # Makes a string of the folder path, os.path.join makes it compatible
     # between macs, windows, and linux
-    dir_name = file_manager.directory(filename, partition)
+    dir_name = file_manager.make_folder(filename, partition)
 
     pfm = PCPDS_Manager()
     dir_name = pfm.generate_collection(filename, partition)
@@ -25,10 +25,14 @@ def main():
 
     las_obj.input_las(dir_name)
     datafile = open("bdripson7partitions.txt", "a")
+
+    randidx = menu.random_idx_normal
+
     for _ in range(number_of_data):
-        #TODO Get random_idx_normal
-        searchfilt = 'filt from random idx'
-        datafile.write('random_idx_we're_searching_for')
+        search_idx = randidx(dir_name)
+        search_pcpds = file_manager.load(pfm.get_file_path(search_idx)) # load pcpds with search_idx
+        searchfilt = search_pcpds.get_persistance_diagram()
+        datafile.write(search_idx)
         datafile.write(":")
         bd_idx = search_distances(10, searchfilt, collection_path):
         for bd, idx in bd_idx:

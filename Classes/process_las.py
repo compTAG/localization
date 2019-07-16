@@ -123,6 +123,7 @@ class ProcessLas:
             print(id)
             temp = pcpds(id)
             temp.set_point_cloud(points[id])
+            temp.generate_persistance_diagram()
             file_manager.save(temp, path, id)
 
         # Creates parallelograms dictionary to give PCPDS object from idx
