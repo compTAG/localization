@@ -5,6 +5,7 @@ import math
 import random
 import numpy as np
 import os.path
+from Classes.menu import menu
 
 class ProcessLas:
 
@@ -113,6 +114,8 @@ class ProcessLas:
                 points[idx] = coords[c]
             else:
                 points[idx] = np.vstack((points[idx],coords[c]))
+            # Keeps track of the progress of dividing up points
+            menu.progress(c, len(coords[0]), "Processing point: "+points[idx]+"...")
 
         # Creates a pcpds object for each idx and stores it's respective point cloud in it before saving the file.
         points.pop('idx')
@@ -121,24 +124,12 @@ class ProcessLas:
             temp = pcpds(id)
             print('pcpds set')
             temp.set_point_cloud(points[id])
+            # TODO: contemplate seperating the generation of persistance diagrams to another area/file for reducing time complexity here
             print('pointcloud set')
             temp.generate_persistance_diagram()
             print('diagram set')
             file_manager.save(temp, path, id)
             print('saved')
-
-        # Creates parallelograms dictionary to give PCPDS object from idx
-        parallelograms = {'idx':'PCPDS(idx)'}
-
-        # Iterate over concatenations of x, y, z to find all point clouds
-        x = 0
-        for x in range(self.partition):
-            y = 0
-            for y in range(self.partition):
-
-                idx = self.find_index(x, y)
-                # Save the PCPDS object
-                try:
-                    file_manager.save(parallelograms[idx], path, idx)
-                except:
-                    continue
+            
+            # Keeps track of the PCPDS objects being generated
+            menu.progress(id.index, len(points), "Processing PCPDS object for idx: "+id)
