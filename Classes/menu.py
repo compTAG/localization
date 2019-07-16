@@ -5,6 +5,7 @@ import numpy as np
 import Classes.file_manager as fm
 import Classes.path_manager as path_manager
 import os.path
+import sys
 
 # TODO: Change these to reflect how bottleneck is called
 
@@ -126,3 +127,14 @@ class menu:
         guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), "PATH")
         for idx, _ in guess_grid:
             print(str(idx)  + '. ' + str(guess_grid[idx]))
+
+    # Acts as a progress bar
+    def progress(count, total, status=''):
+        bar_len = 60
+        filled_len = int(round(bar_len * count / float(total)))
+
+        percents = round(100.0 * count / float(total), 1)
+        bar = '=' * filled_len + '-' * (bar_len - filled_len)
+
+        sys.stdout.write('[%s] %s%s ...%s\r' % (bar, percents, '%', status))
+        sys.stdout.flush()
