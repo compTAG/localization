@@ -19,26 +19,22 @@ class ProcessLas:
 
 
     def __format_data(self, x_vals, y_vals, z_vals):
+        # move data
+        maxx = max(x_vals)
+        maxy = max(y_vals)
+        maxz = max(z_vals)
 
-        # Move data
-        for x in x_vals:
-            x_vals[x] = x_vals[x] - max(x_vals)
-        for y in y_vals:
-            y_vals[y] = x_vals[y] - max(y_vals)
-        for z in z_vals:
-            z_vals[z] = z_vals[y] - max(z_vals)
-
-        # Scale data between [0,1]
+        x_vals  - maxx
+        y_vals  - maxy
+        z_vals  - maxz
+        #scale data between [0,1]
         temp = np.array([max(x_vals),max(y_vals),max(z_vals)])
         scale_factor = 1 / max(temp)
-        for x in x_vals:
-            x_vals[x] = x_vals[x] * scale_factor
-        for y in y_vals:
-            y_vals[y] = y_vals[y] * scale_factor
-        for z in z_vals:
-            z_vals[z] = x_vals[z] * scale_factor
+        x_vals  * scale_factor
+        y_vals  * scale_factor
+        z_vals  * scale_factor
 
-        # Convert to float32
+        #convert to float32
         x_vals.dtype = "float32"
         y_vals.dtype = "float32"
         z_vals.dtype = "float32"
@@ -84,7 +80,7 @@ class ProcessLas:
         y_vals = in_file.Y
         z_vals = in_file.Z
 
-        coords = __format_data(x_vals,y_vals,z_vals)
+        coords = self.__format_data(x_vals,y_vals,z_vals)
 
         #Set width, height, and depth
         max_x = max(x_vals)
