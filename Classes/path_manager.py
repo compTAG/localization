@@ -11,23 +11,30 @@ class PathManager:
         self.collections_dir = "cell_collection"
         self.cur_dir = None
 
+
     def set_cur_dir(self, dir_path):
         self.cur_dir = dir_path
+
 
     def get_cur_dir(self):
         return self.cur_dir
 
+
     def set_cols_dir(self, col_dir):
         self.collections_dir = col_dir
+
 
     def get_cols_dir(self):
         return self.collections_dir
 
+
     def get_root_dir(self):
         return self.ROOT_DIR
 
+
     def get_full_cur_dir_var(self, dir):
         return os.path.join(self.get_root_dir(), self.get_cols_dir(), dir)
+
 
     def get_full_cur_dir(self):
         path = os.path.join(self.get_root_dir(), self.get_cols_dir(), self.get_cur_dir())
@@ -55,6 +62,7 @@ class PathManager:
             return False
         else:
             return True
+
 
     def validate_file(self, file_path):
         if file_path is None:

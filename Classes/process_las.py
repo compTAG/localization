@@ -9,12 +9,14 @@ import os.path
 class ProcessLas:
 
     def __init__(self, filename, partition):
+
         # The name of the file being processed
         self.filename = filename
         # The amount of grids on the x y and z axis
         self.partition = partition
         #Takes into account the digits as to not get confused in the string of x y z
         self.leading_zeros = len(str(partition))
+
 
     def __format_data(self, x_vals, y_vals, z_vals):
         # move data
@@ -37,25 +39,8 @@ class ProcessLas:
         y_vals.dtype = "float32"
         z_vals.dtype = "float32"
         temp = np.array([x_vals,y_vals,z_vals])
+
         return temp.T
-
-
-
-    # Returns a boolean if a file.ext exists in dir_name/
-    def check_file(self, idx, ext, dir_name):
-
-        temp = self.filename + str(idx) + str(ext)
-        if dir_name == None:
-            temp = self.filename + str(ext)
-            exists = os.path.isfile(temp)
-        else:
-            dir_name = str('cell_collections/' + dir_name + '/')
-            exists = os.path.isfile(dir_name + temp + ext)
-
-        if exists:
-            return True
-        else:
-            return False
 
 
     # Returns a random index in the object
@@ -71,14 +56,16 @@ class ProcessLas:
 
         return int('1' + xRand + yRand + zRand)
 
+
     # Returns an index given from the user
-    def find_index(self, x, y, z):
+    def find_index(self, x, y):
 
         x = str(x).zfill(self.leading_zeros)
         y = str(y).zfill(self.leading_zeros)
         z = str(1).zfill(self.leading_zeros)
 
         return int('1' + x + y + z)
+
 
     # Read the file and split it into partitions and create pcpds objects of
     # each partition, returns the dictionary of pcpds objects
@@ -94,7 +81,6 @@ class ProcessLas:
         z_vals = in_file.Z
 
         coords = self.__format_data(x_vals,y_vals,z_vals)
-
 
         #Set width, height, and depth
         max_x = max(x_vals)
@@ -136,11 +122,8 @@ class ProcessLas:
             temp.generate_persistance_diagram()
             file_manager.save(temp, path, id)
 
-
         # Creates parallelograms dictionary to give PCPDS object from idx
         parallelograms = {'idx':'PCPDS(idx)'}
-
-        # Used in rips
 
         # Iterate over concatenations of x, y, z to find all point clouds
         x = 0
@@ -148,35 +131,9 @@ class ProcessLas:
             y = 0
             for y in range(self.partition):
 
-                # Leave format() if you just add leadingZeros to the encode
-                # of x y z, it defeats the point of leadingZeros
-                x = str(x).zfill(self.leading_zeros)
-                y = str(y).zfill(self.leading_zeros)
-                z = str(1).zfill(self.leading_zeros)
-
-                idx = int('1' + x + y + z)
-                #try:
-
-                    # Assign a new entry to the parallelograms dict for each idx generated
-                    #parallelograms[idx] = section.PCPDS(idx, rip_dist) #where ** is file ext
-
-                    # Add points to PCPDS object
-                    #print(f"I set points to be {points[idx]}")
-                    #parallelograms[idx].set_point_cloud(points[idx])
-
-                    # Generate a persistance diagram for that object
-                    #parallelograms[idx].get_persistance_diagram()
-                    # Pickle the object
-                    # TODO: When refactoring, set up path_manager & file_manager to be able to save the object below properly.
-                    #parallelograms[idx]
-                #except:
-                    #pass
-
+                idx = self.find_index(x, y)
                 # Save the PCPDS object
                 try:
                     file_manager.save(parallelograms[idx], path, idx)
                 except:
                     continue
-
-
-            #section.generate_persistance_diagram(points[idx])

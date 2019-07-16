@@ -34,7 +34,7 @@ def main():
         searchfilt = search_pcpds.get_persistance_diagram()
         datafile.write(search_idx)
         datafile.write(":")
-        bd_idx = search_distances(10, searchfilt, collection_path)
+        bd_idx = search_distances(10, searchfilt, dir_name)
         for bd, idx in bd_idx:
             datafile.write(idx)
             datafile.write(",")
