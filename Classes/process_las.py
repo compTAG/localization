@@ -112,7 +112,6 @@ class ProcessLas:
         tracker = 0
         # Creates a pcpds object for each idx and stores it's respective point cloud in it before saving the file.
         points.pop('idx')
-        i = 0
         for id in points:
             print(id)
             temp = pcpds(id)
