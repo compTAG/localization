@@ -20,26 +20,21 @@ class ProcessLas:
 
     def __format_data(self, x_vals, y_vals, z_vals):
         # move data
-        maxx = max(x_vals)
-        maxy = max(y_vals)
-        maxz = max(z_vals)
-
-        x_vals  - maxx
-        y_vals  - maxy
-        z_vals  - maxz
+        minx = min(x_vals)
+        miny = min(y_vals)
+        minz = min(z_vals)
+        x_vals = x_vals - minx
+        y_vals = y_vals  - miny
+        z_vals = z_vals  - minz
         #scale data between [0,1]
         temp = np.array([max(x_vals),max(y_vals),max(z_vals)])
+        print(max(temp))
         scale_factor = 1 / max(temp)
-        x_vals  * scale_factor
-        y_vals  * scale_factor
-        z_vals  * scale_factor
-
-        #convert to float32
-        x_vals.dtype = "float32"
-        y_vals.dtype = "float32"
-        z_vals.dtype = "float32"
+        x_vals = x_vals  * scale_factor
+        y_vals = y_vals  * scale_factor
+        z_vals = z_vals  * scale_factor
         temp = np.array([x_vals,y_vals,z_vals])
-
+        print(temp.T)
         return temp.T
 
 
@@ -81,27 +76,27 @@ class ProcessLas:
         z_vals = in_file.Z
 
         coords = self.__format_data(x_vals,y_vals,z_vals)
-
+        print(coords)
         #Set width, height, and depth
-        max_x = max(x_vals)
-        min_x = min(x_vals)
-        max_y = max(y_vals)
-        min_y = min(y_vals)
-        max_z = max(z_vals)
-        min_z = min(z_vals)
+#        max_x = max(x_vals)
+#        min_x = min(x_vals)
+#        max_y = max(y_vals)
+#        min_y = min(y_vals)
+#        max_z = max(z_vals)
+#        min_z = min(z_vals)
 
         # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
 
-        iX = (max_x - min_x) / self.partition
-        iY = (max_y - min_y) / self.partition
-        iZ = (max_z - min_z) / self.partition
-        rip_dist = iX * iY * iZ / 2
+#        iX = (max_x - min_x) / self.partition
+#        iY = (max_y - min_y) / self.partition
+#        iZ = (max_z - min_z) / self.partition
+#        rip_dist = iX * iY * iZ / 2
 
         for c,_  in enumerate(coords):
 
-            x = math.floor((coords[c][0] - min_x) / iX)
-            y = math.floor((coords[c][1] - min_y) / iY)
+            x = 1 #math.floor((coords[c][0])
+            y = 1 #math.floor((coords[c][1])
             z = 1
             idx = int('1' + str(x) + str(y) + str(z))
 
@@ -126,19 +121,3 @@ class ProcessLas:
             print('diagram set')
             file_manager.save(temp, path, id)
             print('saved')
-
-        # Creates parallelograms dictionary to give PCPDS object from idx
-        parallelograms = {'idx':'PCPDS(idx)'}
-
-        # Iterate over concatenations of x, y, z to find all point clouds
-        x = 0
-        for x in range(self.partition):
-            y = 0
-            for y in range(self.partition):
-
-                idx = self.find_index(x, y)
-                # Save the PCPDS object
-                try:
-                    file_manager.save(parallelograms[idx], path, idx)
-                except:
-                    continue
