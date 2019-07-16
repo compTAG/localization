@@ -54,13 +54,6 @@ class menu:
         # Grab a random section that is nonempty
         [test_pcpds, test_idx] = self.__random_test_grid()
 
-        # Prints information about the selected section
-        print(f"points are {test_pcpds.point_cloud}")
-        print(f"filt is {test_pcpds.persistance_diagram}")
-
-        # Prints the idx of the section
-        print('The random index is: ' + str(test_idx) + '.')
-
         n_results = self.__num_results()
 
         # Calculate bottleneck distance, print n_result matches
@@ -131,8 +124,6 @@ class menu:
 
     # Acts as a progress bar
     def progress(count, total, status=''):
-        print("COUNT:", count)
-        print("TOTAL:", total)
         bar_len = 60
         filled_len = int(round(bar_len * count / float(total)))
 

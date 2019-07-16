@@ -107,7 +107,7 @@ class ProcessLas:
             else:
                 points[idx] = np.vstack((points[idx],coords[c]))
             # Keeps track of the progress of dividing up points
-            menu.progress(c, len(coords), ("Processing point: "+str(points[idx])+"..."))
+            menu.progress(c, len(coords), ("Processing point: "+str(idx)+"..."))
 
         # Creates a pcpds object for each idx and stores it's respective point cloud in it before saving the file.
         points.pop('idx')
