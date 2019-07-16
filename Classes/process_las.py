@@ -76,25 +76,25 @@ class ProcessLas:
 
         coords = self.__format_data(x_vals,y_vals,z_vals)
         #Set width, height, and depth
-#        max_x = max(x_vals)
-#        min_x = min(x_vals)
-#        max_y = max(y_vals)
-#        min_y = min(y_vals)
-#        max_z = max(z_vals)
-#        min_z = min(z_vals)
+        max_x = max(x_vals)
+        min_x = min(x_vals)
+        max_y = max(y_vals)
+        min_y = min(y_vals)
+        max_z = max(z_vals)
+        min_z = min(z_vals)
 
         # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
 
-#        iX = (max_x - min_x) / self.partition
-#        iY = (max_y - min_y) / self.partition
-#        iZ = (max_z - min_z) / self.partition
-#        rip_dist = iX * iY * iZ / 2
+        iX = (max_x - min_x) / self.partition
+        iY = (max_y - min_y) / self.partition
+        iZ = (max_z - min_z) / self.partition
+        rip_dist = iX * iY * iZ / 2
 
         for c,_  in enumerate(coords):
 
-            x = 1 #math.floor((coords[c][0])
-            y = 1 #math.floor((coords[c][1])
+            x = math.floor((coords[c][0]) * self.partition)
+            y = math.floor((coords[c][1]) * self.partition)
             z = 1
             idx = int('1' + str(x) + str(y) + str(z))
 
@@ -107,7 +107,7 @@ class ProcessLas:
             else:
                 points[idx] = np.vstack((points[idx],coords[c]))
             # Keeps track of the progress of dividing up points
-            menu.progress(c, len(coords), ("Processing point: "+str(points[idx])+"..."))
+            menu.progress(c, len(coords), ("Processing point")) #: "+str(points[idx])+"..."))
 
         # Creates a pcpds object for each idx and stores it's respective point cloud in it before saving the file.
         points.pop('idx')

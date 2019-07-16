@@ -100,7 +100,7 @@ class menu:
 
             search_xyz = self.las_obj.find_index(search_x, search_y)
             print(str(search_xyz))
-            test_pcpds = fm.load(os.path.join(dir, str(test_idx)))
+            test_pcpds = fm.load(os.path.join(dir, str(search_xyz)))
 
             if test_pcpds == None:
                 print("Please enter values between 0 and " + str(self.partition) + "\n")
