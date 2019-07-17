@@ -16,7 +16,7 @@ class ProcessLas:
 
         # The amount of grids on the x y and z axis
         self.partition = partition
-        
+
         #Takes into account the digits as to not get confused in the string of x y z
         self.leading_zeros = len(str(partition))
 
@@ -103,7 +103,7 @@ class ProcessLas:
             else:
                 points[idx] = np.vstack((points[idx],coords[c]))
             # Keeps track of the progress of dividing up points
-            menu.progress(c, len(coords), ("Processing point: "+str(idx)+"...\n"))
+            menu.progress(c, len(coords), ("Processing point: "+str(idx)+"..."))
 
 
         # Creates a pcpds object for each idx and stores it's respective

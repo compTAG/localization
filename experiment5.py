@@ -28,23 +28,22 @@ def main():
     #import functions
     m = menu(partition, las_obj)
 
-    for _ in range(number_of_data):
+    for n in range(number_of_data):
         #search_idx = randidx(dir_name)
         #search_pcpds = file_manager.load(pfm.get_file_path(search_idx)) # load pcpds with search_idx
         #searchfilt = search_pcpds.get_persistance_diagram()
         #[test_idx, guess_grid] = m.random_idx_normal(dir_name)
         rand_pcpds = pfm.get_random_pcpds()
         test_idx = rand_pcpds.get_cellID()
-        
+
         nearest_results = 4
-        
-        # TODO: make loading bar for guess_grid
+
         guess_grid  = bottleneck_distances.search_distances(nearest_results, rand_pcpds.get_persistance_diagram(), dir_name)
-        
+
         datafile.write(str(test_idx))
         datafile.write(":")
-        
-        
+
+
         n_results = 4 #self.__num_results()
 
         pass_string = ''
@@ -55,7 +54,9 @@ def main():
             datafile.write(",")
         datafile.write('\n')
 
-        print("Job done.")
+        m.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
+
+    print("Job done.")
 
 # Do Main
 if __name__ == '__main__':
