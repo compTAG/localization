@@ -103,7 +103,7 @@ class menu:
         n_results = self.__num_results()
 
         # Calculate bottleneck distance, print n_result matches
-        get_distance = BottleneckDistances.search_distances
+        get_distance = bottleneck_distances.search_distances
         guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
         for idx, _ in guess_grid:
             print(str(idx)  + '. ' + str(guess_grid[idx]))
@@ -119,7 +119,7 @@ class menu:
         n_results = self.__num_results()
 
         # Calculate bottleneck distance, print n_result mat ches
-        get_distance = BottleneckDistances.search_distances
+        get_distance = bottleneck_distances.search_distances
         guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
         for idx, _ in guess_grid:
             print(str(idx)  + '. ' + str(guess_grid[idx]))

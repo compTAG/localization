@@ -33,6 +33,8 @@ class PCPDS:
     def get_point_cloud(self):
         return self.point_cloud
 
+    def get_cellID(self):
+        return self.cell_id
 
     def distances(self, box_width):
         # Temporary - we should play with this to determine best distance
