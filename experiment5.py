@@ -26,9 +26,7 @@ def main():
     datafile = open("bdripson70partitions.txt", "a")
 
     #import functions
-    m = menu(partition, las_obj, dir_name)
-
-    print("COLLECTION VAR:", pfm.get_path_manager().get_cur_dir(), "Collection path:", pfm.get_collection_dir())
+    m = menu(partition, las_obj)
 
     for _ in range(number_of_data):
         #search_idx = randidx(dir_name)
@@ -40,6 +38,7 @@ def main():
         
         nearest_results = 4
         
+        # TODO: make loading bar for guess_grid
         guess_grid  = bottleneck_distances.search_distances(nearest_results, rand_pcpds.get_persistance_diagram(), dir_name)
         
         datafile.write(str(test_idx))
@@ -52,9 +51,11 @@ def main():
         # Calculate bottleneck distance, print n_result matches
         for idx in guess_grid:
             datafile.write(str(idx))
+            print(idx)
             datafile.write(",")
         datafile.write('\n')
 
+        print("Job done.")
 
 # Do Main
 if __name__ == '__main__':

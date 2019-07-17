@@ -7,6 +7,8 @@ import random
 # This class deals with loading/fetching of PCPDS objects specifically
 
 class PCPDS_Manager:
+    
+    # TODO: move the methods for selecting pcpds objects from a directory to here.
 
     def __init__(self):
         self.path_manager = pm()

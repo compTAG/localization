@@ -1,5 +1,5 @@
 import Classes.PCPDS
-import Classes.bottleneck_dist as bottleneck_distances
+#import Classes.bottleneck_dist as bottleneck_distances
 import numpy as np
 import Classes.file_manager as fm
 from Classes.path_manager import PathManager as path_manager
@@ -11,16 +11,13 @@ import sys
 
 class menu:
 
-    def __init__(self, partition, las_obj, dir_name):
+    def __init__(self, partition, las_obj):
 
         # Save number of partitions on each side of grid
         self.partition = partition
 
         # Save the las object created in main
         self.las_obj = las_obj
-
-        # Save the dictionary of PCDPS objects
-        self.dir_name = dir_name
 
     # Return the desired number of results the user wants, given n <= partition^3
     def __num_results(self):
@@ -83,7 +80,7 @@ class menu:
     def manual_idx_normal(self, collection_path):
 
         path_manager = path_manager()
-        dir = path_manager.get_path_manager().get_full_cur_dir(dir_name)
+        #dir = path_manager.get_path_manager().get_full_cur_dir(dir_name)
 
         # Loop over until a variable test_idx is found
         # Return random index and calculate PCPDS

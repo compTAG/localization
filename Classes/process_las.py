@@ -56,7 +56,7 @@ class ProcessLas:
 
         x = str(x).zfill(self.leading_zeros)
         y = str(y).zfill(self.leading_zeros)
-        z = str(1)
+        z = str(1).zfill(self.leading_zeros)
 
         return int('1' + x + y + z)
 
@@ -113,6 +113,7 @@ class ProcessLas:
             # Keeps track of the progress of dividing up points
             menu.progress(c, len(coords), ("Processing point: "+str(idx)+"..."))
 
+        print("\n")
         tracker = 0
         # Creates a pcpds object for each idx and stores it's respective point cloud in it before saving the file.
         points.pop('idx')
@@ -130,3 +131,4 @@ class ProcessLas:
             # Keeps track of the PCPDS objects being generated
             menu.progress(tracker, len(points), ("Processing PCPDS object for idx: "+str(id)))
             tracker = tracker + 1
+        print("\n")
