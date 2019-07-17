@@ -13,27 +13,33 @@ class ProcessLas:
 
         # The name of the file being processed
         self.filename = filename
+
         # The amount of grids on the x y and z axis
         self.partition = partition
+        
         #Takes into account the digits as to not get confused in the string of x y z
         self.leading_zeros = len(str(partition))
 
 
+    # Format data between 0 and 1
     def __format_data(self, x_vals, y_vals, z_vals):
-        # move data
+
+        # Move data
         minx = min(x_vals)
         miny = min(y_vals)
         minz = min(z_vals)
         x_vals = x_vals - minx
         y_vals = y_vals  - miny
         z_vals = z_vals  - minz
-        #scale data between [0,1]
+
+        # Scale data between [0,1]
         temp = np.array([max(x_vals),max(y_vals),max(z_vals)])
         scale_factor = 1 / max(temp)
         x_vals = x_vals  * scale_factor
         y_vals = y_vals  * scale_factor
         z_vals = z_vals  * scale_factor
         temp = np.array([x_vals,y_vals,z_vals])
+
         return temp.T
 
 
@@ -56,7 +62,7 @@ class ProcessLas:
 
         x = str(x).zfill(self.leading_zeros)
         y = str(y).zfill(self.leading_zeros)
-        z = str(1).zfill(self.leading_zeros)
+        z = str(1)
 
         return int('1' + x + y + z)
 
@@ -66,7 +72,6 @@ class ProcessLas:
     def input_las(self, path):
 
         #Load data, put list of touples in an array
-        #TODO?: Change to get file off server
         in_file = File(self.filename + '.las', mode='r')
 
         # Import coordinates and change them to manipulative type float32
@@ -75,35 +80,22 @@ class ProcessLas:
         z_vals = in_file.Z
 
         coords = self.__format_data(x_vals,y_vals,z_vals)
-        #Set width, height, and depth
-       # max_x = max(x_vals)
-       # min_x = min(x_vals)
-       # max_y = max(y_vals)
-       # min_y = min(y_vals)
-       # max_z = max(z_vals)
-       # min_z = min(z_vals)
 
         # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
-
-#        iX = (max_x - min_x) / self.partition
-#        iY = (max_y - min_y) / self.partition
-#        iZ = (max_z - min_z) / self.partition
-#        rip_dist = iX * iY * iZ / 2
 
         for c,_  in enumerate(coords):
 
             x = math.floor(coords[c][0] * self.partition)
             y = math.floor(coords[c][1] * self.partition)
-            z = 1
 
             x = str(x).zfill(self.leading_zeros)
             y = str(y).zfill(self.leading_zeros)
+            z = str(1)
 
-            idx = int('1' + str(x) + str(y) + str(z))
+            idx = int('1' + x + y + z)
 
-            # Make a dictionary with each [idx].
-            # If it already exists, append the coord
+            # Make a dictionary with each [idx], if it already exists, append the coord
             try:
                 points[idx]
             except:
@@ -111,24 +103,32 @@ class ProcessLas:
             else:
                 points[idx] = np.vstack((points[idx],coords[c]))
             # Keeps track of the progress of dividing up points
-            menu.progress(c, len(coords), ("Processing point: "+str(idx)+"..."))
+            menu.progress(c, len(coords), ("Processing point: "+str(idx)+"...\n"))
 
-        print("\n")
-        tracker = 0
-        # Creates a pcpds object for each idx and stores it's respective point cloud in it before saving the file.
+
+        # Creates a pcpds object for each idx and stores it's respective
+        # point cloud in it before saving the file.
         points.pop('idx')
+        tracker = 0
+
         for id in points:
             # print(id)
             temp = pcpds(id)
+
             # print('pcpds set')
             temp.set_point_cloud(points[id])
-            # TODO: contemplate seperating the generation of persistance diagrams to another area/file for reducing time complexity here
+
+            # TODO: contemplate seperating the generation of persistance
+            # diagrams to another area/file for reducing time complexity here
+
             # print('pointcloud set')
             temp.generate_persistance_diagram()
+
             # print('diagram set')
             file_manager.save(temp, path, id)
-            # print('saved')
+
             # Keeps track of the PCPDS objects being generated
             menu.progress(tracker, len(points), ("Processing PCPDS object for idx: "+str(id)))
             tracker = tracker + 1
+
         print("\n")

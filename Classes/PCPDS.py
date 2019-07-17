@@ -9,6 +9,7 @@ from Classes.filtrations import Filtration
 class PCPDS:
 
     def __init__(self, cell_id, distance = 1):
+
         # The point cloud should be set up a set of Points. Points possibly
         # being represented by touples of three values.
         self.point_cloud = None
@@ -27,14 +28,18 @@ class PCPDS:
         # rips filt distance
         self.distance = distance
 
+
     def set_point_cloud(self, point_cloud):
         self.point_cloud = point_cloud
+
 
     def get_point_cloud(self):
         return self.point_cloud
 
+
     def get_cellID(self):
         return self.cell_id
+
 
     def distances(self, box_width):
         # Temporary - we should play with this to determine best distance
@@ -43,6 +48,7 @@ class PCPDS:
 
     def get_persistance_diagram(self):
         return self.persistance_diagram
+
 
     def generate_persistance_diagram(self):
         diagram_gen = Filtration.get_rips_diagram
