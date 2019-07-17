@@ -2,6 +2,7 @@ import Classes.file_manager as fm
 from Classes.path_manager import PathManager as pm
 from datetime import datetime
 import os.path
+import random
 
 # This class deals with loading/fetching of PCPDS objects specifically
 
@@ -16,7 +17,7 @@ class PCPDS_Manager:
         collection_path = self.path_manager.get_cur_dir()
         if collection_path is not None and self.path_manager.validate_dir(collection_path):
             self.pcpds_collection.clear()
-            self.pcpds_collection = fm.find_files(collection_path)
+            self.pcpds_collection = fm.find_files(collection_path, '.json')
 
     def set_collection_dir(self, dir):
         if dir is not None:
@@ -34,6 +35,14 @@ class PCPDS_Manager:
         if result is not False:
             return result
         return False
+    
+    # Fetches a random pcpds object from the directory specified in the path_manager
+    def get_random_pcpds(self):
+        collection_path = self.path_manager.get_full_cur_dir()
+        files = fm.find_files(collection_path, '.json')
+        random_file = random.choice(files)
+        pcpds_obj = fm.load(os.path.join(collection_path, random_file))
+        return pcpds_obj
 
     # Checks that the currently selected collection directory exists and is a valid path
     def verify_col_dir(self):

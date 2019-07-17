@@ -29,7 +29,7 @@ def save(obj, path, name):
     # TODO: verify the folder path is valid
     data = jsonpickle.encode(obj)
 
-    with open(os.path.join(path, str(name)), 'w') as outfile:
+    with open(os.path.join(path, (str(name)+".json")), 'w') as outfile:
         json.dump(data, outfile)
 
 
@@ -44,12 +44,17 @@ def load(path):
 
     return obj
 
-
-def find_files(dir):
-
+def find_files(dir, ext):
+    
+    ext_len = -1*len(ext)
     files = []
     for (dirpath, dirnames, filenames) in walk(dir):
-        files.extend(filenames)
+        for f in filenames:
+            if f[ext_len:] == ext:
+                files.extend(filenames)
+            else:
+                print(f[ext_len:])
+                print("FILE: ", f, ", dosen't contain the extension: .json")
         break
 
     return files
