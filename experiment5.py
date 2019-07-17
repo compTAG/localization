@@ -32,19 +32,19 @@ def main():
         #search_idx = randidx(dir_name)
         #search_pcpds = file_manager.load(pfm.get_file_path(search_idx)) # load pcpds with search_idx
         #searchfilt = search_pcpds.get_persistance_diagram()
-        #[test_idx, guess_grid] = m.random_idx_normal(dir_name)
-        rand_pcpds = pfm.get_random_pcpds()
-        test_idx = rand_pcpds.get_cellID()
+        [test_idx, guess_grid] = m.random_idx_normal(dir_name)
+        # rand_pcpds = pfm.get_random_pcpds()
+        # test_idx = rand_pcpds.get_cellID()
 
-        nearest_results = 4
-
-        guess_grid  = bottleneck_distances.search_distances(nearest_results, rand_pcpds.get_persistance_diagram(), dir_name)
+        # nearest_results = 4
+        #
+        # guess_grid  = bottleneck_distances.search_distances(nearest_results, rand_pcpds.get_persistance_diagram(), dir_name)
 
         datafile.write(str(test_idx))
         datafile.write(":")
 
 
-        n_results = 4 #self.__num_results()
+        # n_results = 4 #self.__num_results()
 
         pass_string = ''
         # Calculate bottleneck distance, print n_result matches

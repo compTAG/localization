@@ -1,5 +1,5 @@
 import Classes.PCPDS
-#import Classes.bottleneck_dist as bottleneck_distances
+import Classes.bottleneck_dist as bottleneck_distances
 import numpy as np
 import Classes.file_manager as fm
 from Classes.path_manager import PathManager as path_manager
@@ -44,7 +44,7 @@ class menu:
         pcpds_m = pcpds_manager()
         dir = pcpds_m.get_path_manager().get_full_cur_dir_var(dir_name)
         #import pdb; pdb.set_trace()
-        test_pcpds = fm.load(os.path.join(dir, str(test_idx))) #
+        test_pcpds = fm.load(os.path.join(dir, str(test_idx) +'.json')) #
         return [test_pcpds, test_idx]
 
     # Choice 1: Select an unknown grid and test against all points
