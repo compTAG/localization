@@ -12,13 +12,10 @@ class PCPDS_Manager:
 
     def __init__(self):
 
-        #
         self.path_manager = pm()
 
-        #
         self.pcpds_collection = []
 
-        #
         self.load_collection()
 
     def load_collection(self):
@@ -48,20 +45,20 @@ class PCPDS_Manager:
         if result is not False:
             return result
         return False
-    
+
     # Fetches a pcpds with a specified cell_ID
     def get_pcpds(self, cell_ID):
         dir = self.path_manager().get_full_cur_dir()
-        
+
         pcpds = fm.load(os.path.join(dir, str(cell_ID) +'.json')) #
         return pcpds
-        
+
     # Fetches a random pcpds object from the directory specified in the path manager
     def get_random_pcpds(self, random_idx):
         # TODO: have a check for None and index out of bounds in here
         # random_idx = self.las_obj.random_grid()
         dir = self.path_manager().get_full_cur_dir()
-        
+
         random_pcpds = fm.load(os.path.join(dir, str(random_idx) +'.json')) #
         return random_pcpds
 
