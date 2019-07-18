@@ -48,12 +48,24 @@ class PCPDS:
     def get_dimensions(self):
         return dimensions
     
-    def get_center_point(self):
-        # TODO: Calculate center of the point cloud
-        xyz = get(xyz)
-        center
+    # Calculates the boundaries of the point cloud.
+    def get_bounds(self):
+        x,y,z = get_xyz()
         
-        return center
+        dimX = dimensions[0]
+        dimY = dimensions[1]
+        dimZ = dimensions[2]
+        
+        low_x_bound = x * dimX
+        high_x_bound = x * dimX + dimX
+        low_y_bound = y * dimY
+        high_y_bound = y * dimY + dimY
+        low_z_bound = z * dimZ
+        high_z_bound = z * dimZ + dimZ
+        
+        bounds = (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound)
+        
+        return bounds
     
     
     # Split cell_id into x and y values assuming there is a leading 1 and
@@ -77,8 +89,7 @@ class PCPDS:
 
         X = xyz
 
-        result = (X, Y, Z)
-        return result
+        return X, Y, Z
 
     def distances(self, box_width):
         # Temporary - we should play with this to determine best distance
