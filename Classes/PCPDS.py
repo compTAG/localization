@@ -4,7 +4,6 @@
 
 import numpy as np
 import dionysus as d
-from Classes.filtrations import Filtration
 
 class PCPDS:
 
@@ -29,11 +28,15 @@ class PCPDS:
 
         # rips filt distance
         self.distance = distance
-
+    
+    def get_skeleton(self):
+        return self.skeleton
+    
+    def get_distance(self):
+        return self.distance
 
     def set_point_cloud(self, point_cloud):
         self.point_cloud = point_cloud
-
 
     def get_point_cloud(self):
         return self.point_cloud
@@ -85,7 +88,5 @@ class PCPDS:
     def get_persistance_diagram(self):
         return self.persistance_diagram
 
-
-    def generate_persistance_diagram(self):
-        diagram_gen = Filtration.get_rips_diagram
-        self.persistance_diagram = diagram_gen(self.point_cloud, self.distance)
+    def set_persistance_diagram(self, pd):
+        self.persistance_diagram = pd

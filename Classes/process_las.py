@@ -6,6 +6,7 @@ import random
 import numpy as np
 import os.path
 from Classes.menu import menu
+from Classes.filtrations import Filtration
 
 class ProcessLas:
 
@@ -122,7 +123,8 @@ class ProcessLas:
             # diagrams to another area/file for reducing time complexity here
 
             # print('pointcloud set')
-            temp.generate_persistance_diagram()
+            # Generates and sets the persistance diagram
+            temp = Filtration.get_rips_diagram(temp)
 
             # print('diagram set')
             file_manager.save(temp, path, id)

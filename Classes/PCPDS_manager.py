@@ -12,13 +12,8 @@ class PCPDS_Manager:
 
     def __init__(self):
 
-        #
         self.path_manager = pm()
-
-        #
         self.pcpds_collection = []
-
-        #
         self.load_collection()
 
     def load_collection(self):
@@ -55,22 +50,13 @@ class PCPDS_Manager:
         
         pcpds = fm.load(os.path.join(dir, str(cell_ID) +'.json')) #
         return pcpds
-        
-    # Fetches a random pcpds object from the directory specified in the path manager
-    def get_random_pcpds(self, random_idx):
-        # TODO: have a check for None and index out of bounds in here
-        # random_idx = self.las_obj.random_grid()
-        dir = self.path_manager().get_full_cur_dir()
-        
-        random_pcpds = fm.load(os.path.join(dir, str(random_idx) +'.json')) #
-        return random_pcpds
 
     # Checks that the currently selected collection directory exists and is a valid path
     def verify_col_dir(self):
 
         return self.path_manager.validate_dir(self.path_manager.get_cur_dir())
 
-
+    # Generates a collection file given the name of the current las file being used, and the partition count.
     def generate_collection(self, filename, partition):
 
         dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
