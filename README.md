@@ -1,11 +1,25 @@
 # TDA based localization
 * TODO: Include a descriptive over view paragraph of our project here
 
-## Prerequisits
-* TODO: Add a list of `prereqs` to run this program
+## Prerequisits: TODO: Add a list of `prereqs` to run this program
+* Must have `Anaconda` installed to run the project as intended
+    * Download and install [`Anaconda`](https://www.anaconda.com/distribution/#download-section) for your machine.
 
 ## Installing
+
+
 * TODO: Add a step by step guide for `installing` the necessary tooling along side the project itself (possibly a video? does the compTag group have a channel we could upload it to for reference?)
+
+* `Clone` the project to a directory on your computer. 
+    - ToDo: Include example command for cloning the repo/suggesting to use the latest release from releases.
+
+* `Naivigate` to the project directory; specificially the `localization` folder.
+
+* While in the localization directory, run the following command to install the necessary conda environment:
+    - `$ conda env create -f environment.yaml`
+
+* Now just use the command `conda  activate environment` in order to set the correct python environment to run the project.
+
 
 ## Running the Code with test.las
 
