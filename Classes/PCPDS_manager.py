@@ -48,17 +48,22 @@ class PCPDS_Manager:
         if result is not False:
             return result
         return False
-
-
-    # Fetches a random pcpds object from the directory specified in the path_manager
-    def get_random_pcpds(self):
-
-        collection_path = self.path_manager.get_full_cur_dir()
-        files = fm.find_files(collection_path, '.json')
-        random_file = random.choice(files)
-        pcpds_obj = fm.load(os.path.join(collection_path, random_file))
-        return pcpds_obj
-
+    
+    # Fetches a pcpds with a specified cell_ID
+    def get_pcpds(self, cell_ID):
+        dir = self.path_manager().get_full_cur_dir()
+        
+        pcpds = fm.load(os.path.join(dir, str(cell_ID) +'.json')) #
+        return pcpds
+        
+    # Fetches a random pcpds object from the directory specified in the path manager
+    def get_random_pcpds(self, random_idx):
+        # TODO: have a check for None and index out of bounds in here
+        # random_idx = self.las_obj.random_grid()
+        dir = self.path_manager().get_full_cur_dir()
+        
+        random_pcpds = fm.load(os.path.join(dir, str(random_idx) +'.json')) #
+        return random_pcpds
 
     # Checks that the currently selected collection directory exists and is a valid path
     def verify_col_dir(self):
@@ -95,29 +100,3 @@ class PCPDS_Manager:
     def get_path_manager(self):
 
         return self.path_manager
-
-
-    # Split cell_id into x and y values assuming there is a leading 1 and
-    # proceeding 1
-    def get_xyz(self, cell_id):
-
-        # Removes the 1 from the beginning of the string
-        cell_id = cell_id[1:]
-
-        xyz = int(cell_id)
-
-        if xyz is 0:
-            return (0, 0, 0)
-
-        trunc_val = 10**(int(len(cell_id)/3))
-
-        Z = xyz % trunc_val
-        xyz = int(xyz/trunc_val)
-
-        Y = xyz % trunc_val
-        xyz = int(xyz/trunc_val)
-
-        X = xyz
-
-        result = (X, Y, Z)
-        return result
