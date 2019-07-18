@@ -28,30 +28,16 @@ class menu:
 
         return n_results
 
+    # Acts as a progress bar
+    def progress(count, total, status=''):
+        bar_len = 60
+        filled_len = int(round(bar_len * count / float(total)))
 
-    # Choice 1: Select an unknown grid and test against all points
-    def random_idx_normal(partition, collection_path, test_idx):
+        percents = round(100.0 * count / float(total), 1)
+        bar = '=' * filled_len + '-' * (bar_len - filled_len)
 
-        # Grab a random section that is nonempty
-        [test_pcpds, test_idx] = random_test_grid(collection_path)
-        n_results = 4 #num_results(partition)
-
-        # Calculate bottleneck distance, print n_result matches
-        guess_grid  = bottleneck_distances.search_distances(n_results, test_pcpds.get_persistance_diagram(), collection_path)
-
-        return [test_idx, guess_grid]
-
-
-    def random_shingling(partition, collection_path, test_idx, ):
-
-        # Grab a random section that is nonempty
-        [test_pcpds, test_idx] = random_test_grid(collection_path)
-        n_results = 4 #num_results(partition)
-
-        # Calculate bottleneck distance, print n_result matches
-        guess_grid  = bottleneck_distances.search_distances(n_results, test_pcpds.get_persistance_diagram(), collection_path)
-
-        return [test_idx, guess_grid]
+        sys.stdout.write('\r[%s] %s%s %s' % (bar, percents, '%', status))
+        sys.stdout.flush()
 
 
     # # Choice 2: Import another file, calculate new PCPDS and test against all points
@@ -113,14 +99,3 @@ class menu:
     #     guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
     #     for idx, _ in guess_grid:
     #         print(str(idx)  + '. ' + str(guess_grid[idx]))
-
-    # Acts as a progress bar
-    def progress(count, total, status=''):
-        bar_len = 60
-        filled_len = int(round(bar_len * count / float(total)))
-
-        percents = round(100.0 * count / float(total), 1)
-        bar = '=' * filled_len + '-' * (bar_len - filled_len)
-
-        sys.stdout.write('\r[%s] %s%s %s' % (bar, percents, '%', status))
-        sys.stdout.flush()

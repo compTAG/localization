@@ -30,12 +30,23 @@ def main():
 
     for n in range(number_of_data):
 
-        # Grab a random section that is nonempty
         [test_pcpds, test_idx] = random_test_grid(collection_path)
+
+        (X, Y, Z) = test_pcpds.get_xyz(test_idx)
+
+        results = [_,_]
+
+        pcpds_manager = PCPDS_Manager()
+
+        #Change this to loop over X+-1 and Y+-1
+        temp_pcpds = pcpds_manager.get_pcpds(las_obj.find_idx(X-1, Y))
+
+        #Add for loop over 0.1 to 1 and to bottleneck distance to average in results
+
+
         n_results = 4 #num_results(partition)
 
         # Calculate bottleneck distance, print n_result matches
-        guess_grid  = bottleneck_distances.search_distances(n_results, test_pcpds.get_persistance_diagram(), collection_path)
 
         datafile.write(str(test_idx))
         datafile.write(":")
