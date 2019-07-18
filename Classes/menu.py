@@ -30,7 +30,7 @@ class menu:
     # TODO: Get n_results from the user, verify, and return.
     def get_n_result_input():
         pass
-    
+
     # Acts as a progress bar
     def progress(count, total, status=''):
         bar_len = 60
@@ -42,63 +42,37 @@ class menu:
         sys.stdout.write('\r[%s] %s%s %s' % (bar, percents, '%', status))
         sys.stdout.flush()
 
+    def transform(bounds, dim, direction, axis, overlay):
 
-    # # Choice 2: Import another file, calculate new PCPDS and test against all points
-    # def test_against_file():
-    #
-    #     test_file = input("Enter the name of the file you'd wish to import: ")
-    #     temp = str(test_file + '.las')
-    #     #concatenate('/path/to/'
-    #     exists = os.path.isfile(temp)
-    #     if exists:
-    #         pass
-    #         #Save persistence diagram of found file to test_grid
-    #     else:
-    #         print('Error. No matching file found. Exiting.')
-    #         exit()
-    #
-    #
-    # Choice 3: Manually select a grid and test against all points
-    # def manual_idx_normal(partition, collection_path, test_idx):
-    #
-    #     path_manager = path_manager()
-    #     #dir = path_manager.get_path_manager().get_full_cur_dir(dir_name)
-    #
-    #     # Loop over until a variable test_idx is found
-    #     # Return random index and calculate PCPDS
-    #     test_pcpds = None
-    #     while test_pcpds == None:
-    #
-    #         search_x = input("Enter the x value of the search index.\n")
-    #         search_y = input("Enter the y value of the search index.\n")
-    #
-    #         search_xyz = self.las_obj.find_index(search_x, search_y)
-    #         print(str(search_xyz))
-    #         test_pcpds = fm.load(os.path.join(dir, str(search_xyz)))
-    #
-    #         if test_pcpds == None:
-    #             print("Please enter values between 0 and " + str(partition) + "\n")
-    #
-    #     n_results = self.__num_results(partition)
-    #
-    #     # Calculate bottleneck distance, print n_result matches
-    #     get_distance = bottleneck_distances.search_distances
-    #     guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
-    #     for idx, _ in guess_grid:
-    #         print(str(idx)  + '. ' + str(guess_grid[idx]))
-    #
-    #
-    # # Choice 4: Rotate an unknown grid and test against all points
-    # def random_idx_rotated(self, collection_path):
-    #
-    #     # Grab a random section that is nonempty
-    #     [test_pcpds, test_idx] = self.random_test_grid()
-    #
-    #     # Get desired number of results from user
-    #     n_results = self.__num_results()
-    #
-    #     # Calculate bottleneck distance, print n_result mat ches
-    #     get_distance = bottleneck_distances.search_distances
-    #     guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
-    #     for idx, _ in guess_grid:
-    #         print(str(idx)  + '. ' + str(guess_grid[idx]))
+        (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
+        dim_to_move = direction * (dim * (float(overlay))/10)
+
+        # True = X Axis
+        if axis == True:
+            low_x_bound = low_x_bound + dim_to_move
+            high_x_bound = high_x_bound + dim_to_move
+
+        # False = Y Axis
+        else:
+            low_y_bound = low_y_bound + dim_to_move
+            high_y_bound = high_y_bound + dim_to_move
+
+        bounds = (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound)
+        return bounds
+
+    def within_point_cloud(test_pc, temp_pc, bounds):
+
+        (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
+        new_pc = []
+
+        for pc in test_pcpds.point_cloud:
+            (X, Y, Z) = pc
+            if (low_x_bound <= X) & (X < high_x_bound) & (low_y_bound <= Y) & (Y < high_y_bound):
+                new_pc.append(X,Y,Z)
+
+        for pc in slide_pcpds.point_cloud:
+            (X, Y, Z) = pc
+            if (low_x_bound <= X) & (X < high_x_bound) & (low_y_bound <= Y) & (Y < high_y_bound):
+                new_pc.append(X,Y,Z)
+
+        return PCPDS(-1, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))

@@ -57,7 +57,7 @@ class PCPDS_Manager:
     def get_random_pcpds(self, random_idx):
         # TODO: have a check for None and index out of bounds in here
         # random_idx = self.las_obj.random_grid()
-        dir = self.path_manager().get_full_cur_dir()
+        dir = self.path_manager.get_full_cur_dir()
 
         random_pcpds = fm.load(os.path.join(dir, str(random_idx) +'.json')) #
         return random_pcpds

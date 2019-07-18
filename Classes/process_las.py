@@ -119,7 +119,7 @@ class ProcessLas:
 
         pcpds_num = len(points)
         individual_dimensions = (grid_dimensions[0]/pcpds_num, grid_dimensions[1]/pcpds_num, grid_dimensions[2]/pcpds_num)
-        
+
         for id in points:
             # print(id)
             temp = pcpds(id, individual_dimensions)

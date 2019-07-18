@@ -26,52 +26,66 @@ def main():
     datafile = open("bdripson70partitions.txt", "a")
 
     #import functions
-    m = menu(partition, las_obj)
+    m = menu()
 
     for n in range(number_of_data):
 
-        [test_pcpds, test_idx] = random_test_grid(collection_path)
+        test_idx = las_obj.random_grid()
+        test_pcpds = pfm.get_random_pcpds(test_idx)
 
-        (X, Y, Z) = test_pcpds.get_xyz(test_idx)
-        (dimX, dimY) = test_pcpds.get_dimensions()
-        
+        (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
+        (dimX, dimY, dimZ) = test_pcpds.get_dimensions()
+        bounds = test_pcpds.get_bounds(str(test_idx))
 
         results = []
 
-        pcpds_manager = PCPDS_Manager()
 
-        #Change this to loop over X+-1 and Y+-1, check exists
-        slide_pcpds = pcpds_manager.get_pcpds(las_obj.find_idx(X+1, Y))
+        # Original Frame
+        test_pd = test_pcpds.get_persistance_diagram()
 
-        #Add for loop over 0.1 to 1 and to bottleneck distance to average in results
+        slide_left_X = pfm.get_pcpds(las_obj.find_index(X-1, Y))
+        slide_right_X = pfm.get_pcpds(las_obj.find_index(X+1, Y))
+        slide_up_Y = pfm.get_pcpds(las_obj.find_index(X, Y+1))
+        slide_down_Y = pfm.get_pcpds(las_obj.find_index(X, Y-1))
+
+        # Slide frame 10% across each direction
         for overlay in range(10):
-            begin_X = (float(overlay)/10.0 * dimX) + (dimX * X)
-            end_X = (float(overlay)/10.0 * dimX) + (dimX * X) + dimX
+            # Left
+            bounds_left_X = m.transform(bounds, dimX, -1, True, overlay)
+            left_X_pcpds = m.within_point_cloud(test_pcpds, slide_left_X, bounds_left_X)
+            left_X_pd = left_X_pcpds.get_persistance_diagram()
 
-            for pc in test_pcpds.point_cloud:
-                #if point is within bounds of beginX and endX regardless of Y coord, add to temp_pcpds
-                pass
+            # Right
+            bounds_right_X = m.transform(bounds, dimX, 1, True, overlay)
+            right_X_pcpds = m.within_point_cloud(test_pcpds, slide_right_X, bounds_right_X)
+            right_X_pd = right_X_pcpds.get_persistance_diagram()
 
-            for pc in slide_pcpds.point_cloud:
-                #if point is within bounds of beginX and endX regardless of Y coord, add to temp_pcpds
-                pass
+            # Up
+            bounds_up_Y = m.transform(bounds, dimY, 1, False, overlay)
+            up_Y_pcpds = m.within_point_cloud(test_pcpds, slide_up_Y, bounds_up_Y)
+            up_Y_pd = up_Y_pcpds.get_persistance_diagram()
 
-            temp_pd = temp_pcpds.get_persistence_diagram()
-            test_pd = test_pcpds.get_persistence_diagram()
-            results[overlay] = bottleneck_distances.get_distances(temp_pd, test_pd)#bottleneck temp_pcpds against test_pcpds
+            # Down
+            bounds_down_Y = m.transform(bounds, dimY, -1, False, overlay)
+            down_Y_pcpds = m.within_point_cloud(test_pcpds, slide_down_Y, bounds_down_Y)
+            down_Y_pd = down_Y_pcpds.get_persistance_diagram()
+
+            # Find average bottleneck at each overlay percentage
+            results[overlay] = (results[overlay] + bottleneck_distances.get_distances(left_X_pd, test_pd)) / overlay
+            results[overlay] = (results[overlay] + bottleneck_distances.get_distances(right_X_pd, test_pd)) / overlay
+            results[overlay] = (results[overlay] + bottleneck_distances.get_distances(up_Y_pd, test_pd)) / overlay
+            results[overlay] = (results[overlay] + bottleneck_distances.get_distances(down_Y_pd, test_pd)) / overlay
 
         #Repeat above for X-1, Y+-1
 
-        # Calculate bottleneck distance, print n_result matches
 
         datafile.write(str(test_idx))
         datafile.write(":")
 
-        pass_string = ''
         # Calculate bottleneck distance, print n_result matches
-        for idx in guess_grid:
-            datafile.write(str(idx))
-            print(idx)
+        for overlay_perc in guess_grid:
+            datafile.write(str(overlay_perc))
+            #print(idx)
             datafile.write(",")
         datafile.write('\n')
 
