@@ -8,10 +8,10 @@ import Classes.file_manager as file_manager
 import Classes.bottleneck_dist as bottleneck_distances
 
 def main():
-    number_of_data = 20
+    number_of_data = 12
     # Create las object and calculate corresponding values
     filename = 'tiny'
-    partition = 70
+    partition = 30
     las_obj = ProcessLas(filename, partition)
 
     # Makes a string of the folder path, os.path.join makes it compatible
@@ -23,9 +23,9 @@ def main():
     print('Dir:' + str(dir_name))
 
     las_obj.input_las(dir_name)
-    datafile = open("noise_to_bd.txt", "a")
-    relative_std_dev = 0.0001
-    while relative_std_dev < 0.1:
+    datafile = open("noise_to_bd2.txt", "a")
+    relative_std_dev = 0.001
+    while relative_std_dev < 1:
         for _ in range(number_of_data):
             #get random PCPDS
             rand_pcpds = pfm.get_random_pcpds()
@@ -46,6 +46,11 @@ def main():
                     break
             C = B + A
             noise_pcpds.set_point_cloud(C)
+            temp1 = rand_pcpds.get_point_cloud()
+            print(temp1)
+            temp = noise_pcpds.get_point_cloud()
+            print(temp)
+            print('\n\n\n\n')
             noise_pcpds.generate_persistance_diagram()
             #write the test idx and relative std dev to datafile
             datafile.write(str(test_idx))
@@ -56,7 +61,7 @@ def main():
             bd = bottleneck_distances.get_distances(noise_pcpds.get_persistance_diagram(),rand_pcpds.get_persistance_diagram())
             datafile.write(str(bd))
             datafile.write("\n")
-        relative_std_dev += 0.0001
+        relative_std_dev += 0.001
 
 # Do Main
 if __name__ == '__main__':
