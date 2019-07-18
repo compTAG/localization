@@ -45,7 +45,7 @@ def load(path):
     return obj
 
 def find_files(dir, ext):
-    
+
     ext_len = -1*len(ext)
     files = []
     for (dirpath, dirnames, filenames) in walk(dir):
@@ -71,7 +71,7 @@ def find_folders(dir):
 
 
 def make_folder(dir_name):
-    
+
     try:
         os.makedirs(dir_name)
         print("Directory " + dir_name + " created.")
