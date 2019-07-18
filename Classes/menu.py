@@ -30,6 +30,17 @@ class menu:
     # TODO: Get n_results from the user, verify, and return.
     def get_n_result_input():
         pass
+    # Acts as a progress bar
+    def progress(count, total, status=''):
+        bar_len = 60
+        filled_len = int(round(bar_len * count / float(total)))
+
+        percents = round(100.0 * count / float(total), 1)
+        bar = '=' * filled_len + '-' * (bar_len - filled_len)
+
+        sys.stdout.write('\r[%s] %s%s %s' % (bar, percents, '%', status))
+        sys.stdout.flush()
+
 
     # # Choice 2: Import another file, calculate new PCPDS and test against all points
     # def test_against_file():
@@ -90,14 +101,3 @@ class menu:
     #     guess_grid  = get_distance(n_results, test_pcpds.get_persistance_diagram(), collection_path)
     #     for idx, _ in guess_grid:
     #         print(str(idx)  + '. ' + str(guess_grid[idx]))
-
-    # Acts as a progress bar
-    def progress(count, total, status=''):
-        bar_len = 60
-        filled_len = int(round(bar_len * count / float(total)))
-
-        percents = round(100.0 * count / float(total), 1)
-        bar = '=' * filled_len + '-' * (bar_len - filled_len)
-
-        sys.stdout.write('\r[%s] %s%s %s' % (bar, percents, '%', status))
-        sys.stdout.flush()
