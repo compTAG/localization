@@ -12,7 +12,7 @@ import sys
 class menu:
 
     # Return the desired number of results the user wants, given n <= partition^3
-    def __num_results(partition):
+    def num_results(partition):
 
         n_results = (partition**3)+1
         while n_results > partition**3:
@@ -29,26 +29,25 @@ class menu:
         return n_results
 
 
-    # Select a random, non-empty grid from the dictionary of points
-    # TODO: Return the loaded random index's PCPDS obj
-    def __random_test_grid(self, dir_name):
-
-        # TODO: have a check for None and index out of bounds in here
-        pcpds_m = pcpds_manager()
-        dir = pcpds_m.get_path_manager().get_full_cur_dir_var(dir_name)
-        test_pcpds = fm.load(os.path.join(dir, str(test_idx) +'.json'))
-
-        return [test_pcpds, test_idx]
-
-
     # Choice 1: Select an unknown grid and test against all points
     def random_idx_normal(partition, collection_path, test_idx):
 
         # Grab a random section that is nonempty
-        [test_pcpds, test_idx] = self.__random_test_grid(collection_path)
-        n_results = 4 #self.__num_results(partition)
+        [test_pcpds, test_idx] = random_test_grid(collection_path)
+        n_results = 4 #num_results(partition)
 
-        pass_string = ''
+        # Calculate bottleneck distance, print n_result matches
+        guess_grid  = bottleneck_distances.search_distances(n_results, test_pcpds.get_persistance_diagram(), collection_path)
+
+        return [test_idx, guess_grid]
+
+
+    def random_shingling(partition, collection_path, test_idx, ):
+
+        # Grab a random section that is nonempty
+        [test_pcpds, test_idx] = random_test_grid(collection_path)
+        n_results = 4 #num_results(partition)
+
         # Calculate bottleneck distance, print n_result matches
         guess_grid  = bottleneck_distances.search_distances(n_results, test_pcpds.get_persistance_diagram(), collection_path)
 
