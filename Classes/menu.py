@@ -30,6 +30,7 @@ class menu:
     # TODO: Get n_results from the user, verify, and return.
     def get_n_result_input():
         pass
+    
     # Acts as a progress bar
     def progress(count, total, status=''):
         bar_len = 60

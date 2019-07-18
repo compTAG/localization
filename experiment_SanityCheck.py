@@ -5,6 +5,7 @@ from Classes.menu import menu as menu
 from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.file_manager as file_manager
 import Classes.bottleneck_dist as bottleneck_distances
+import os.path
 
 def main():
 
@@ -31,19 +32,25 @@ def main():
     for n in range(number_of_data):
 
         # Generates random idx value for pcpds object
-        random_idx = las_obj.random_grid()
+        random_idx = str(las_obj.random_grid())
         
+        random_pcpds  = None
+        first = True
         # TODO: Validate the idx from random_grid is valid, else run random_grid again.
-        random_pcpds = pfm.get_pcpds(random_idx)
-        pass_string = ''
-    
+        # Generate & validate a random_pcpds to use.
+        while(not pfm.get_path_manager().validate_file(os.path.join(dir_name, random_idx+".json")) or first):
+            random_idx = str(las_obj.random_grid())
+            print("Attempting RANDOM ID:", random_idx)
+            first = False
+               
+        # Grabs the pcpds object that was generated
+        random_pcpds = pfm.get_pcpds(random_idx) 
         # Calculate bottleneck distance, print n_result matches
         closest_matches  = bottleneck_distances.search_distances(n_results, random_pcpds.get_persistance_diagram(), dir_name)
 
         datafile.write(str(random_idx))
         datafile.write(":")
 
-        pass_string = ''
         # Calculate bottleneck distance, print n_result matches
         for idx in closest_matches:
             datafile.write(str(idx))
