@@ -1,5 +1,4 @@
 import Classes.PCPDS
-import Classes.bottleneck_dist as bottleneck_distances
 import numpy as np
 import Classes.file_manager as fm
 from Classes.path_manager import PathManager as path_manager
@@ -12,7 +11,7 @@ import sys
 class menu:
 
     # Return the desired number of results the user wants, given n <= partition^3
-    def num_results(partition):
+    def __num_results(partition):
 
         n_results = (partition**3)+1
         while n_results > partition**3:
@@ -28,31 +27,9 @@ class menu:
 
         return n_results
 
-
-    # Choice 1: Select an unknown grid and test against all points
-    def random_idx_normal(partition, collection_path, test_idx):
-
-        # Grab a random section that is nonempty
-        [test_pcpds, test_idx] = random_test_grid(collection_path)
-        n_results = 4 #num_results(partition)
-
-        # Calculate bottleneck distance, print n_result matches
-        guess_grid  = bottleneck_distances.search_distances(n_results, test_pcpds.get_persistance_diagram(), collection_path)
-
-        return [test_idx, guess_grid]
-
-
-    def random_shingling(partition, collection_path, test_idx, ):
-
-        # Grab a random section that is nonempty
-        [test_pcpds, test_idx] = random_test_grid(collection_path)
-        n_results = 4 #num_results(partition)
-
-        # Calculate bottleneck distance, print n_result matches
-        guess_grid  = bottleneck_distances.search_distances(n_results, test_pcpds.get_persistance_diagram(), collection_path)
-
-        return [test_idx, guess_grid]
-
+    # TODO: Get n_results from the user, verify, and return.
+    def get_n_result_input():
+        pass
 
     # # Choice 2: Import another file, calculate new PCPDS and test against all points
     # def test_against_file():

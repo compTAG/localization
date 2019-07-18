@@ -26,24 +26,32 @@ def main():
     datafile = open("bdripson70partitions.txt", "a")
 
     #import functions
-    m = menu(partition, las_obj)
+    n_results = 4 # menu.get_n_result_input()
 
     for n in range(number_of_data):
 
-        [test_idx, guess_grid] = m.random_idx_normal(partition, dir_name, las_obj.random_grid())
+        # Generates random idx value for pcpds object
+        random_idx = las_obj.random_grid()
+        
+        # TODO: Validate the idx from random_grid is valid, else run random_grid again.
+        random_pcpds = pfm.get_pcpds(random_idx)
+        pass_string = ''
+    
+        # Calculate bottleneck distance, print n_result matches
+        closest_matches  = bottleneck_distances.search_distances(n_results, random_pcpds.get_persistance_diagram(), dir_name)
 
-        datafile.write(str(test_idx))
+        datafile.write(str(random_idx))
         datafile.write(":")
 
         pass_string = ''
         # Calculate bottleneck distance, print n_result matches
-        for idx in guess_grid:
+        for idx in closest_matches:
             datafile.write(str(idx))
             print(idx)
             datafile.write(",")
         datafile.write('\n')
 
-        m.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
+        menu.progress(n, number_of_data, ("Processing random grid: "+str(random_idx)+"..."))
 
     print("Job done.")
 

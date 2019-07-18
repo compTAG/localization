@@ -41,7 +41,12 @@ class ProcessLas:
         z_vals = z_vals  * scale_factor
         temp = np.array([x_vals,y_vals,z_vals])
 
-        return temp.T
+        dimX = temp[0] - minx
+        dimY = temp[1] - miny
+        dimZ = temp[2] - minz
+        dimensions = (minx, miny, minz)
+
+        return temp.T, dimensions
 
 
     # Returns a random index in the object
@@ -80,7 +85,7 @@ class ProcessLas:
         y_vals = in_file.Y
         z_vals = in_file.Z
 
-        coords = self.__format_data(x_vals,y_vals,z_vals)
+        coords, grid_dimensions = self.__format_data(x_vals,y_vals,z_vals)
 
         # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
@@ -112,9 +117,12 @@ class ProcessLas:
         points.pop('idx')
         tracker = 0
 
+        pcpds_num = len(points)
+        individual_dimensions = (grid_dimensions[0]/pcpds_num, grid_dimensions[1]/pcpds_num, grid_dimensions[2]/pcpds_num)
+        
         for id in points:
             # print(id)
-            temp = pcpds(id)
+            temp = pcpds(id, individual_dimensions)
 
             # print('pcpds set')
             temp.set_point_cloud(points[id])

@@ -5,7 +5,7 @@ from sys         import argv, exit
 import Classes.PCPDS
 import Classes.file_manager as fm
 import os.path
-#from Classes.menu import menu
+from Classes.menu import menu
 
 def get_distances(filt1, filt2):
     return d.bottleneck_distance(filt1[0],filt2[0])
@@ -28,7 +28,7 @@ def search_distances(num, searchfilt, collection_path):
         top_idx = sorted(top_idx, key=lambda x:x[1])
         if len(top_idx) > num:
             top_idx.pop(num-1)
-        #menu.progress(tracker, len(cell_IDs), 'Processing Search_Disantce...')
+        menu.progress(tracker, len(cell_IDs), 'Processing Search_Disantce...')
         tracker = tracker + 1
     print("\n")
     return top_idx

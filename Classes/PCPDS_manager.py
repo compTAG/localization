@@ -48,7 +48,7 @@ class PCPDS_Manager:
 
     # Fetches a pcpds with a specified cell_ID
     def get_pcpds(self, cell_ID):
-        dir = self.path_manager().get_full_cur_dir()
+        dir = self.path_manager.get_full_cur_dir()
 
         pcpds = fm.load(os.path.join(dir, str(cell_ID) +'.json')) #
         return pcpds
