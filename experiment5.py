@@ -10,8 +10,8 @@ def main():
 
     number_of_data = 400
     # Create las object and calculate corresponding values
-    filename = 'small'
-    partition = 700
+    filename = 'tiny'
+    partition = 70
     las_obj = ProcessLas(filename, partition)
 
     # Makes a string of the folder path, os.path.join makes it compatible
@@ -32,15 +32,15 @@ def main():
         #[test_idx, guess_grid] = m.random_idx_normal(dir_name)
         rand_pcpds = pfm.get_random_pcpds()
         test_idx = rand_pcpds.get_cellID()
-        
+
         nearest_results = 12
-        
+
         # TODO: make loading bar for guess_grid
         guess_grid  = bottleneck_distances.search_distances(nearest_results, rand_pcpds.get_persistance_diagram(), dir_name)
-        
+
         datafile.write(str(test_idx))
         datafile.write(":")
-        
+
         pass_string = ''
         # Calculate bottleneck distance, print n_result matches
         for idx in guess_grid:
