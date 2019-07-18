@@ -15,10 +15,6 @@ def main():
     partition = 70
     las_obj = ProcessLas(filename, partition)
 
-    # Makes a string of the folder path, os.path.join makes it compatible
-    # between macs, windows, and linux
-    dir_name = file_manager.make_folder(filename)
-
     pfm = PCPDS_Manager()
     dir_name = pfm.generate_collection(filename, partition)
     print('Dir:' + str(dir_name))

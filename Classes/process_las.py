@@ -111,7 +111,9 @@ class ProcessLas:
             # Keeps track of the progress of dividing up points
             menu.progress(c, len(coords), ("Processing point: "+str(idx)+"..."))
 
-
+        menu.progress(1, 1, ("Processing points completed."))
+        print("\n")
+        
         # Creates a pcpds object for each idx and stores it's respective
         # point cloud in it before saving the file.
         points.pop('idx')
@@ -121,18 +123,12 @@ class ProcessLas:
         individual_dimensions = (grid_dimensions[0]/pcpds_num, grid_dimensions[1]/pcpds_num, grid_dimensions[2]/pcpds_num)
         
         for id in points:
-            # print(id)
             temp = pcpds(id, individual_dimensions)
 
-            # print('pcpds set')
             temp.set_point_cloud(points[id])
-
-            # TODO: contemplate seperating the generation of persistance
-            # diagrams to another area/file for reducing time complexity here
-
-            # print('pointcloud set')
+            
             # Generates and sets the persistance diagram
-            temp = Filtration.get_rips_diagram(temp)
+            # temp = Filtration.get_rips_diagram(temp)
 
             # print('diagram set')
             file_manager.save(temp, path, id)
@@ -140,5 +136,6 @@ class ProcessLas:
             # Keeps track of the PCPDS objects being generated
             menu.progress(tracker, len(points), ("Processing PCPDS object for idx: "+str(id)))
             tracker = tracker + 1
-
+            
+        menu.progress(1, 1, ("Processing PCPDS files completed."))
         print("\n")
