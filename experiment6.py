@@ -33,7 +33,8 @@ def main():
         [test_pcpds, test_idx] = random_test_grid(collection_path)
 
         (X, Y, Z) = test_pcpds.get_xyz(test_idx)
-        [dimX, dimY] = test_pcpds.get_dimensions #**
+        (dimX, dimY) = test_pcpds.get_dimensions()
+        
 
         results = []
 
@@ -55,7 +56,9 @@ def main():
                 #if point is within bounds of beginX and endX regardless of Y coord, add to temp_pcpds
                 pass
 
-            results[overlay] = #bottleneck temp_pcpds against test_pcpds
+            temp_pd = temp_pcpds.get_persistence_diagram()
+            test_pd = test_pcpds.get_persistence_diagram()
+            results[overlay] = bottleneck_distances.get_distances(temp_pd, test_pd)#bottleneck temp_pcpds against test_pcpds
 
         #Repeat above for X-1, Y+-1
 
