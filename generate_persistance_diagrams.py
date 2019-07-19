@@ -41,11 +41,10 @@ def generate_persistance_diagrams():
          
          # TODO: Add capabilitiy to select filtration method using abstract functino stuff.
          temp = Filtration.get_rips_diagram(pcpds_obj)
-         file_manager.save(pcpds_obj, file_path, pcpds_obj.get_cellID())
+         file_manager.save(pcpds_obj, pcpds_manager.get_path_manager().get_full_cur_dir(), pcpds_obj.get_cellID())
          print(file, "Saved.")
          
-         
-    # Generates and sets the persistance diagram
-    #temp = Filtration.get_rips_diagram(pcpds_obj)
+         # TODO: Add progress bar?
+         # menu.progress()
 
 generate_persistance_diagrams()
