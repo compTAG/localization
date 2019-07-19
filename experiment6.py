@@ -30,10 +30,11 @@ def main():
 
     for n in range(number_of_data):
 
-        test_idx = las_obj.random_grid()
+        test_idx = 166501 #las_obj.random_grid()
         test_pcpds = pfm.get_random_pcpds(test_idx)
 
         (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
+        print(str(X) +' ' +str(Y)+' '+ str(Z))
         (dimX, dimY, dimZ) = test_pcpds.get_dimensions()
         bounds = test_pcpds.get_bounds(str(test_idx))
 

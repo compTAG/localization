@@ -58,7 +58,7 @@ class ProcessLas:
 
         xRand = str(xRand).zfill(self.leading_zeros)
         yRand = str(yRand).zfill(self.leading_zeros)
-        zRand = str(zRand)
+        zRand = str(zRand).zfill(self.leading_zeros)
 
         return int('1' + xRand + yRand + zRand)
 
@@ -68,7 +68,7 @@ class ProcessLas:
 
         x = str(x).zfill(self.leading_zeros)
         y = str(y).zfill(self.leading_zeros)
-        z = str(1)
+        z = str(1).zfill(self.leading_zeros)
 
         return int('1' + x + y + z)
 
