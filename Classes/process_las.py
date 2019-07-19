@@ -41,10 +41,10 @@ class ProcessLas:
         z_vals = z_vals  * scale_factor
         temp = np.array([x_vals,y_vals,z_vals])
 
-        dimX = temp[0] - minx
-        dimY = temp[1] - miny
-        dimZ = temp[2] - minz
-        dimensions = (minx, miny, minz)
+        dimX = max(x_vals) - min(x_vals)
+        dimY = max(y_vals) - min(y_vals)
+        dimZ = max(z_vals) - min(z_vals)
+        dimensions = (dimX, dimY, dimZ)
 
         return temp.T, dimensions
 
@@ -97,7 +97,7 @@ class ProcessLas:
 
             x = str(x).zfill(self.leading_zeros)
             y = str(y).zfill(self.leading_zeros)
-            z = str(1).zfill(self.leading_zeros) 
+            z = str(1).zfill(self.leading_zeros)
 
             idx = int('1' + x + y + z)
 
