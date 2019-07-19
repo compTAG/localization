@@ -49,19 +49,19 @@ def generate_persistance_diagrams():
     
     # TOOD: FOR MULTITHREADING: Use this iterator only to pass off the processing tasks to each avalible thread!
     for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
-         # TODO: Hand off pcpds object here to multithread function
+        # TODO: Hand off pcpds object here to multithread function
+        
+        file_path = os.path.join(pcpds_manager.get_path_manager().get_full_cur_dir(), file)
+        pcpds_obj = file_manager.load(file_path)
          
-         print("File_Name:", file)
-         file_path = os.path.join(pcpds_manager.get_path_manager().get_full_cur_dir(), file)
-         print("File_Path:", file_path)
-         pcpds_obj = file_manager.load(file_path)
+        # TODO: Add capabilitiy to select filtration method using abstract functino stuff.
+        result = filter(pcpds_obj)
+        file_manager.save(result, pcpds_manager.get_path_manager().get_full_cur_dir(), pcpds_obj.get_cellID())
+        print(file, "filtrated & Saved.")
          
-         # TODO: Add capabilitiy to select filtration method using abstract functino stuff.
-         result = filter(pcpds_obj)
-         file_manager.save(result, pcpds_manager.get_path_manager().get_full_cur_dir(), pcpds_obj.get_cellID())
-         print(file, "Saved.")
-         
-         # TODO: Add progress bar?
-         # menu.progress()
+        # TODO: Add progress bar?
+        # menu.progress()
+        
+    print("Finished filtrating persistance diagrams for files.")
 
 generate_persistance_diagrams()

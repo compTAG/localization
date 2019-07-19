@@ -44,7 +44,8 @@ class PathManager:
             else:
                 return path
         else:
-            print("Current directory path is invalid.")
+            # print("Current directory path is invalid.")
+            pass
         return False
 
     def is_collection_path(self):
