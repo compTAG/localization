@@ -39,7 +39,6 @@ def main():
 
         results = []
 
-
         # Original Frame
         test_pd = test_pcpds.get_persistance_diagram()
 
