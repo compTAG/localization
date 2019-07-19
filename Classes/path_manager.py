@@ -36,14 +36,13 @@ class PathManager:
         self.cur_dir = dir
         return os.path.join(self.get_root_dir(), self.get_cols_dir(), dir)
 
-
     def get_full_cur_dir(self):
         path = os.path.join(self.get_root_dir(), self.get_cols_dir(), self.get_cur_dir())
         if self.validate_dir(path):
             if self.is_collection_path():
-                return path
-            else:
                 print("Collection Path appears to have not been set yet.")
+            else:
+                return path
         else:
             print("Current directory path is invalid.")
         return False
@@ -52,10 +51,10 @@ class PathManager:
         collections_path = os.path.join(self.ROOT_DIR, self.collections_dir)
         full_path = os.path.join(self.ROOT_DIR, self.collections_dir, self.cur_dir)
         if full_path is collections_path:
-            return False
+            return True
             print("full_path & collections_path are the same.")
         else:
-            return True
+            return False
 
     def validate_dir(self, dir_path):
         if dir_path is None:

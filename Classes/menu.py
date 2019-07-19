@@ -34,6 +34,9 @@ class menu:
     def get_filename_input():
         return input("Enter file name: ")
     
+    def get_input(hint):
+        return input(hint)
+    
     def get_int_input():
         while(True):
             try:
