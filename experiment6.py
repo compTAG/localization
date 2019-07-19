@@ -5,6 +5,7 @@ from Classes.menu import menu as menu
 from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.file_manager as file_manager
 import Classes.bottleneck_dist as bottleneck_distances
+import os.path
 
 def main():
 
@@ -30,7 +31,14 @@ def main():
 
     for n in range(number_of_data):
 
-        test_idx = 166501 #las_obj.random_grid()
+        test_idx = str(las_obj.random_grid())
+
+        first = True
+        while(not pfm.get_path_manager().validate_file(os.path.join(dir_name, test_idx+".json")) or first):
+            test_idx = str(las_obj.random_grid())
+            print("Attempting RANDOM ID:", test_idx)
+            first = False
+        print("VALID RANDOM ID: ", test_idx)
         test_pcpds = pfm.get_random_pcpds(test_idx)
 
         (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
