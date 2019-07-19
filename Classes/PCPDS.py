@@ -67,8 +67,8 @@ class PCPDS:
         Y = xyz % trunc_val
         xyz = int(xyz/trunc_val)
 
-        X = xyz
-
+        X = xyz % trunc_val
+        
         return (X, Y, Z)
 
     # Calculates the boundaries of the point cloud.
