@@ -1,4 +1,4 @@
-import Classes.PCPDS
+from Classes.PCPDS import PCPDS as pcpds
 import numpy as np
 import Classes.file_manager as fm
 from Classes.path_manager import PathManager as path_manager
@@ -64,18 +64,24 @@ class menu:
 
         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
         new_pc = []
+        print(test_pcpds.point_cloud, str(range(len(test_pcpds.point_cloud))))
+        print(slide_pcpds.point_cloud, str(range(len(slide_pcpds.point_cloud))))
 
-        for pc in test_pcpds.point_cloud:
-            (X, Y, Z) = pc
-            if (low_x_bound <= X) & (X < high_x_bound) & (low_y_bound <= Y) & (Y < high_y_bound):
-                new_pc.append(X,Y,Z)
+        for i in range(len(test_pcpds.point_cloud)):
+            [X, Y, Z] = test_pcpds.point_cloud[i]
+            print(str(i))
+            if ((low_x_bound <= X) and (X < high_x_bound)) and ((low_y_bound <= Y) and (Y < high_y_bound)):
+                new_pc = np.vstack((new_pc,[X,Y,Z]))
+                print(str(test_pcpds.point_cloud[i]))
 
-        for pc in slide_pcpds.point_cloud:
-            (X, Y, Z) = pc
-            if (low_x_bound <= X) & (X < high_x_bound) & (low_y_bound <= Y) & (Y < high_y_bound):
-                new_pc.append(X,Y,Z)
+        for i in range(len(slide_pcpds.point_cloud)):
+            [X, Y, Z] = slide_pcpds.point_cloud[i]
+            print(str(i))
+            if ((low_x_bound <= X) and (X < high_x_bound)) and ((low_y_bound <= Y) and (Y < high_y_bound)):
+                new_pc = np.vstack((new_pc,[X,Y,Z]))
+                print(str(slide_pcpds.point_cloud[i]))
 
-        slide_pcpds = pcpds(-1, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
-        slide_pcpds.set_point_cloud(new_pc)
+        ret_pcpds = pcpds(-1, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
+        ret_pcpds.set_point_cloud(new_pc)
 
-        return slide_pcpds
+        return ret_pcpds
