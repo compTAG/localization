@@ -42,7 +42,7 @@ class menu:
         sys.stdout.write('\r[%s] %s%s %s' % (bar, percents, '%', status))
         sys.stdout.flush()
 
-    def transform(bounds, dim, direction, axis, overlay):
+    def transform(self, bounds, dim, direction, axis, overlay):
 
         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
         dim_to_move = direction * (dim * (float(overlay))/10)
@@ -60,7 +60,7 @@ class menu:
         bounds = (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound)
         return bounds
 
-    def within_point_cloud(test_pc, temp_pc, bounds):
+    def within_point_cloud(self, test_pcpds, slide_pcpds, bounds):
 
         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
         new_pc = []
@@ -75,4 +75,7 @@ class menu:
             if (low_x_bound <= X) & (X < high_x_bound) & (low_y_bound <= Y) & (Y < high_y_bound):
                 new_pc.append(X,Y,Z)
 
-        return PCPDS(-1, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
+        slide_pcpds = pcpds(-1, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
+        slide_pcpds.set_point_cloud(new_pc)
+
+        return slide_pcpds
