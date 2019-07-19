@@ -62,7 +62,8 @@ class PathManager:
         elif os.path.isdir(dir_path):
             return True
         else:
-            return True
+            # Returns False here if the path is not valid.
+            return False
 
 
     def validate_file(self, file_path):

@@ -11,7 +11,7 @@ class Filtration:
         return pcpds_obj
 
     def get_lower_star(pcpds_obj):
-        f =d.fill_freudenthal(pcpds_obj.get_point_cloud(), True)
+        f = d.fill_freudenthal(pcpds_obj.get_point_cloud(), True)
         m = d.homology_persistence(f)
         diagram = d.init_diagrams(m,f)
         pcpds_obj.set_persistance_diagram(diagram)
