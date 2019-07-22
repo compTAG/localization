@@ -6,8 +6,6 @@ from Classes.PCPDS_manager import PCPDS_Manager as pcpds_manager
 import os.path
 import sys
 
-# TODO: Change these to reflect how bottleneck is called
-
 class menu:
 
     # Return the desired number of results the user wants, given n <= partition^3
@@ -42,7 +40,7 @@ class menu:
         sys.stdout.write('\r[%s] %s%s %s' % (bar, percents, '%', status))
         sys.stdout.flush()
 
-    def transform(self, bounds, dim, direction, axis, overlay):
+    def transform(bounds, dim, direction, axis, overlay):
 
         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
         dim_to_move = direction * (dim * (float(overlay))/10)
@@ -60,7 +58,7 @@ class menu:
         bounds = (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound)
         return bounds
 
-    def within_point_cloud(self, test_pcpds, slide_pcpds, bounds):
+    def within_point_cloud(test_pcpds, slide_pcpds, bounds):
 
         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
         new_pc = []

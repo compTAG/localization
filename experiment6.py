@@ -27,9 +27,6 @@ def main():
     las_obj.input_las(dir_name)
     datafile = open("bdripson70partitions.txt", "a")
 
-    #import functions
-    m = menu()
-
     for n in range(number_of_data):
 
 
@@ -40,27 +37,31 @@ def main():
         valid_idx = False
         while valid_idx == False:
 
-            first = True
-            while(not pfm.get_path_manager().validate_file(os.path.join(dir_name, test_idx+".json")) or first):
+            # first = True
+            test_idx = str(las_obj.random_grid_edge_case())
+            while pfm.get_path_manager().validate_file(os.path.join(dir_name, test_idx+".json")) == False:
                 test_idx = str(las_obj.random_grid_edge_case())
                 print("Attempting RANDOM ID:", test_idx)
-                first = False
+                # first = False
 
-            slide_left_X = pfm.get_pcpds(las_obj.find_index(X-1, Y))
-            slide_right_X = pfm.get_pcpds(las_obj.find_index(X+1, Y))
-            slide_up_Y = pfm.get_pcpds(las_obj.find_index(X, Y+1))
-            slide_down_Y = pfm.get_pcpds(las_obj.find_index(X, Y-1))
+            test_pcpds = pfm.get_random_pcpds(test_idx)
+            (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
 
-            if pfm.get_path_manager().validate_file(os.path.join(dir_name, slide_left_X +".json" == True:
-                if pfm.get_path_manager().validate_file(os.path.join(dir_name, slide_right_X +".json" == True:
-                    if pfm.get_path_manager().validate_file(os.path.join(dir_name, slide_up_Y +".json" == True:
-                        if pfm.get_path_manager().validate_file(os.path.join(dir_name, slide_down_Y +".json" == True:
+            slide_left_X = las_obj.find_index(X-1, Y)
+            slide_right_X = las_obj.find_index(X+1, Y)
+            slide_up_Y = las_obj.find_index(X, Y+1)
+            slide_down_Y = las_obj.find_index(X, Y-1)
+
+            if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_left_X) +".json")) == True:
+                if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_right_X) +".json")) == True:
+                    if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_up_Y) +".json")) == True:
+                        if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_down_Y) +".json")) == True:
                             valid_idx = True
                             print("VALID RANDOM ID: ", test_idx)
 
         # Get the random pcpds's details
-        test_pcpds = pfm.get_random_pcpds(test_idx)
-        (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
+        # test_pcpds = pfm.get_random_pcpds(test_idx)
+        # (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
         print(str(X) +' ' +str(Y)+' '+ str(Z))
         (dimX, dimY, dimZ) = test_pcpds.get_dimensions()
         bounds = test_pcpds.get_bounds(str(test_idx))
@@ -69,30 +70,35 @@ def main():
         results = []
         num_dir = 4
 
+        slide_left_X = pfm.get_pcpds(las_obj.find_index(X-1, Y))
+        slide_right_X = pfm.get_pcpds(las_obj.find_index(X+1, Y))
+        slide_up_Y = pfm.get_pcpds(las_obj.find_index(X, Y+1))
+        slide_down_Y = pfm.get_pcpds(las_obj.find_index(X, Y-1))
+
         # Slide frame 10% across each direction
         for overlay in range(10):
             # Left
-            bounds_left_X = m.transform(bounds, dimX, -1, True, overlay)
-            left_X_pcpds = m.within_point_cloud(test_pcpds, slide_left_X, bounds_left_X)
+            bounds_left_X = menu.transform(bounds, dimX, -1, True, overlay)
+            left_X_pcpds = menu.within_point_cloud(test_pcpds, slide_left_X, bounds_left_X)
             print(left_X_pcpds.get_point_cloud())
             left_X_pcpds = filtration.get_rips_diagram(left_X_pcpds)
             left_X_pd = left_X_pcpds.get_persistance_diagram()
 
             # Right
-            bounds_right_X = m.transform(bounds, dimX, 1, True, overlay)
-            right_X_pcpds = m.within_point_cloud(test_pcpds, slide_right_X, bounds_right_X)
+            bounds_right_X = menu.transform(bounds, dimX, 1, True, overlay)
+            right_X_pcpds = menu.within_point_cloud(test_pcpds, slide_right_X, bounds_right_X)
             right_X_pcpds = filtration.get_rips_diagram(right_X_pcpds)
             right_X_pd = right_X_pcpds.get_persistance_diagram()
 
             # Up
-            bounds_up_Y = m.transform(bounds, dimY, 1, False, overlay)
-            up_Y_pcpds = m.within_point_cloud(test_pcpds, slide_up_Y, bounds_up_Y)
+            bounds_up_Y = menu.transform(bounds, dimY, 1, False, overlay)
+            up_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_up_Y, bounds_up_Y)
             up_Y_pcpds = filtration.get_rips_diagram(up_Y_pcpds)
             up_Y_pd = up_Y_pcpds.get_persistance_diagram()
 
             # Down
-            bounds_down_Y = m.transform(bounds, dimY, -1, False, overlay)
-            down_Y_pcpds = m.within_point_cloud(test_pcpds, slide_down_Y, bounds_down_Y)
+            bounds_down_Y = menu.transform(bounds, dimY, -1, False, overlay)
+            down_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_down_Y, bounds_down_Y)
             down_Y_pcpds = filtration.get_rips_diagram(down_Y_pcpds)
             down_Y_pd = down_Y_pcpds.get_persistance_diagram()
 
@@ -112,7 +118,7 @@ def main():
             datafile.write(",")
         datafile.write('\n')
 
-        m.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
+        menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
 
     print("Job done.")
 
