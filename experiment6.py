@@ -65,7 +65,7 @@ def main():
         print(str(bounds))
         test_pd = test_pcpds.get_persistance_diagram()
 
-        results = []
+        results = [0]*11
         num_dir = 4
 
         slide_left_X = pfm.get_pcpds(slide_left_X)
