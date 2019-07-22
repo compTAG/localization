@@ -72,6 +72,8 @@ class menu:
             if low_x_bound <= temp[i][0] and temp[i][0] < high_x_bound and low_y_bound <= temp[i][1] and temp[i][1] < high_y_bound:
                 np.vstack((temp[i],points_in_bounds))
                 import pdb; pdb.set_trace()
+            else:
+                print(f"I'm empty inside {i}")
 
 
         # for i in range(len(test_pcpds.point_cloud)):
