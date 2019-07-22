@@ -72,7 +72,8 @@ def main():
         slide_down_Y = pfm.get_pcpds(slide_down_Y)
 
         # Slide frame 10% across each direction
-        for overlay in range(10):
+        for overlay in range(1, 10):
+            
             # Left
             bounds_left_X = menu.transform(bounds, dimX, -1, True, overlay)
             left_X_pcpds = menu.within_point_cloud(test_pcpds, slide_left_X, bounds_left_X)

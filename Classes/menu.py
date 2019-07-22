@@ -59,7 +59,7 @@ class menu:
         return bounds
 
     def within_point_cloud(test_pcpds, slide_pcpds, bounds):
-        #rename temp to union
+
         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
         new_pc = []
         print(test_pcpds.point_cloud, str(range(len(test_pcpds.point_cloud))))
@@ -67,28 +67,13 @@ class menu:
 
         print(str(bounds))
         points_in_bounds = np.array([0,0,0]) # pop this later
-        temp = np.vstack((test_pcpds.point_cloud,slide_pcpds.point_cloud))
-        for i in range(len(temp)):
-            if low_x_bound <= temp[i][0] and temp[i][0] < high_x_bound and low_y_bound <= temp[i][1] and temp[i][1] < high_y_bound:
-                np.vstack((temp[i],points_in_bounds))
+        union = np.vstack((test_pcpds.point_cloud,slide_pcpds.point_cloud))
+        for i in range(len(union)):
+            if low_x_bound <= union[i][0] and union[i][0] < high_x_bound and low_y_bound <= union[i][1] and union[i][1] < high_y_boundand and low_z_bound <= union[i][2] and union[i][2] < high_z_bound:
+                new_pc = np.vstack((union[i],points_in_bounds))
                 import pdb; pdb.set_trace()
             else:
                 print(f"I'm empty inside {i}")
-
-
-        # for i in range(len(test_pcpds.point_cloud)):
-        #     [X, Y, Z] = test_pcpds.point_cloud[i]
-        #     print(str(i))
-        #     if ((low_x_bound <= X) and (X < high_x_bound)) and ((low_y_bound <= Y) and (Y < high_y_bound)):
-        #         new_pc = np.vstack((new_pc,[X,Y,Z]))
-        #         print(str(test_pcpds.point_cloud[i]))
-        #
-        # for i in range(len(slide_pcpds.point_cloud)):
-        #     [X, Y, Z] = slide_pcpds.point_cloud[i]
-        #     print(str(i))
-        #     if ((low_x_bound <= X) and (X < high_x_bound)) and ((low_y_bound <= Y) and (Y < high_y_bound)):
-        #         new_pc = np.vstack((new_pc,[X,Y,Z]))
-        #         print(str(slide_pcpds.point_cloud[i]))
 
         ret_pcpds = pcpds(-1, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
         ret_pcpds.set_point_cloud(new_pc)
