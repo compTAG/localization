@@ -41,9 +41,9 @@ class ProcessLas:
         z_vals = z_vals  * scale_factor
         temp = np.array([x_vals,y_vals,z_vals])
 
-        dimX = max(x_vals) #- min(x_vals)
-        dimY = max(y_vals) #- min(y_vals)
-        dimZ = max(z_vals) #- min(z_vals)
+        dimX = max(x_vals) 
+        dimY = max(y_vals)
+        dimZ = max(z_vals)
         dimensions = (dimX, dimY, dimZ)
 
         return temp.T, dimensions

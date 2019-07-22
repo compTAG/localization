@@ -73,10 +73,6 @@ def main():
         slide_up_Y = pfm.get_pcpds(slide_up_Y)
         slide_down_Y = pfm.get_pcpds(slide_down_Y)
 
-        # dimX = dimX * X
-        # dimY = dimY * Y
-        # dimZ = dimZ * Z
-
         # Slide frame 10% across each direction
         for overlay in range(1, 10):
 
