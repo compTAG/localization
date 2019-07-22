@@ -41,9 +41,9 @@ class ProcessLas:
         z_vals = z_vals  * scale_factor
         temp = np.array([x_vals,y_vals,z_vals])
 
-        dimX = max(x_vals) - min(x_vals)
-        dimY = max(y_vals) - min(y_vals)
-        dimZ = max(z_vals) - min(z_vals)
+        dimX = max(x_vals) #- min(x_vals)
+        dimY = max(y_vals) #- min(y_vals)
+        dimZ = max(z_vals) #- min(z_vals)
         dimensions = (dimX, dimY, dimZ)
 
         return temp.T, dimensions
@@ -132,8 +132,8 @@ class ProcessLas:
         points.pop('idx')
         tracker = 0
 
-        pcpds_num = len(points)
-        individual_dimensions = (grid_dimensions[0]/pcpds_num, grid_dimensions[1]/pcpds_num, grid_dimensions[2]/pcpds_num)
+        #pcpds_num = len(points)
+        individual_dimensions = (grid_dimensions[0]/self.partition, grid_dimensions[1]/self.partition, grid_dimensions[2]/self.partition)
 
         for id in points:
             # print(id)

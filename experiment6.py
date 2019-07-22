@@ -13,7 +13,7 @@ def main():
     number_of_data = 400
     # Create las object and calculate corresponding values
     filename = 'tiny'
-    partition = 50
+    partition = 25
     las_obj = ProcessLas(filename, partition)
 
     # Makes a string of the folder path, os.path.join makes it compatible
@@ -60,7 +60,9 @@ def main():
         # Get the random pcpds's details
         print('COORDINATES: ' + 'X:' + str(X) + ' Y:' + str(Y)+ ' Z:' + str(Z))
         (dimX, dimY, dimZ) = test_pcpds.get_dimensions()
+        print(str(dimX) + ' ' + str(dimY) + ' '  + str(dimZ))
         bounds = test_pcpds.get_bounds(str(test_idx))
+        print(str(bounds))
         test_pd = test_pcpds.get_persistance_diagram()
 
         results = []
@@ -71,10 +73,15 @@ def main():
         slide_up_Y = pfm.get_pcpds(slide_up_Y)
         slide_down_Y = pfm.get_pcpds(slide_down_Y)
 
+        # dimX = dimX * X
+        # dimY = dimY * Y
+        # dimZ = dimZ * Z
+
         # Slide frame 10% across each direction
         for overlay in range(1, 10):
-            
+
             # Left
+            print('Left')
             bounds_left_X = menu.transform(bounds, dimX, -1, True, overlay)
             left_X_pcpds = menu.within_point_cloud(test_pcpds, slide_left_X, bounds_left_X)
             print(left_X_pcpds.get_point_cloud())
@@ -82,28 +89,31 @@ def main():
             left_X_pd = left_X_pcpds.get_persistance_diagram()
 
             # Right
+            print('Right')
             bounds_right_X = menu.transform(bounds, dimX, 1, True, overlay)
             right_X_pcpds = menu.within_point_cloud(test_pcpds, slide_right_X, bounds_right_X)
             right_X_pcpds = filtration.get_rips_diagram(right_X_pcpds)
             right_X_pd = right_X_pcpds.get_persistance_diagram()
 
             # Up
+            print('Up')
             bounds_up_Y = menu.transform(bounds, dimY, 1, False, overlay)
             up_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_up_Y, bounds_up_Y)
             up_Y_pcpds = filtration.get_rips_diagram(up_Y_pcpds)
             up_Y_pd = up_Y_pcpds.get_persistance_diagram()
 
             # Down
+            print('Down')
             bounds_down_Y = menu.transform(bounds, dimY, -1, False, overlay)
             down_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_down_Y, bounds_down_Y)
             down_Y_pcpds = filtration.get_rips_diagram(down_Y_pcpds)
             down_Y_pd = down_Y_pcpds.get_persistance_diagram()
 
             # Find average bottleneck at each overlay percentage
-            results[overlay] = bottleneck_distances.get_distances(left_X_pd, test_pd)
-            results[overlay] = results[overlay] + bottleneck_distances.get_distances(right_X_pd, test_pd)
-            results[overlay] = results[overlay] + bottleneck_distances.get_distances(up_Y_pd, test_pd)
-            results[overlay] = (results[overlay] + bottleneck_distances.get_distances(down_Y_pd, test_pd)) / num_dir
+            results[overlay-1] = bottleneck_distances.get_distances(left_X_pd, test_pd)
+            results[overlay-1] = results[overlay] + bottleneck_distances.get_distances(right_X_pd, test_pd)
+            results[overlay-1] = results[overlay] + bottleneck_distances.get_distances(up_Y_pd, test_pd)
+            results[overlay-1] = (results[overlay] + bottleneck_distances.get_distances(down_Y_pd, test_pd)) / num_dir
 
 
         # Write results file
