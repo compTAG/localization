@@ -32,17 +32,14 @@ def main():
 
         # Find random valid index with valid slide pcpds
         test_idx = str(las_obj.random_grid_edge_case())
-        #print("ATTEMPTING RANDOM ID:", test_idx)
 
         valid_idx = False
         while valid_idx == False:
 
             # Find valid center pcpds
             test_idx = str(las_obj.random_grid_edge_case())
-            #print("ATTEMPTING RANDOM ID:", test_idx)
             while pfm.get_path_manager().validate_file(os.path.join(dir_name, test_idx+".json")) == False:
                 test_idx = str(las_obj.random_grid_edge_case())
-                #print("ATTEMPTING RANDOM ID:", test_idx)
 
             test_pcpds = pfm.get_random_pcpds(test_idx)
             (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
@@ -111,10 +108,11 @@ def main():
         # Write results file
         datafile.write(str(test_idx))
         datafile.write(":")
-        for overlay_avg in guess_grid:
-            datafile.write(str(overlay_avg))
-            #print(idx)
+        num = 1
+        for overlay_avg in results:
+            datafile.write(str(float(num)/10.0) + ': ' + str(overlay_avg))
             datafile.write(",")
+            num = num + 1
         datafile.write('\n')
 
         menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
