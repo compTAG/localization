@@ -69,7 +69,7 @@ class menu:
 
         for i in test_pcpds.point_cloud:
             print(str(i))
-            if ((low_x_bound <= test_pcpds.point_cloud[i][0]) and (test_pcpds.point_cloud[i][0] < high_x_bound)) and ((low_y_bound <= test_pcpds.point_cloud[i][1]) and (test_pcpds.point_cloud[i][1] < high_y_bound)):
+            if ((low_x_bound <= test_pcpds.point_cloud[i][0]) and (test_pcpds.point_cloud[i][0] < high_x_bound)) and ((low_y_bound <= test_pcpds.point_cloud[i][1]) and (test_pcpds.point_cloud[i][1] < high_y_bound)) and ((low_z_bound <= test_pcpds.point_cloud[i][2]) and (test_pcpds.point_cloud[i][2] < high_z_bound)):
                 try:
                     new_pc[i]
                 except:
