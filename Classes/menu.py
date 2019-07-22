@@ -65,19 +65,31 @@ class menu:
         print(test_pcpds.point_cloud, str(range(len(test_pcpds.point_cloud))))
         print(slide_pcpds.point_cloud, str(range(len(slide_pcpds.point_cloud))))
 
-        for i in range(len(test_pcpds.point_cloud)):
-            [X, Y, Z] = test_pcpds.point_cloud[i]
-            print(str(i))
-            if ((low_x_bound <= X) and (X < high_x_bound)) and ((low_y_bound <= Y) and (Y < high_y_bound)):
-                new_pc = np.vstack((new_pc,[X,Y,Z]))
-                print(str(test_pcpds.point_cloud[i]))
+        print(str(bounds))
 
-        for i in range(len(slide_pcpds.point_cloud)):
-            [X, Y, Z] = slide_pcpds.point_cloud[i]
+        for i in test_pcpds.point_cloud:
             print(str(i))
-            if ((low_x_bound <= X) and (X < high_x_bound)) and ((low_y_bound <= Y) and (Y < high_y_bound)):
-                new_pc = np.vstack((new_pc,[X,Y,Z]))
-                print(str(slide_pcpds.point_cloud[i]))
+            if ((low_x_bound <= test_pcpds.point_cloud[i][0]) and (test_pcpds.point_cloud[i][0] < high_x_bound)) and ((low_y_bound <= test_pcpds.point_cloud[i][1]) and (test_pcpds.point_cloud[i][1] < high_y_bound)):
+                try:
+                    new_pc[i]
+                except:
+                    new_pc[i] = test_pcpds.point_cloud[i]
+                else:
+                    new_pc[i] = np.vstack((new_pc[i],test_pcpds.point_cloud[i]))
+
+        # for i in range(len(test_pcpds.point_cloud)):
+        #     [X, Y, Z] = test_pcpds.point_cloud[i]
+        #     print(str(i))
+        #     if ((low_x_bound <= X) and (X < high_x_bound)) and ((low_y_bound <= Y) and (Y < high_y_bound)):
+        #         new_pc = np.vstack((new_pc,[X,Y,Z]))
+        #         print(str(test_pcpds.point_cloud[i]))
+        #
+        # for i in range(len(slide_pcpds.point_cloud)):
+        #     [X, Y, Z] = slide_pcpds.point_cloud[i]
+        #     print(str(i))
+        #     if ((low_x_bound <= X) and (X < high_x_bound)) and ((low_y_bound <= Y) and (Y < high_y_bound)):
+        #         new_pc = np.vstack((new_pc,[X,Y,Z]))
+        #         print(str(slide_pcpds.point_cloud[i]))
 
         ret_pcpds = pcpds(-1, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
         ret_pcpds.set_point_cloud(new_pc)

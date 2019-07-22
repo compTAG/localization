@@ -13,7 +13,7 @@ def main():
     number_of_data = 400
     # Create las object and calculate corresponding values
     filename = 'tiny'
-    partition = 25
+    partition = 50
     las_obj = ProcessLas(filename, partition)
 
     # Makes a string of the folder path, os.path.join makes it compatible
@@ -32,21 +32,22 @@ def main():
 
         # Find random valid index with valid slide pcpds
         test_idx = str(las_obj.random_grid_edge_case())
-        print("Attempting RANDOM ID:", test_idx)
+        #print("ATTEMPTING RANDOM ID:", test_idx)
 
         valid_idx = False
         while valid_idx == False:
 
-            # first = True
+            # Find valid center pcpds
             test_idx = str(las_obj.random_grid_edge_case())
+            #print("ATTEMPTING RANDOM ID:", test_idx)
             while pfm.get_path_manager().validate_file(os.path.join(dir_name, test_idx+".json")) == False:
                 test_idx = str(las_obj.random_grid_edge_case())
-                print("Attempting RANDOM ID:", test_idx)
-                # first = False
+                #print("ATTEMPTING RANDOM ID:", test_idx)
 
             test_pcpds = pfm.get_random_pcpds(test_idx)
             (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
 
+            # Find valid slide directional pcpds objects
             slide_left_X = las_obj.find_index(X-1, Y)
             slide_right_X = las_obj.find_index(X+1, Y)
             slide_up_Y = las_obj.find_index(X, Y+1)
@@ -60,9 +61,7 @@ def main():
                             print("VALID RANDOM ID: ", test_idx)
 
         # Get the random pcpds's details
-        # test_pcpds = pfm.get_random_pcpds(test_idx)
-        # (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
-        print(str(X) +' ' +str(Y)+' '+ str(Z))
+        print('COORDINATES: ' + 'X:' + str(X) + ' Y:' + str(Y)+ ' Z:' + str(Z))
         (dimX, dimY, dimZ) = test_pcpds.get_dimensions()
         bounds = test_pcpds.get_bounds(str(test_idx))
         test_pd = test_pcpds.get_persistance_diagram()
@@ -70,10 +69,10 @@ def main():
         results = []
         num_dir = 4
 
-        slide_left_X = pfm.get_pcpds(las_obj.find_index(X-1, Y))
-        slide_right_X = pfm.get_pcpds(las_obj.find_index(X+1, Y))
-        slide_up_Y = pfm.get_pcpds(las_obj.find_index(X, Y+1))
-        slide_down_Y = pfm.get_pcpds(las_obj.find_index(X, Y-1))
+        slide_left_X = pfm.get_pcpds(slide_left_X)
+        slide_right_X = pfm.get_pcpds(slide_right_X)
+        slide_up_Y = pfm.get_pcpds(slide_up_Y)
+        slide_down_Y = pfm.get_pcpds(slide_down_Y)
 
         # Slide frame 10% across each direction
         for overlay in range(10):
