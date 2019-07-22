@@ -63,6 +63,20 @@ class ProcessLas:
         return int('1' + xRand + yRand + zRand)
 
 
+    # Returns a random index in the object, not on an edge
+    def random_grid_edge_case(self):
+
+        xRand = random.randint(1, self.partition - 1)
+        yRand = random.randint(1, self.partition - 1)
+        zRand = 1
+
+        xRand = str(xRand).zfill(self.leading_zeros)
+        yRand = str(yRand).zfill(self.leading_zeros)
+        zRand = str(zRand).zfill(self.leading_zeros)
+
+        return int('1' + xRand + yRand + zRand)
+
+
     # Returns an index given from the user
     def find_index(self, x, y):
 

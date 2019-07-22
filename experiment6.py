@@ -32,31 +32,42 @@ def main():
 
     for n in range(number_of_data):
 
-        test_idx = str(las_obj.random_grid())
 
-        first = True
-        while(not pfm.get_path_manager().validate_file(os.path.join(dir_name, test_idx+".json")) or first):
-            test_idx = str(las_obj.random_grid())
-            print("Attempting RANDOM ID:", test_idx)
-            first = False
-        print("VALID RANDOM ID: ", test_idx)
+        # Find random valid index with valid slide pcpds
+        test_idx = str(las_obj.random_grid_edge_case())
+        print("Attempting RANDOM ID:", test_idx)
+
+        valid_idx = False
+        while valid_idx == False:
+
+            first = True
+            while(not pfm.get_path_manager().validate_file(os.path.join(dir_name, test_idx+".json")) or first):
+                test_idx = str(las_obj.random_grid_edge_case())
+                print("Attempting RANDOM ID:", test_idx)
+                first = False
+
+            slide_left_X = pfm.get_pcpds(las_obj.find_index(X-1, Y))
+            slide_right_X = pfm.get_pcpds(las_obj.find_index(X+1, Y))
+            slide_up_Y = pfm.get_pcpds(las_obj.find_index(X, Y+1))
+            slide_down_Y = pfm.get_pcpds(las_obj.find_index(X, Y-1))
+
+            if pfm.get_path_manager().validate_file(os.path.join(dir_name, slide_left_X +".json" == True:
+                if pfm.get_path_manager().validate_file(os.path.join(dir_name, slide_right_X +".json" == True:
+                    if pfm.get_path_manager().validate_file(os.path.join(dir_name, slide_up_Y +".json" == True:
+                        if pfm.get_path_manager().validate_file(os.path.join(dir_name, slide_down_Y +".json" == True:
+                            valid_idx = True
+                            print("VALID RANDOM ID: ", test_idx)
+
+        # Get the random pcpds's details
         test_pcpds = pfm.get_random_pcpds(test_idx)
-
         (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
         print(str(X) +' ' +str(Y)+' '+ str(Z))
         (dimX, dimY, dimZ) = test_pcpds.get_dimensions()
         bounds = test_pcpds.get_bounds(str(test_idx))
+        test_pd = test_pcpds.get_persistance_diagram()
 
         results = []
         num_dir = 4
-
-        # Original Frame
-        test_pd = test_pcpds.get_persistance_diagram()
-
-        slide_left_X = pfm.get_pcpds(las_obj.find_index(X-1, Y))
-        slide_right_X = pfm.get_pcpds(las_obj.find_index(X+1, Y))
-        slide_up_Y = pfm.get_pcpds(las_obj.find_index(X, Y+1))
-        slide_down_Y = pfm.get_pcpds(las_obj.find_index(X, Y-1))
 
         # Slide frame 10% across each direction
         for overlay in range(10):
