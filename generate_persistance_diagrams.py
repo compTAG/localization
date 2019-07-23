@@ -1,13 +1,15 @@
+import time
+import multiprocessing
 from Classes.filtrations import Filtration
 from Classes.menu import menu
 from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.file_manager as file_manager
 import os
 
-# This file targets a directory with pcpds files stored inside and generates their persistance diagram.
+# This file's purpose is to process already generated pcpds object's point clouds into persistance diagrams.
 
-def generate_persistance_diagrams():
-    
+def process_run():
+     
     pcpds_manager = PCPDS_Manager()
     
     # List the directories
@@ -19,6 +21,7 @@ def generate_persistance_diagrams():
     pcpds_manager.get_path_manager().set_cur_dir(collection)
     
     valid = pcpds_manager.get_collection_dir()
+    
     while(not valid):
         print("Invalid collection name:", pcpds_manager.get_path_manager().get_cur_dir() ,"try again.", valid)
         collection = menu.get_input("Directory: ")
@@ -45,23 +48,35 @@ def generate_persistance_diagrams():
     elif choice is 2:
         filter = Filtration.get_lower_star
         
-    # TODO: Add filter for '.json' objects as it will have problems on macs otherwise?
+    # Start timer
+    start_time = time.time()
     
-    # TOOD: FOR MULTITHREADING: Use this iterator only to pass off the processing tasks to each avalible thread!
-    for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
-        # TODO: Hand off pcpds object here to multithread function
+    print("Would you like to use multi-processing to attempt to speed things up? [0] No. [1] Yes.")
+    print("Please do note that using multiprocessing only speeds up the generation of persistance diagrams with larger point clouds.")
+    multiproc = menu.get_int_input()
+    
+    if(multiproc):
+        for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
+            # Sets up the process
+            process = multiprocessing.Process(target=generate_persistence_diagram, args=(pcpds_manager, file, filter))
+            process.start()
+            process.join()
+            process.terminate()
+    else:
+        # Process the point clouds into persistance diagrams without using multiprocessing
+        for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
+            generate_persistence_diagram(pcpds_manager, file, filter)
         
-        file_path = os.path.join(pcpds_manager.get_path_manager().get_full_cur_dir(), file)
-        pcpds_obj = file_manager.load(file_path)
-         
-        # TODO: Add capabilitiy to select filtration method using abstract functino stuff.
-        result = filter(pcpds_obj)
-        file_manager.save(result, pcpds_manager.get_path_manager().get_full_cur_dir(), pcpds_obj.get_cellID())
-        print(file, "filtrated & Saved.")
-         
-        # TODO: Add progress bar?
-        # menu.progress()
-        
-    print("Finished filtrating persistance diagrams for files.")
+    print("Finished filtrating persistance diagrams for files in: ", str(time.time() - start_time))
 
-generate_persistance_diagrams()
+def generate_persistence_diagram(pcpds_manager, file, filteration):
+        
+    file_path = os.path.join(pcpds_manager.get_path_manager().get_full_cur_dir(), file)
+    pcpds_obj = file_manager.load(file_path)
+        
+    # TODO: Add capabilitiy to select filtration method using abstract function stuff.
+    result = filteration(pcpds_obj)
+    file_manager.save(result, pcpds_manager.get_path_manager().get_full_cur_dir(), pcpds_obj.get_cellID())
+    print(file, "filtrated & Saved.")
+    
+process_run()

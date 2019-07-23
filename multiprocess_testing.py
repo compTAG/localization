@@ -19,6 +19,7 @@ def process_run():
     pcpds_manager.get_path_manager().set_cur_dir(collection)
     
     valid = pcpds_manager.get_collection_dir()
+    
     while(not valid):
         print("Invalid collection name:", pcpds_manager.get_path_manager().get_cur_dir() ,"try again.", valid)
         collection = menu.get_input("Directory: ")
@@ -48,15 +49,20 @@ def process_run():
     # Start timer
     start_time = time.time()
     
-    # TODO: Add filter for '.json' objects as it will have problems on macs otherwise?
+    print("Would you like to use multi-processing to attempt to speed things up? [0] No. [1] Yes.")
+    multiproc = menu.get_int_input()
     
-    # TOOD: FOR MULTITHREADING: Use this iterator only to pass off the processing tasks to each avalible thread!
-    for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
-        # Sets up the process
-        process = multiprocessing.Process(target=generate_persistence_diagram, args=(pcpds_manager, file, filter))
-        process.start()
-        process.join()
-        process.terminate()
+    if(multiproc):
+        for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
+            # Sets up the process
+            process = multiprocessing.Process(target=generate_persistence_diagram, args=(pcpds_manager, file, filter))
+            process.start()
+            process.join()
+            process.terminate()
+    else:
+        # Process the point clouds into persistance diagrams without using multiprocessing
+        for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
+            generate_persistence_diagram(pcpds_manager, file, filter)
         
     print("Finished filtrating persistance diagrams for files in: ", str(time.time() - start_time))
 
@@ -123,54 +129,6 @@ def pool_run():
         
     print("Finished filtrating persistance diagrams for files in: ", str(time.time() - start_time))
 
-
-def run():
-    pcpds_manager = PCPDS_Manager()
-    
-    # List the directories
-    
-    # Ask for the directory
-    print("Enter the Collection of pcpds objects you wish to generate persistance diagramsfor.")
-    collection = menu.get_input("Directory: ")
-    
-    pcpds_manager.get_path_manager().set_cur_dir(collection)
-    
-    valid = pcpds_manager.get_collection_dir()
-    while(not valid):
-        print("Invalid collection name:", pcpds_manager.get_path_manager().get_cur_dir() ,"try again.", valid)
-        collection = menu.get_input("Directory: ")
-        pcpds_manager.get_path_manager().set_cur_dir(collection)
-        valid = pcpds_manager.get_collection_dir()
-    
-    # Verify the directory
-    
-    print("Valid Directory Confirmed:", pcpds_manager.get_path_manager().get_full_cur_dir())
-    
-    # Loop for choosing filtration method:
-    print("Choose a filtration method: [0] Rips, [1] Upper Star, [2] Lower Star.")
-    choice = menu.get_int_input()
-    while not (choice < 3 and choice > -1):
-        print("Please enter a valid number between 0-2.")
-        choice = menu.get_int_input()
-    
-    # Selects the filter function to be used.
-    filter = None
-    if choice is 0:
-        filter = Filtration.get_rips_diagram
-    elif choice is 1:
-        filter = Filtration.get_upper_star
-    elif choice is 2:
-        filter = Filtration.get_lower_star
-        
-    # Start timer
-    start_time = time.time()
-    
-    # TODO: Add filter for '.json' objects as it will have problems on macs otherwise?
-    for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
-        generate_persistence_diagram(pcpds_manager, file, filter)
-        
-    print("Finished filtrating persistance diagrams for files in: ", str(time.time() - start_time), "s")
-    
 def generate_persistence_diagram(pcpds_manager, file, filteration):
         
     file_path = os.path.join(pcpds_manager.get_path_manager().get_full_cur_dir(), file)
