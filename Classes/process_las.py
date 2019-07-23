@@ -22,6 +22,7 @@ class ProcessLas:
 
         #Takes into account the digits as to not get confused in the string of x y z
         self.leading_zeros = len(str(partition))
+        
 
 
     # Format data between 0 and 1
@@ -107,7 +108,7 @@ class ProcessLas:
         # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
         
-        print("Would you like to use multi-processing to attempt to speed things up? [0] No. [1] Yes.")
+        print("\nWould you like to use multi-processing to attempt to speed things up? [0] No. [1] Yes.")
         print("Please do note that using multiprocessing only speeds up this process with larger data sets.")
         multiproc = menu.get_int_input()
         
@@ -125,8 +126,13 @@ class ProcessLas:
             chunks = [coords[x:x+coords_split_amount] for x in range(0, len(coords), coords_split_amount)]
             #print("CHUNKS:", len(chunks))
             
+            # Sets up the manager to be able to return values properly to the points dict.
+            manager = multiprocessing.Manager()
+            points = manager.dict()
+            
             # Sets up the process
             for chunk in chunks:
+                # TODO: Change to use pool
                 process = multiprocessing.Process(target=self.split_pointcloud, args=(chunk, points))
                 process.start()
                 process.join()
@@ -141,7 +147,7 @@ class ProcessLas:
         
         # Creates a pcpds object for each idx and stores it's respective
         # point cloud in it before saving the file.
-        points.pop('idx')
+        #points.pop('idx')
         tracker = 0
 
         #pcpds_num = len(points)
@@ -168,7 +174,6 @@ class ProcessLas:
     def split_pointcloud(self, coords, points, count=False):
         # Split up the list into sections depending on how many cpus are avalible
         for c,_  in enumerate(coords):
-
             x = math.floor(coords[c][0] * self.partition)
             y = math.floor(coords[c][1] * self.partition)
 
