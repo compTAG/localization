@@ -7,28 +7,27 @@ from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.file_manager as file_manager
 import Classes.bottleneck_dist as bottleneck_distances
 import os.path
+from xlwt import Workbook
 
 def main():
 
     number_of_data = 400
+
     # Create las object and calculate corresponding values
     filename = 'tiny'
     partition = 25
     las_obj = ProcessLas(filename, partition)
-
-    # Makes a string of the folder path, os.path.join makes it compatible
-    # between macs, windows, and linux
     dir_name = file_manager.make_folder(filename)
 
     pfm = PCPDS_Manager()
     dir_name = pfm.generate_collection(filename, partition)
     print('Dir:' + str(dir_name))
-
     las_obj.input_las(dir_name)
-    datafile = open("bdripson70partitions.txt", "a")
+
+    wb = Workbook()
+    excel_sheet = wb.add_sheet(dir_name)
 
     for n in range(number_of_data):
-
 
         # Find random valid index with valid slide pcpds
         test_idx = str(las_obj.random_grid_edge_case())
@@ -105,15 +104,13 @@ def main():
             results[overlay-1] = (results[overlay] + bottleneck_distances.get_distances(down_Y_pd, test_pd)) / num_dir
 
 
-        # Write results file
-        datafile.write(str(test_idx))
-        datafile.write(":")
+        # Write results .xls file
         num = 1
+        excel_sheet.write(n, 0, str(test_idx))
         for overlay_avg in results:
-            datafile.write(str(float(num)/10.0) + ': ' + str(overlay_avg))
-            datafile.write(",")
+            excel_sheet.write(n, num, str(overlay_avg))
             num = num + 1
-        datafile.write('\n')
+        wb.save(dir_name + '.xls')
 
         menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
 
