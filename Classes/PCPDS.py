@@ -8,7 +8,7 @@ import dionysus as d
 class PCPDS:
 
     def __init__(self, cell_id, dimensions, distance = 1):
-    
+        
         # The point cloud should be set up a set of Points. Points possibly
         # being represented by touples of three values.
         self.point_cloud = None
@@ -94,7 +94,6 @@ class PCPDS:
     def distances(self, box_width):
         # Temporary - we should play with this to determine best distance
         return box_width * self.scalar
-
 
     def get_persistance_diagram(self):
         return self.persistance_diagram

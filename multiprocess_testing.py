@@ -139,4 +139,7 @@ def generate_persistence_diagram(pcpds_manager, file, filteration):
     file_manager.save(result, pcpds_manager.get_path_manager().get_full_cur_dir(), pcpds_obj.get_cellID())
     print(file, "filtrated & Saved.")
     
-run()
+def get_processor_count():
+    return multiprocessing.cpu_count()
+    
+print(get_processor_count())

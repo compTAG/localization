@@ -23,6 +23,7 @@ def generate_files():
     pfm = PCPDS_Manager()
     dir_name = pfm.generate_collection(filename, partition)
     
+    # TODO: Add multithreading option to input_las?
     las_obj.input_las(dir_name)
     print("File generation complete.")
 

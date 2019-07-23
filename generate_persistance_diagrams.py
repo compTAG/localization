@@ -62,6 +62,7 @@ def process_run():
             process.start()
             process.join()
             process.terminate()
+            
     else:
         # Process the point clouds into persistance diagrams without using multiprocessing
         for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
