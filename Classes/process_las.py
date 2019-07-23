@@ -140,6 +140,7 @@ class ProcessLas:
         else:
             print("Not multi threading.")
             self.split_pointcloud(coords, points, count=True)
+            points.pop('idx')
 
         menu.progress(1, 1, ("Processing points completed."))
         print("\n")
@@ -147,8 +148,9 @@ class ProcessLas:
         
         # Creates a pcpds object for each idx and stores it's respective
         # point cloud in it before saving the file.
-        #points.pop('idx')
         tracker = 0
+
+        # print("STATS:\nLength:",len(points), "\nPoints:",points)
 
         #pcpds_num = len(points)
         individual_dimensions = (grid_dimensions[0]/self.partition, grid_dimensions[1]/self.partition, grid_dimensions[2]/self.partition)
@@ -179,7 +181,7 @@ class ProcessLas:
 
             x = str(x).zfill(self.leading_zeros)
             y = str(y).zfill(self.leading_zeros)
-            z = str(1)
+            z = str(1).zfill(self.leading_zeros)
 
             idx = int('1' + x + y + z)
 
