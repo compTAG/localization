@@ -28,13 +28,13 @@ class menu:
     # TODO: Get n_results from the user, verify, and return.
     def get_n_result_input():
          return input("How many results would you like?\n")
-     
+
     def get_filename_input():
         return input("Enter file name: ")
-    
+
     def get_input(hint):
         return input(hint)
-    
+
     def get_int_input():
         while(True):
             try:
@@ -42,9 +42,9 @@ class menu:
                 return result
             except:
                 print("Incorrect value type entered, try Again.")
-        
-            
-    
+
+
+
     # Acts as a progress bar
     def progress(count, total, status=''):
         bar_len = 60
@@ -78,14 +78,21 @@ class menu:
 
         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
         new_pc = []
-        
-        points_in_bounds = np.array([0.0,0.0,0.0]) # pop this later
+
+        print(test_pcpds.point_cloud)
+        print(slide_pcpds.point_cloud)
+
+        points_in_bounds = np.array([_,_,_]) # pop this later
         union = np.vstack((test_pcpds.point_cloud,slide_pcpds.point_cloud))
         for i in range(len(union)):
             if low_x_bound <= union[i][0] and union[i][0] < high_x_bound and low_y_bound <= union[i][1] and union[i][1] < high_y_bound:
                 points_in_bounds = np.vstack((union[i],points_in_bounds))
 
         ret_pcpds = pcpds(-1, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
+        #points_in_bounds = np.delete(points_in_bounds,len(points_in_bounds)-1, 0)
         ret_pcpds.set_point_cloud(points_in_bounds)
+
+
+        print(ret_pcpds.point_cloud)
 
         return ret_pcpds
