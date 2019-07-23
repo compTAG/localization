@@ -42,9 +42,7 @@ class PCPDS_Manager:
     def get_collection_dir(self):
 
         result = self.get_path_manager().get_full_cur_dir()
-        if result is not False:
-            return result
-        return False
+        return result
 
     # Fetches a pcpds with a specified cell_ID
     def get_pcpds(self, cell_ID):

@@ -27,8 +27,24 @@ class menu:
 
     # TODO: Get n_results from the user, verify, and return.
     def get_n_result_input():
-        pass
-
+         return input("How many results would you like?\n")
+     
+    def get_filename_input():
+        return input("Enter file name: ")
+    
+    def get_input(hint):
+        return input(hint)
+    
+    def get_int_input():
+        while(True):
+            try:
+                result = int(input("Enter int: "))
+                return result
+            except:
+                print("Incorrect value type entered, try Again.")
+        
+            
+    
     # Acts as a progress bar
     def progress(count, total, status=''):
         bar_len = 60

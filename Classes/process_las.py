@@ -6,7 +6,9 @@ import random
 import numpy as np
 import os.path
 from Classes.menu import menu
+import multiprocessing
 from Classes.filtrations import Filtration
+import time
 
 class ProcessLas:
 
@@ -92,7 +94,7 @@ class ProcessLas:
     # each partition, returns the dictionary of pcpds objects
     def input_las(self, path):
 
-        #Load data, put list of touples in an array
+        # Load data, put list of touples in an array
         in_file = File(self.filename + '.las', mode='r')
 
         # Import coordinates and change them to manipulative type float32
@@ -104,7 +106,67 @@ class ProcessLas:
 
         # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
+        
+        print("Would you like to use multi-processing to attempt to speed things up? [0] No. [1] Yes.")
+        print("Please do note that using multiprocessing only speeds up this process with larger data sets.")
+        multiproc = menu.get_int_input()
+        
+        # Start timer
+        start_time = time.time()
+        
+        if multiproc:
+            print("Multithreading")
+            # split up the list by cpu cores avalible
+            cores = multiprocessing.cpu_count()
+            
+            coords_split_amount = round(len(coords)/cores)
+            #print("COORDS SPLIT AMOUNT:", coords_split_amount, "LEN(COORDS):", len(coords), " = CORES:", cores)
+            
+            chunks = [coords[x:x+coords_split_amount] for x in range(0, len(coords), coords_split_amount)]
+            #print("CHUNKS:", len(chunks))
+            
+            # Sets up the process
+            for chunk in chunks:
+                process = multiprocessing.Process(target=self.split_pointcloud, args=(chunk, points))
+                process.start()
+                process.join()
+                process.terminate()
+        else:
+            print("Not multi threading.")
+            self.split_pointcloud(coords, points, count=True)
 
+        menu.progress(1, 1, ("Processing points completed."))
+        print("\n")
+        print("Processing points completed in: ", str(time.time() - start_time))
+        
+        # Creates a pcpds object for each idx and stores it's respective
+        # point cloud in it before saving the file.
+        points.pop('idx')
+        tracker = 0
+
+        #pcpds_num = len(points)
+        individual_dimensions = (grid_dimensions[0]/self.partition, grid_dimensions[1]/self.partition, grid_dimensions[2]/self.partition)
+
+        for id in points:
+            temp = pcpds(id, individual_dimensions)
+
+            temp.set_point_cloud(points[id])
+            
+            # Generates and sets the persistance diagram
+            # temp = Filtration.get_rips_diagram(temp)
+
+            # print('diagram set')
+            file_manager.save(temp, path, id)
+
+            # Keeps track of the PCPDS objects being generated
+            menu.progress(tracker, len(points), ("Processing PCPDS object for idx: "+str(id)))
+            tracker = tracker + 1
+            
+        menu.progress(1, 1, ("Processing PCPDS files completed."))
+        print("\n")
+
+    def split_pointcloud(self, coords, points, count=False):
+        # Split up the list into sections depending on how many cpus are avalible
         for c,_  in enumerate(coords):
 
             x = math.floor(coords[c][0] * self.partition)
@@ -112,7 +174,7 @@ class ProcessLas:
 
             x = str(x).zfill(self.leading_zeros)
             y = str(y).zfill(self.leading_zeros)
-            z = str(1).zfill(self.leading_zeros)
+            z = str(1)
 
             idx = int('1' + x + y + z)
 
@@ -124,36 +186,6 @@ class ProcessLas:
             else:
                 points[idx] = np.vstack((points[idx],coords[c]))
             # Keeps track of the progress of dividing up points
-            menu.progress(c, len(coords), ("Processing point: "+str(idx)+"..."))
-
-
-        # Creates a pcpds object for each idx and stores it's respective
-        # point cloud in it before saving the file.
-        points.pop('idx')
-        tracker = 0
-
-        #pcpds_num = len(points)
-        individual_dimensions = (grid_dimensions[0]/self.partition, grid_dimensions[1]/self.partition, grid_dimensions[2]/self.partition)
-
-        for id in points:
-            # print(id)
-            temp = pcpds(id, individual_dimensions)
-
-            # print('pcpds set')
-            temp.set_point_cloud(points[id])
-
-            # TODO: contemplate seperating the generation of persistance
-            # diagrams to another area/file for reducing time complexity here
-
-            # print('pointcloud set')
-            # Generates and sets the persistance diagram
-            temp = Filtration.get_rips_diagram(temp)
-
-            # print('diagram set')
-            file_manager.save(temp, path, id)
-
-            # Keeps track of the PCPDS objects being generated
-            menu.progress(tracker, len(points), ("Processing PCPDS object for idx: "+str(id)))
-            tracker = tracker + 1
-
-        print("\n")
+            if count:
+                pass
+                #menu.progress(c, len(coords), ("Processing point: "+str(idx)+"..."))
