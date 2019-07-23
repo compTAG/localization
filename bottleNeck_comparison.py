@@ -1,5 +1,6 @@
 from Classes.menu import menu
 from Classes.PCPDS_manager import PCPDS_Manager
+import Classes.bottleneck_dist as bottleneck_distances
 import Classes.file_manager as file_manager
 import os.path
 
@@ -42,8 +43,26 @@ while(True):
     else:
         print("Problem loading pcpds file, it loaded as None.")
     
-print("Ready to process")
-        
+print("Ready to process, how manny n_nearest results would you like?")
+
+# TODO: Validate that n_results is a valid number for the current dataset.
+n_results = menu.get_int_input()
+
+datafile = open("bdripson70partitions.txt", "a")
+
+# TODO: Set up way of getting random_pcpds value
+# make use of: filename=random.choice(os.listdir(directory_path))?
+closest_matches  = bottleneck_distances.search_distances(n_results, random_pcpds.get_persistance_diagram(), valid)
+
+datafile.write(str(random_idx))
+datafile.write(":")
+
+# Calculate bottleneck distance, print n_result matches
+for idx in closest_matches:
+    datafile.write(str(idx))
+    print(idx)
+    datafile.write(",")
+datafile.write('\n')
 
 
 # Option to force it?
