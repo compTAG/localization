@@ -22,7 +22,7 @@ class ProcessLas:
 
         #Takes into account the digits as to not get confused in the string of x y z
         self.leading_zeros = len(str(partition))
-        
+
 
 
     # Format data between 0 and 1
@@ -44,7 +44,7 @@ class ProcessLas:
         z_vals = z_vals  * scale_factor
         temp = np.array([x_vals,y_vals,z_vals])
 
-        dimX = max(x_vals) 
+        dimX = max(x_vals)
         dimY = max(y_vals)
         dimZ = max(z_vals)
         dimensions = (dimX, dimY, dimZ)
@@ -107,29 +107,29 @@ class ProcessLas:
 
         # Dictionary of point cloud coordinates
         points = {'idx':'coords[c]'}
-        
+
         print("\nWould you like to use multi-processing to attempt to speed things up? [0] No. [1] Yes.")
         print("Please do note that using multiprocessing only speeds up this process with larger data sets.")
         multiproc = menu.get_int_input()
-        
+
         # Start timer
         start_time = time.time()
-        
+
         if multiproc:
             print("Multithreading")
             # split up the list by cpu cores avalible
             cores = multiprocessing.cpu_count()
-            
+
             coords_split_amount = round(len(coords)/cores)
             #print("COORDS SPLIT AMOUNT:", coords_split_amount, "LEN(COORDS):", len(coords), " = CORES:", cores)
-            
+
             chunks = [coords[x:x+coords_split_amount] for x in range(0, len(coords), coords_split_amount)]
             #print("CHUNKS:", len(chunks))
-            
+
             # Sets up the manager to be able to return values properly to the points dict.
             manager = multiprocessing.Manager()
             points = manager.dict()
-            
+
             # Sets up the process
             for chunk in chunks:
                 # TODO: Change to use pool
@@ -145,7 +145,7 @@ class ProcessLas:
         menu.progress(1, 1, ("Processing points completed."))
         print("\n")
         print("Processing points completed in: ", str(time.time() - start_time))
-        
+
         # Creates a pcpds object for each idx and stores it's respective
         # point cloud in it before saving the file.
         tracker = 0
@@ -159,7 +159,7 @@ class ProcessLas:
             temp = pcpds(id, individual_dimensions)
 
             temp.set_point_cloud(points[id])
-            
+
             # Generates and sets the persistance diagram
             # temp = Filtration.get_rips_diagram(temp)
 
@@ -169,7 +169,7 @@ class ProcessLas:
             # Keeps track of the PCPDS objects being generated
             menu.progress(tracker, len(points), ("Processing PCPDS object for idx: "+str(id)))
             tracker = tracker + 1
-            
+
         menu.progress(1, 1, ("Processing PCPDS files completed."))
         print("\n")
 

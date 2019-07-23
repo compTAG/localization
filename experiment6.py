@@ -25,7 +25,7 @@ def main():
     las_obj.input_las(dir_name)
 
     wb = Workbook()
-    excel_sheet = wb.add_sheet(dir_name)
+    excel_sheet = wb.add_sheet('Sheet 1')
 
     for n in range(number_of_data):
 
