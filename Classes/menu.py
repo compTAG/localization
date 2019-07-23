@@ -87,7 +87,7 @@ class menu:
         ret_pcpds = pcpds(-1, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
 
         #points_in_bounds = np.delete(points_in_bounds,len(points_in_bounds)-1, 0)
-        ret_pcpds.set_point_cloud(points_in_bounds[1:])
+        ret_pcpds.set_point_cloud(points_in_bounds[:-1])
 
 
         print(ret_pcpds.point_cloud)

@@ -60,6 +60,7 @@ def main():
         print('COORDINATES: ' + 'X:' + str(X) + ' Y:' + str(Y)+ ' Z:' + str(Z))
         (dimX, dimY, dimZ) = test_pcpds.get_dimensions()
         bounds = test_pcpds.get_bounds(str(test_idx))
+        test_pcpds = filtration.get_rips_diagram(test_pcpds)
         test_pd = test_pcpds.get_persistance_diagram()
 
         results = [0]*11
