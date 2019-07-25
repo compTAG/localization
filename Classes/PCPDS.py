@@ -49,10 +49,10 @@ class PCPDS:
         return self.dimensions
 
     # Split cell_id into x and y values assuming there is a leading 1 and
-    def get_xyz(self, cell_id):
+    def get_xyz(self):
 
         # Removes the 1 from the beginning of the string
-        cell_id = cell_id[1:]
+        cell_id = self.cell_id[1:]
 
         xyz = int(cell_id)
 
@@ -72,8 +72,8 @@ class PCPDS:
         return (X, Y, Z)
 
     # Calculates the boundaries of the point cloud.
-    def get_bounds(self, cell_id):
-        x,y,z = self.get_xyz(cell_id)
+    def get_bounds(self):
+        x,y,z = self.get_xyz()
 
         dimensions = self.get_dimensions()
 
