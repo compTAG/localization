@@ -18,11 +18,11 @@ def main():
 
     # Loop here for valid directory
     collection = menu.get_input("Directory: ")
-        
+
     pfm.get_path_manager().set_cur_dir(collection)
-        
+
     valid = pfm.get_collection_dir()
-    
+
     # If not a valid directory, ask again saying it is invalid
     while(not valid):
         if not pfm.get_collection_dir():
@@ -30,7 +30,7 @@ def main():
         collection = menu.get_input("Directory: ")
         pfm.get_path_manager().set_cur_dir(collection)
         valid = pfm.get_collection_dir()
-        
+
         # Checks the first pcpds object in this directory for if it has a persistance diagram
         pcpds_temp = None
         for file in os.listdir(pfm.get_path_manager().get_full_cur_dir_var(collection)):
@@ -47,8 +47,8 @@ def main():
                 print("Please Either enter a directory that has been filtrated for persistance diagrams or run 'generate_persistance_diagrams.py' on the collection.")
         else:
             print("Problem loading pcpds file, it loaded as None.")
-    
-    
+
+
     # TODO: make a random function based off of count & iteration
     #print("File count:", len(os.listdir(pfm.get_path_manager().get_full_cur_dir_var(collection))))
 
@@ -105,49 +105,48 @@ def main():
         num_directions = 4
         results = [0]*(num_slides * num_partitions_to_slide)
         # Slide frame 10% across each direction
+        num = 1
         for overlay in range(1, num_slides * num_partitions_to_slide):
+            try:
 
-            # Left
-            #import pdb; pdb.set_trace();
-            bounds_left_X = menu.transform(bounds, dimX, -1, True, overlay, num_slides)
-            left_X_pcpds = menu.within_point_cloud(test_pcpds, slide_left_X, bounds_left_X)
-            left_X_pcpds = filtration.get_rips_diagram(left_X_pcpds)
-            left_X_pd = left_X_pcpds.get_persistance_diagram()
+                # Left
+                #import pdb; pdb.set_trace();
+                bounds_left_X = menu.transform(bounds, dimX, -1, True, overlay, num_slides)
+                left_X_pcpds = menu.within_point_cloud(test_pcpds, slide_left_X, bounds_left_X)
+                left_X_pcpds = filtration.get_rips_diagram(left_X_pcpds)
+                left_X_pd = left_X_pcpds.get_persistance_diagram()
 
-            # Right
-            #import pdb; pdb.set_trace();
-            bounds_right_X = menu.transform(bounds, dimX, 1, True, overlay, num_slides)
-            right_X_pcpds = menu.within_point_cloud(test_pcpds, slide_right_X, bounds_right_X)
-            right_X_pcpds = filtration.get_rips_diagram(right_X_pcpds)
-            right_X_pd = right_X_pcpds.get_persistance_diagram()
+                # Right
+                #import pdb; pdb.set_trace();
+                bounds_right_X = menu.transform(bounds, dimX, 1, True, overlay, num_slides)
+                right_X_pcpds = menu.within_point_cloud(test_pcpds, slide_right_X, bounds_right_X)
+                right_X_pcpds = filtration.get_rips_diagram(right_X_pcpds)
+                right_X_pd = right_X_pcpds.get_persistance_diagram()
 
-            # Up
-            bounds_up_Y = menu.transform(bounds, dimY, 1, False, overlay, num_slides)
-            up_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_up_Y, bounds_up_Y)
-            up_Y_pcpds = filtration.get_rips_diagram(up_Y_pcpds)
-            up_Y_pd = up_Y_pcpds.get_persistance_diagram()
+                # Up
+                bounds_up_Y = menu.transform(bounds, dimY, 1, False, overlay, num_slides)
+                up_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_up_Y, bounds_up_Y)
+                up_Y_pcpds = filtration.get_rips_diagram(up_Y_pcpds)
+                up_Y_pd = up_Y_pcpds.get_persistance_diagram()
 
-            # Down
-            bounds_down_Y = menu.transform(bounds, dimY, -1, False, overlay, num_slides)
-            down_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_down_Y, bounds_down_Y)
-            down_Y_pcpds = filtration.get_rips_diagram(down_Y_pcpds)
-            down_Y_pd = down_Y_pcpds.get_persistance_diagram()
+                # Down
+                bounds_down_Y = menu.transform(bounds, dimY, -1, False, overlay, num_slides)
+                down_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_down_Y, bounds_down_Y)
+                down_Y_pcpds = filtration.get_rips_diagram(down_Y_pcpds)
+                down_Y_pd = down_Y_pcpds.get_persistance_diagram()
 
-            # Find average bottleneck at each overlay percentage
-            results[overlay-1] = bottleneck_distances.get_distances(left_X_pd, test_pd)
-            results[overlay-1] = results[overlay] + bottleneck_distances.get_distances(right_X_pd, test_pd)
-            results[overlay-1] = results[overlay] + bottleneck_distances.get_distances(up_Y_pd, test_pd)
-            results[overlay-1] = (results[overlay] + bottleneck_distances.get_distances(down_Y_pd, test_pd)) / num_directions
+                # Find average bottleneck at each overlay percentage
+                results = bottleneck_distances.get_distances(left_X_pd, test_pd)
+                results = results[overlay] + bottleneck_distances.get_distances(right_X_pd, test_pd)
+                results = results[overlay] + bottleneck_distances.get_distances(up_Y_pd, test_pd)
+                results = (results[overlay] + bottleneck_distances.get_distances(down_Y_pd, test_pd)) / num_directions
 
+                excel_sheet.write(n, 0, str(test_idx))
+                excel_sheet.write(n, num, str(overlay_avg))
+                num = num + 1
 
         # Write results .xls file
-        num = 1
-        excel_sheet.write(n, 0, str(test_idx))
-        for overlay_avg in results:
-            excel_sheet.write(n, num, str(overlay_avg))
-            num = num + 1
         wb.save(dir_name + '.xls')
-
         menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
 
     print("Job done.")
