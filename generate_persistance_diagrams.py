@@ -69,7 +69,6 @@ def process_run():
             generate_persistence_diagram(pcpds_manager, file, filter)
         
     print("Finished filtrating persistance diagrams for files in: ", str(time.time() - start_time))
-    print("File count:", len(os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection))))
 
 def generate_persistence_diagram(pcpds_manager, file, filteration):
         
