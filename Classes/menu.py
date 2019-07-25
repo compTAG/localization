@@ -56,10 +56,10 @@ class menu:
         sys.stdout.write('\r[%s] %s%s %s' % (bar, percents, '%', status))
         sys.stdout.flush()
 
-    def transform(bounds, dim, direction, axis, overlay):
+    def transform(bounds, dim, direction, axis, overlay, num_slides):
 
         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
-        dim_to_move = direction * (dim * ((float(overlay))/10))
+        dim_to_move = direction * (dim * ((float(overlay))/num_slides))
 
         # True = X Axis
         if axis == True:
@@ -79,16 +79,22 @@ class menu:
         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
         new_pc = []
 
+        print(len(test_pcpds.point_cloud))
+        print(len(slide_pcpds.point_cloud))
+
         points_in_bounds = np.array([0.0,0.0,0.0]) # pop this later
+
         union = np.vstack((test_pcpds.point_cloud,slide_pcpds.point_cloud))
+        import pdb; pdb.set_trace();
         for i in range(len(union)):
             if low_x_bound <= union[i][0] and union[i][0] < high_x_bound and low_y_bound <= union[i][1] and union[i][1] < high_y_bound:
                 points_in_bounds = np.vstack((union[i],points_in_bounds))
+                print(str(i))
         ret_pcpds = pcpds(-1, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
 
         #points_in_bounds = np.delete(points_in_bounds,len(points_in_bounds)-1, 0)
         ret_pcpds.set_point_cloud(points_in_bounds[:-1])
 
-
         print(ret_pcpds.point_cloud)
+        print(len(ret_pcpds.point_cloud))
         return ret_pcpds
