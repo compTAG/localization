@@ -62,7 +62,7 @@ class PCPDS_Manager:
     def get_random_pcpds(self):
         dir = self.path_manager.get_full_cur_dir()
         file_name = fm.get_random_file(dir, '.json')
-        random_pcpds = fm.load(os.path.join(dir, file_name +'.json'))
+        random_pcpds = fm.load(os.path.join(dir, file_name))
         return random_pcpds
 
     # Checks that the currently selected collection directory exists and is a valid path

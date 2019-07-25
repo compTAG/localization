@@ -52,9 +52,9 @@ datafile = open("bdripson70partitions.txt", "a")
 
 # TODO: Set up way of getting random_pcpds value
 rand_pcpds = pcpds_manager.get_random_pcpds()
-closest_matches  = bottleneck_distances.search_distances(n_results, random_pcpds.get_persistance_diagram(), valid)
+closest_matches  = bottleneck_distances.search_distances(n_results, rand_pcpds.get_persistance_diagram(), valid)
 
-datafile.write(str(random_idx))
+datafile.write(rand_pcpds.get_cellID())
 datafile.write(":")
 
 # Calculate bottleneck distance, print n_result matches
