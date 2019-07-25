@@ -105,8 +105,9 @@ def main():
         num_directions = 4
         results = [0]*(num_slides * num_partitions_to_slide)
         # Slide frame 10% across each direction
-        num = 1
+        num = 0
         for overlay in range(1, num_slides * num_partitions_to_slide):
+            num = num + 1
             try:
 
                 # Left
@@ -143,11 +144,11 @@ def main():
 
                 excel_sheet.write(n, 0, str(test_idx))
                 excel_sheet.write(n, num, str(overlay_avg))
-                num = num + 1
+
 
         # Write results .xls file
-        wb.save(dir_name + '.xls')
-        menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
+            wb.save(dir_name + '.xls')
+            menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
 
     print("Job done.")
 
