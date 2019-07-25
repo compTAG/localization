@@ -51,7 +51,7 @@ n_results = menu.get_int_input()
 datafile = open("bdripson70partitions.txt", "a")
 
 # TODO: Set up way of getting random_pcpds value
-# make use of: filename=random.choice(os.listdir(directory_path))?
+rand_pcpds = pcpds_manager.get_random_pcpds()
 closest_matches  = bottleneck_distances.search_distances(n_results, random_pcpds.get_persistance_diagram(), valid)
 
 datafile.write(str(random_idx))

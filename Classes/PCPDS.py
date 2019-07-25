@@ -41,7 +41,6 @@ class PCPDS:
     def get_point_cloud(self):
         return self.point_cloud
 
-
     def get_cellID(self):
         return self.cell_id
 
