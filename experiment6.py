@@ -75,12 +75,14 @@ def main():
         for overlay in range(1, 10):
 
             # Left
+            #import pdb; pdb.set_trace();
             bounds_left_X = menu.transform(bounds, dimX, -1, True, overlay)
             left_X_pcpds = menu.within_point_cloud(test_pcpds, slide_left_X, bounds_left_X)
             left_X_pcpds = filtration.get_rips_diagram(left_X_pcpds)
             left_X_pd = left_X_pcpds.get_persistance_diagram()
 
             # Right
+            #import pdb; pdb.set_trace();
             bounds_right_X = menu.transform(bounds, dimX, 1, True, overlay)
             right_X_pcpds = menu.within_point_cloud(test_pcpds, slide_right_X, bounds_right_X)
             right_X_pcpds = filtration.get_rips_diagram(right_X_pcpds)
