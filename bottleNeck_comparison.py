@@ -70,5 +70,5 @@ for idx in closest_matches:
     excel_sheet.write(iter, 1, str(idx[1]))
     iter = iter + 1
 
-wb.save(os.path.join("results", "resultfile") + '.xls')
+wb.save(os.path.join("results", pcpds_manager.get_path_manager().get_cur_dir()) + '.xls')
 print("Results saved as Excel file.")
