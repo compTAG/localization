@@ -56,10 +56,10 @@ class menu:
         sys.stdout.write('\r[%s] %s%s %s' % (bar, percents, '%', status))
         sys.stdout.flush()
 
-    def transform(bounds, dim, direction, axis, overlay):
+    def transform(bounds, dim, direction, axis, overlay, num_slides):
 
         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
-        dim_to_move = direction * (dim * ((float(overlay))/10))
+        dim_to_move = direction * (dim * ((float(overlay))/num_slides))
 
         # True = X Axis
         if axis == True:
