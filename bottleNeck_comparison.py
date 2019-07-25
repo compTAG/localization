@@ -3,6 +3,7 @@ from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.bottleneck_dist as bottleneck_distances
 import Classes.file_manager as file_manager
 import os.path
+from xlwt import Workbook
 
 # This computes the bottleneck distance using a pre-processed/filtrated collection
 
@@ -48,23 +49,26 @@ print("Ready to process, how manny n_nearest results would you like?")
 # TODO: Validate that n_results is a valid number for the current dataset.
 n_results = menu.get_int_input()
 
-datafile = open("bdripson70partitions.txt", "a")
-
-# TODO: Set up way of getting random_pcpds value
 rand_pcpds = pcpds_manager.get_random_pcpds()
+# Calculated closest n matching bottleneck distances.
 closest_matches  = bottleneck_distances.search_distances(n_results, rand_pcpds.get_persistance_diagram(), valid)
 
-datafile.write(rand_pcpds.get_cellID())
-datafile.write(":")
+wb = Workbook()
+excel_sheet = wb.add_sheet('Bottle_Neck_Distance_Comparison')
 
-# Calculate bottleneck distance, print n_result matches
+excel_sheet.write(0, 0, "Closest_" + str(n_results) + "_BD_Matches")
+excel_sheet.write(0, 1, "Bottle_Neck_Distance")
+
+excel_sheet.write(0, 2, "Cell_ID_Compared_Against:")
+excel_sheet.write(1, 2, str(rand_pcpds.get_cellID()))
+
+iter = 1
 for idx in closest_matches:
-    datafile.write(str(idx))
-    print(idx)
-    datafile.write(",")
-datafile.write('\n')
+    
+    # Write results .xls file
+    excel_sheet.write(iter, 0, str(idx[0][:-5]))
+    excel_sheet.write(iter, 1, str(idx[1]))
+    iter = iter + 1
 
-
-# Option to force it?
-
-# Catch error where pcpds objects arn't fully processed & Tell the user to re run the process and let it finish this time.
+wb.save(os.path.join("results", "resultfile") + '.xls')
+print("Results saved as Excel file.")
