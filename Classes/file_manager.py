@@ -4,6 +4,7 @@ import os.path
 from os import walk
 import json
 import jsonpickle
+import random
 
 def input_partitions_file():
 
@@ -69,6 +70,19 @@ def find_folders(dir):
 
     return folders
 
+# Takes in a directory, & returns a random file in that directory (Sub directories not included)
+def get_random_file(dir, file_type):
+      files = []
+      for file in os.listdir(dir):
+            if file.endswith(file_type):
+                files.append(file)
+              
+      file_count = len(files)
+      
+      if len(files) < 1:
+            print("No valid files of type:",file_type,", in directory:",dir)
+      else:
+            return random.choice(files)
 
 def make_folder(dir_name):
 

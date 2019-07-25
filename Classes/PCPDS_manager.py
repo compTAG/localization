@@ -51,13 +51,18 @@ class PCPDS_Manager:
         pcpds = fm.load(os.path.join(dir, str(cell_ID) +'.json')) #
         return pcpds
 
-    # Fetches a random pcpds object from the directory specified in the path manager
-    def get_random_pcpds(self, random_idx):
+    # Fetches a random pcpds object from the idx specified
+    def get_random_pcpds_idx(self, random_idx):
         # TODO: have a check for None and index out of bounds in here
-        # random_idx = self.las_obj.random_grid()
         dir = self.path_manager.get_full_cur_dir()
 
         random_pcpds = fm.load(os.path.join(dir, str(random_idx) +'.json')) #
+        return random_pcpds
+
+    def get_random_pcpds(self, random_idx):
+        dir = self.path_manager.get_full_cur_dir()
+        file_name = fm.get_random_file(dir, '.json')
+        random_pcpds = fm.load(os.path.join(dir, file_name +'.json'))
         return random_pcpds
 
     # Checks that the currently selected collection directory exists and is a valid path

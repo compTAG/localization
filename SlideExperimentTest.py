@@ -48,9 +48,7 @@ def main():
         else:
             print("Problem loading pcpds file, it loaded as None.")
     
-    
-    # TODO: make a random function based off of count & iteration
-    #print("File count:", len(os.listdir(pfm.get_path_manager().get_full_cur_dir_var(collection))))
+    cur_dir = pfm.get_path_manager().get_full_cur_dir()
 
     wb = Workbook()
     excel_sheet = wb.add_sheet('Sheet 1')
@@ -58,17 +56,17 @@ def main():
     for n in range(number_of_data):
 
         # Find random valid index with valid slide pcpds
-        test_idx = str(las_obj.random_grid_edge_case())
+        test_idx = file_manager.get_random_file(cur_dir, '.json')[:-5]
 
         valid_idx = False
         while valid_idx == False:
 
             # Find valid center pcpds
-            test_idx = str(las_obj.random_grid_edge_case())
-            while pfm.get_path_manager().validate_file(os.path.join(dir_name, test_idx+".json")) == False:
-                test_idx = str(las_obj.random_grid_edge_case())
+            test_idx =file_manager.get_random_file(cur_dir, '.json')[:-5]
+            while pfm.get_path_manager().validate_file(os.path.join(cur_dir, test_idx+".json")) == False:
+                test_idx = file_manager.get_random_file(cur_dir, '.json')[:-5]
 
-            test_pcpds = pfm.get_random_pcpds_idx(test_idx)
+            test_pcpds = pfm.get_random_pcpds(test_idx)
             (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
 
             # Find valid slide directional pcpds objects
