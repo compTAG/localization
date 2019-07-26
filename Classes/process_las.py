@@ -77,7 +77,7 @@ class ProcessLas:
         yRand = str(yRand).zfill(self.leading_zeros)
         zRand = str(zRand).zfill(self.leading_zeros)
 
-        print("ATTEMPTING RANDOM ID:", int('1' + xRand + yRand + zRand))
+        #print("ATTEMPTING RANDOM ID:", int('1' + xRand + yRand + zRand))
         return int('1' + xRand + yRand + zRand)
 
 
