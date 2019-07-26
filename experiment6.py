@@ -57,8 +57,12 @@ def main():
                 if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_right_X) +".json")) == True:
                     if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_up_Y) +".json")) == True:
                         if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_down_Y) +".json")) == True:
-                            valid_idx = True
-                            print("VALID RANDOM ID: ", test_idx)
+                            if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_left_down) +".json")) == True:
+                                if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_right_down) +".json")) == True:
+                                    if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_right_up) +".json")) == True:
+                                        if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_left_up) +".json")) == True:
+                                            valid_idx = True
+                                            print("VALID RANDOM ID: ", test_idx)
 
         # Get the random pcpds's details
         print('COORDINATES: ' + 'X:' + str(X) + ' Y:' + str(Y)+ ' Z:' + str(Z))
@@ -80,14 +84,12 @@ def main():
         for overlay in range(1, num_slides * num_partitions_to_slide):
 
             # Left
-            #import pdb; pdb.set_trace();
             bounds_left_X = menu.transform(bounds, dimX, -1, True, overlay, num_slides)
             left_X_pcpds = menu.within_point_cloud(test_pcpds, slide_left_X, bounds_left_X)
             left_X_pcpds = filtration.get_rips_diagram(left_X_pcpds)
             left_X_pd = left_X_pcpds.get_persistance_diagram()
 
             # Right
-            #import pdb; pdb.set_trace();
             bounds_right_X = menu.transform(bounds, dimX, 1, True, overlay, num_slides)
             right_X_pcpds = menu.within_point_cloud(test_pcpds, slide_right_X, bounds_right_X)
             right_X_pcpds = filtration.get_rips_diagram(right_X_pcpds)

@@ -85,7 +85,6 @@ class menu:
         points_in_bounds = np.array([0.0,0.0,0.0]) # pop this later
 
         union = np.vstack((test_pcpds.point_cloud,slide_pcpds.point_cloud))
-        import pdb; pdb.set_trace();
         for i in range(len(union)):
             if low_x_bound <= union[i][0] and union[i][0] < high_x_bound and low_y_bound <= union[i][1] and union[i][1] < high_y_bound:
                 points_in_bounds = np.vstack((union[i],points_in_bounds))
