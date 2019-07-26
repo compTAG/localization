@@ -4,6 +4,7 @@ import Classes.bottleneck_dist as bottleneck_distances
 import Classes.file_manager as file_manager
 import Classes.modifiers as modifiers
 import os.path
+from os import walk
 from xlwt import Workbook
 
 
@@ -54,7 +55,7 @@ def modify_pcpds(pcpds):
         print("Rotation theta for Z axis:")
         z = menu.get_float_input()
         pcpds = modifiers.rotate_section(pcpds, x, y, z)
-        modifications.append("Rotated by: X-theta; " + str(x) + " Y-theta; " + y + " Z-theta; " + z)
+        modifications.append("Rotated by: X-theta; " + str(x) + " Y-theta; " + str(y) + " Z-theta; " + str(z))
     elif choice is 2:
         # TODO: Add noise stuff here.
         modifications.append("Noise Applied.")
@@ -70,7 +71,13 @@ def modify_pcpds(pcpds):
 # This computes the bottleneck distance using a pre-processed/filtrated collection
 
 pcpds_manager = PCPDS_Manager()
-
+print("Collections:")
+collections_string = ""
+collections =  os.listdir(pcpds_manager.get_path_manager().get_collections_path())
+collections.sort()
+for directory in collections:
+    collections_string += directory + " \t"
+print(collections_string)
 print("Please enter a collection that has already been filtrated:")
 
 # Loop here for valid directory
@@ -111,12 +118,10 @@ print("Ready to process, how manny n_nearest results would you like?")
 # TODO: Validate that n_results is a valid number for the current dataset.
 n_results = menu.get_int_input()
 
+# Choose a modifier and apply it here
 pcpds = choose_pcpds(pcpds_manager)
 print("PCPDS Selected:", pcpds.get_cellID())
-pcpds = modify_pcpds(pcpds)
-
-# TODO: recalculate the persistance diagram for the pcpds object REQUIREMENT: Need to know filtration method used.
-
+pcpds, mods = modify_pcpds(pcpds)
 
 # Calculated closest n matching bottleneck distances.
 closest_matches  = bottleneck_distances.search_distances(n_results, pcpds.get_persistance_diagram(), valid)
@@ -129,6 +134,13 @@ excel_sheet.write(0, 1, "Bottle_Neck_Distance")
 
 excel_sheet.write(0, 2, "Cell_ID_Compared_Against:")
 excel_sheet.write(1, 2, pcpds.get_cellID())
+
+if len(mods) > 0:
+    excel_sheet.write(0, 3, str(pcpds.get_cellID())+" Modifications")
+    iter = 1
+    for mod in mods:
+        excel_sheet.write(iter, 3, mod)
+        iter+=1
 
 iter = 1
 for idx in closest_matches:

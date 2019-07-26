@@ -47,6 +47,9 @@ class PathManager:
             # print("Current directory path is invalid.")
             pass
         return False
+    
+    def get_collections_path(self):
+        return os.path.join(self.ROOT_DIR, self.collections_dir)
 
     def is_collection_path(self):
         collections_path = os.path.join(self.ROOT_DIR, self.collections_dir)
