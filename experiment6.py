@@ -170,7 +170,7 @@ def main():
 
 
             if (num_dir != 0):
-                over_lay_avg = (left_bn + right_bn + up_bn + down_bn) / num_dir
+                overlay_avg = (left_bn + right_bn + up_bn + down_bn) / num_dir
             excel_sheet.write(overlay, n, str(overlay_avg))
 
         menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
