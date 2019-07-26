@@ -54,7 +54,6 @@ def main():
         else:
             print("Problem loading pcpds file, it loaded as None.")
 
-
     # TODO: make a random function based off of count & iteration
     #print("File count:", len(os.listdir(pfm.get_path_manager().get_full_cur_dir_var(collection))))
 
@@ -70,6 +69,9 @@ def main():
 
         valid_idx = False
         while valid_idx == False:
+
+            print(os.path.join(dir_name, test_idx+".json"))
+            i = input()
 
             # Find valid center pcpds
             test_idx = str(las_obj.random_grid_edge_case(num_partitions_to_slide))
@@ -157,7 +159,6 @@ def main():
             except:
                 pass
 
-        # Write results .xls file
         menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
 
     # Write results .xls file

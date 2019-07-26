@@ -8,7 +8,7 @@ import dionysus as d
 class PCPDS:
 
     def __init__(self, cell_id, dimensions, distance = 1):
-        
+
         # The point cloud should be set up a set of Points. Points possibly
         # being represented by touples of three values.
         self.point_cloud = None
@@ -67,7 +67,7 @@ class PCPDS:
         xyz = int(xyz/trunc_val)
 
         X = xyz % trunc_val
-        
+
         return (X, Y, Z)
 
     # Calculates the boundaries of the point cloud.
