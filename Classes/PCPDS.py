@@ -51,7 +51,7 @@ class PCPDS:
     def get_xyz(self):
 
         # Removes the 1 from the beginning of the string
-        cell_id = self.cell_id[1:]
+        cell_id = str(self.cell_id)[1:]
 
         xyz = int(cell_id)
 

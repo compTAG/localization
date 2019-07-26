@@ -22,7 +22,7 @@ def main():
 
     partition = int(menu.get_input("Partition: "))
 
-    collection = filename + '_' + str(partition)
+    collection = filename
     dir_name = collection
 
     pfm.get_path_manager().set_cur_dir(collection)
@@ -73,11 +73,12 @@ def main():
 
             # Find valid center pcpds
             test_idx = str(las_obj.random_grid_edge_case(num_partitions_to_slide))
-            while pfm.get_path_manager().validate_file(os.path.join(dir_name, test_idx+".json")) == False:
+            print(dir_name)
+            while pfm.get_path_manager().validate_file(os.path.join(pfm.get_collection_dir(), test_idx + ".json")) == False:
                 test_idx = str(las_obj.random_grid_edge_case(num_partitions_to_slide))
 
             test_pcpds = pfm.get_random_pcpds_idx(test_idx)
-            (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
+            (X, Y, Z) = test_pcpds.get_xyz()
 
             # Find valid slide directional pcpds objects
             slide_left_X = las_obj.find_index(X-1, Y)
