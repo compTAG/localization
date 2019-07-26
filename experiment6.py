@@ -15,7 +15,7 @@ def main():
     number_of_data = 400
     num_partitions_to_slide = 3
 
-    print("Please enter a collection that has already been filtrated:")
+    print("Please enter a collection that has already been filtered:")
 
     # Loop here for valid directory
     filename = menu.get_input("Filename: ")
