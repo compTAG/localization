@@ -25,8 +25,11 @@ def main():
 
     collection = filename + '_' + str(partition)
     dir_name = collection
+    las_obj = ProcessLas(filename, partition)
 
     pfm.get_path_manager().set_cur_dir(collection)
+
+    pfm.set_collection_dir(dir_name)
 
     valid = pfm.get_collection_dir()
 
@@ -60,8 +63,6 @@ def main():
 
     wb = Workbook()
     excel_sheet = wb.add_sheet('Sheet 2')
-
-    las_obj = ProcessLas(filename, partition)
 
     for n in range(number_of_data):
 
@@ -112,7 +113,7 @@ def main():
 
         num_slides = 10
         num_directions = 4
-        results = [0]*(num_slides * num_partitions_to_slide)
+        #results = [0]*(num_slides * num_partitions_to_slide)
         excel_sheet.write(0, n, str(test_idx))
         for overlay in range(1, num_slides * num_partitions_to_slide):
 
@@ -132,30 +133,44 @@ def main():
             bounds_down_Y = menu.transform(bounds, dimY, -1, False, overlay, num_slides)
             down_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_down_Y, bounds_down_Y)
 
-            # Find average bottleneck at each overlay percentage
-            try:
+            overlay_avg = -1
+            num_dir = 0
 
+            try:
                 left_X_pcpds = filtration.get_rips_diagram(left_X_pcpds)
                 left_X_pd = left_X_pcpds.get_persistance_diagram()
+                left_bn = bottleneck_distances.get_distances(left_X_pd, test_pd)
+                num_dir = num_dir + 1
+            except:
+                left_bn = 0
 
+            try:
                 right_X_pcpds = filtration.get_rips_diagram(right_X_pcpds)
                 right_X_pd = right_X_pcpds.get_persistance_diagram()
+                right_bn = bottleneck_distances.get_distances(right_X_pd, test_pd)
+                num_dir = num_dir + 1
+            except:
+                right_bn = 0
 
+            try:
                 up_Y_pcpds = filtration.get_rips_diagram(up_Y_pcpds)
                 up_Y_pd = up_Y_pcpds.get_persistance_diagram()
+                up_bn = bottleneck_distances.get_distances(up_Y_pd, test_pd)
+                num_dir = num_dir + 1
+            except:
+                up_bn = 0
 
+            try:
                 down_Y_pcpds = filtration.get_rips_diagram(down_Y_pcpds)
                 down_Y_pd = down_Y_pcpds.get_persistance_diagram()
-
-                results[overlay-1] = bottleneck_distances.get_distances(left_X_pd, test_pd)
-                results[overlay-1] = results[overlay-1] + bottleneck_distances.get_distances(right_X_pd, test_pd)
-                results[overlay-1] = results[overlay-1] + bottleneck_distances.get_distances(up_Y_pd, test_pd)
-                results[overlay-1] = results[overlay-1] + bottleneck_distances.get_distances(down_Y_pd, test_pd)
-                overlay_avg = results[overlay-1] / num_directions
-
+                down_bn = bottleneck_distances.get_distances(down_Y_pd, test_pd)
+                num_dir = num_dir + 1
             except:
-                overlay_avg = -1
+                down_bn = 0
 
+
+            if (num_dir != 0):
+                over_lay_avg = (left_bn + right_bn + up_bn + down_bn) / num_dir
             excel_sheet.write(overlay, n, str(overlay_avg))
 
         menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
