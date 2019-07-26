@@ -57,9 +57,12 @@ pcpds = None
 valid_pcpds_found = False
 
 while not valid_pcpds_found:
-    if specification.lower() is "r":
-        pcpds = pcpds_manager.get_random_pcpds()
-        valid_pcpds_found = True
+    if type(specification) == str:
+        if specification.lower() is "r":
+            pcpds = pcpds_manager.get_random_pcpds()
+            valid_pcpds_found = True
+            break
+            print(specification)
     else:
         try:
             # Checks if the specification is an integer.
@@ -68,13 +71,14 @@ while not valid_pcpds_found:
             try:
                 pcpds = pcpds_manager.get_pcpds(specification)
                 valid_pcpds_found = True
+                break
             except:
                 # Dosen't exist?
                 print("pcpds file for cell_ID:", specification, "dosen't exist.")
         except:
             print("Invalid input entered of type:", specification,":", type(specification))
         
-        specification = menu.get_input("PCPDS Num:")
+    specification = menu.get_input("PCPDS Num:")
 
 # TODO: Select modifications to apply to the rand_pcpds file now
 print("PCPDS Selected: ")
