@@ -80,5 +80,8 @@ def rotate_section_z(pcpds, theta):
         #np.vstack((new_point_cloud, rotated_xyz))
     #print("\nNEW POINT_CLOUD:\n", new_point_cloud)
 
+def add_noise(pcpds, sigma):
+    
+
 def main():
     rotate_section_z(pcpds_util.load_section("cell_collections/test_2_2019-07-08","1011"), 90)
