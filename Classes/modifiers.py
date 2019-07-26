@@ -51,3 +51,25 @@ def rotate_section_z(pcpds, theta):
     
     pcpds.set_point_cloud(new_point_cloud)
     return pcpds
+
+def add_noise(pcpds, sigma):
+    X , Y , Z = pcpds.get_dimensions
+    noise_pcpds = np.array([0,0,0])
+    X_dev = sigma * (1/X)
+    Y_dev = sigma * (1/Y)
+    Z_dev = sigma * (1/Z)
+    i = 0
+    while True:
+        X_rand = np.random.normal(0, X_dev, 1)
+        Y_rand = np.random.normal(0, Y_dev, 1)
+        Z_rand = np.random.normal(0, Z_dev, 1)
+        B = np.array[X_rand,Y_rand,Z_rand]
+        noise_cloud = np.vstack((noise_pcpds,B))
+        i += 1
+        if i >= len(A) - 1:
+            break
+
+    combined_cloud = pcpds.get_point_cloud() + noise_cloud[:-1]
+
+    pcpds.set_point_cloud(combined_cloud)
+    return pcpds

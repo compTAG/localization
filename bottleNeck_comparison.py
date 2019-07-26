@@ -57,7 +57,9 @@ def modify_pcpds(pcpds):
         pcpds = modifiers.rotate_section(pcpds, x, y, z)
         modifications.append("Rotated by: X-theta; " + str(x) + " Y-theta; " + str(y) + " Z-theta; " + str(z))
     elif choice is 2:
-        # TODO: Add noise stuff here.
+        print("Add the Sigma value for noise:")
+        sigma = menu.get_float_input()
+        pcpds = modifiers.add_noise(pcpds, sigma)
         modifications.append("Noise Applied.")
     else:
         print("Invalid option.")
