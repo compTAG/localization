@@ -17,12 +17,17 @@ def main():
     print("Please enter a collection that has already been filtrated:")
 
     # Loop here for valid directory
-    collection = menu.get_input("Directory: ")
-        
+    filename = menu.get_input("Filename: ")
+
+    partition = int(menu.get_input("Partition: "))
+
+    collection = filename + '_' + str(partition)
+    dir_name = collection 
+
     pfm.get_path_manager().set_cur_dir(collection)
-        
+
     valid = pfm.get_collection_dir()
-    
+
     # If not a valid directory, ask again saying it is invalid
     while(not valid):
         if not pfm.get_collection_dir():
@@ -30,7 +35,7 @@ def main():
         collection = menu.get_input("Directory: ")
         pfm.get_path_manager().set_cur_dir(collection)
         valid = pfm.get_collection_dir()
-        
+
         # Checks the first pcpds object in this directory for if it has a persistance diagram
         pcpds_temp = None
         for file in os.listdir(pfm.get_path_manager().get_full_cur_dir_var(collection)):
@@ -47,13 +52,15 @@ def main():
                 print("Please Either enter a directory that has been filtrated for persistance diagrams or run 'generate_persistance_diagrams.py' on the collection.")
         else:
             print("Problem loading pcpds file, it loaded as None.")
-    
-    
+
+
     # TODO: make a random function based off of count & iteration
     #print("File count:", len(os.listdir(pfm.get_path_manager().get_full_cur_dir_var(collection))))
 
     wb = Workbook()
     excel_sheet = wb.add_sheet('Sheet 1')
+
+    las_obj = ProcessLas(filename, partition)
 
     for n in range(number_of_data):
 

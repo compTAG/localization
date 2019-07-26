@@ -73,7 +73,7 @@ class PCPDS_Manager:
     # Generates a collection file given the name of the current las file being used, and the partition count.
     def generate_collection(self, filename, partition):
 
-        dir_name = str(filename + '_' + str(partition) + '_' + datetime.today().strftime('%Y-%m-%d'))
+        dir_name = str(filename + '_' + str(partition))
         self.path_manager.set_cur_dir(dir_name)
         dir_name = self.path_manager.get_full_cur_dir_var(dir_name)
 
