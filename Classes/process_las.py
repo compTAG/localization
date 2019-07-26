@@ -67,10 +67,10 @@ class ProcessLas:
 
 
     # Returns a random index in the object, not on an edge
-    def random_grid_edge_case(self):
+    def random_grid_edge_case(self, num_partitions_to_slide):
 
-        xRand = random.randint(1, self.partition - 1)
-        yRand = random.randint(1, self.partition - 1)
+        xRand = random.randint(num_partitions_to_slide, self.partition - num_partitions_to_slide)
+        yRand = random.randint(num_partitions_to_slide, self.partition - num_partitions_to_slide)
         zRand = 1
 
         xRand = str(xRand).zfill(self.leading_zeros)

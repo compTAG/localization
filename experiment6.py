@@ -13,6 +13,7 @@ def main():
 
     pfm = PCPDS_Manager()
     number_of_data = 400
+    num_partitions_to_slide = 3
 
     print("Please enter a collection that has already been filtrated:")
 
@@ -65,15 +66,15 @@ def main():
     for n in range(number_of_data):
 
         # Find random valid index with valid slide pcpds
-        test_idx = str(las_obj.random_grid_edge_case())
+        test_idx = str(las_obj.random_grid_edge_case(num_partitions_to_slide))
 
         valid_idx = False
         while valid_idx == False:
 
             # Find valid center pcpds
-            test_idx = str(las_obj.random_grid_edge_case())
+            test_idx = str(las_obj.random_grid_edge_case(num_partitions_to_slide))
             while pfm.get_path_manager().validate_file(os.path.join(dir_name, test_idx+".json")) == False:
-                test_idx = str(las_obj.random_grid_edge_case())
+                test_idx = str(las_obj.random_grid_edge_case(num_partitions_to_slide))
 
             test_pcpds = pfm.get_random_pcpds_idx(test_idx)
             (X, Y, Z) = test_pcpds.get_xyz(str(test_idx))
@@ -108,7 +109,6 @@ def main():
         slide_down_Y = pfm.get_pcpds(slide_down_Y)
 
         num_slides = 10
-        num_partitions_to_slide = 3
         num_directions = 4
         results = [0]*(num_slides * num_partitions_to_slide)
         # Slide frame 10% across each direction
@@ -144,20 +144,26 @@ def main():
                 down_Y_pd = down_Y_pcpds.get_persistance_diagram()
 
                 # Find average bottleneck at each overlay percentage
-                results = bottleneck_distances.get_distances(left_X_pd, test_pd)
-                results = results[overlay] + bottleneck_distances.get_distances(right_X_pd, test_pd)
-                results = results[overlay] + bottleneck_distances.get_distances(up_Y_pd, test_pd)
-                results = (results[overlay] + bottleneck_distances.get_distances(down_Y_pd, test_pd)) / num_directions
+                results[overlay-1] = bottleneck_distances.get_distances(left_X_pd, test_pd)
+                results[overlay-1] = results[overlay] + bottleneck_distances.get_distances(right_X_pd, test_pd)
+                results[overlay-1] = results[overlay] + bottleneck_distances.get_distances(up_Y_pd, test_pd)
+                results[overlay-1] = results[overlay] + bottleneck_distances.get_distances(down_Y_pd, test_pd)
 
                 excel_sheet.write(n, 0, str(test_idx))
                 excel_sheet.write(n, num, str(overlay_avg))
+                overlay_avg = results[overlay-1] / num_directions
 
+            except:
+                pass
 
         # Write results .xls file
-            wb.save(dir_name + '.xls')
-            menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
+        menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
 
+    # Write results .xls file
+    wb.SaveAs(dir_name + '.xls')
     print("Job done.")
+    wb.Close()
+    excel.Quit()
 
 # Do Main
 if __name__ == '__main__':
