@@ -42,8 +42,14 @@ class menu:
                 return result
             except:
                 print("Incorrect value type entered, try Again.")
-
-
+                
+    def get_float_input():
+        while(True):
+            try:
+                result = float(input("Enter theta: "))
+                return result
+            except:
+                print("Incorrect value type entered, try Again.")
 
     # Acts as a progress bar
     def progress(count, total, status=''):

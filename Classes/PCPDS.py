@@ -12,7 +12,7 @@ class PCPDS:
         # The point cloud should be set up a set of Points. Points possibly
         # being represented by touples of three values.
         self.point_cloud = None
-
+        self.filtration_applied = None
         self.persistance_diagram = None
 
         # cell_id is not only the filename, but the xyz coordinates in string form
@@ -101,3 +101,9 @@ class PCPDS:
 
     def set_persistance_diagram(self, pd):
         self.persistance_diagram = pd
+    
+    def set_filtration_used(self, filt):
+        self.filtration_applied = filt
+        
+    def get_filtration_used(self):
+        return self.filtration_applied

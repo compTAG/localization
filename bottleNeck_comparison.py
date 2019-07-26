@@ -2,8 +2,70 @@ from Classes.menu import menu
 from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.bottleneck_dist as bottleneck_distances
 import Classes.file_manager as file_manager
+import Classes.modifiers as modifiers
 import os.path
 from xlwt import Workbook
+
+
+def choose_pcpds(pm):
+    # Asks the user if they want to specify a pcpds or select a random one.
+    print("Enter a specific pcpds number, or enter 'R' for a random one.")
+    specification = menu.get_input("PCPDS Num:")
+    
+    pcpds = None
+    valid_pcpds_found = False
+
+    while not valid_pcpds_found:
+        try:
+            pcpds_num = int(specification)
+            # Attempt to load in specified pcpds
+            try:
+                pcpds = pm.get_pcpds(specification)
+                valid_pcpds_found = True
+                break
+            except:
+                # Dosen't exist?
+                print("pcpds file for cell_ID:", specification, "dosen't exist.")
+        except:
+            
+            if specification.lower() == "r":
+                pcpds = pm.get_random_pcpds()
+                valid_pcpds_found = True
+                break
+                print(specification)
+            else:
+                print("Invalid pcpds format entered.")
+        specification = menu.get_input("PCPDS Num:")
+    return pcpds
+
+def modify_pcpds(pcpds):
+    modifications = []
+
+    print("What modification would you like to apply to the pcpds object?")
+    print("[0] None, [1] Rotation, [2] Add Noise.")
+    choice = menu.get_int_input()
+    if choice is 0:
+        pass
+    elif choice is 1:
+        print("Rotation theta for X axis:")
+        x = menu.get_float_input()
+        print("Rotation theta for Y axis:")
+        y = menu.get_float_input()
+        print("Rotation theta for Z axis:")
+        z = menu.get_float_input()
+        pcpds = modifiers.rotate_section(pcpds, x, y, z)
+        modifications.append("Rotated by: X-theta; " + str(x) + " Y-theta; " + y + " Z-theta; " + z)
+    elif choice is 2:
+        # TODO: Add noise stuff here.
+        modifications.append("Noise Applied.")
+    else:
+        print("Invalid option.")
+
+    if len(modifications) > 0:
+        print("Regenerating Persistance Diagram for altered pcpds...")
+        pcpds = pcpds.get_filtration_used()(pcpds)
+
+    return pcpds, modifications
 
 # This computes the bottleneck distance using a pre-processed/filtrated collection
 
@@ -49,39 +111,11 @@ print("Ready to process, how manny n_nearest results would you like?")
 # TODO: Validate that n_results is a valid number for the current dataset.
 n_results = menu.get_int_input()
 
-# TODO: Ask the user if they want to specify a pcpds or select a random one.
-print("Enter a specific pcpds number, or enter 'R' for a random one.")
-specification = menu.get_input("PCPDS Num:")
+pcpds = choose_pcpds(pcpds_manager)
+print("PCPDS Selected:", pcpds.get_cellID())
+pcpds = modify_pcpds(pcpds)
 
-pcpds = None
-valid_pcpds_found = False
-
-while not valid_pcpds_found:
-    if type(specification) == str:
-        if specification.lower() is "r":
-            pcpds = pcpds_manager.get_random_pcpds()
-            valid_pcpds_found = True
-            break
-            print(specification)
-    else:
-        try:
-            # Checks if the specification is an integer.
-            int(specification)
-            # Attempt to load in specified pcpds
-            try:
-                pcpds = pcpds_manager.get_pcpds(specification)
-                valid_pcpds_found = True
-                break
-            except:
-                # Dosen't exist?
-                print("pcpds file for cell_ID:", specification, "dosen't exist.")
-        except:
-            print("Invalid input entered of type:", specification,":", type(specification))
-        
-    specification = menu.get_input("PCPDS Num:")
-
-# TODO: Select modifications to apply to the rand_pcpds file now
-print("PCPDS Selected: ")
+# TODO: recalculate the persistance diagram for the pcpds object REQUIREMENT: Need to know filtration method used.
 
 
 # Calculated closest n matching bottleneck distances.
