@@ -1,7 +1,7 @@
 from laspy.file import File
 import numpy as np
 import dionysus as d
-from sys         import argv, exit
+# from sys import argv, exit
 import Classes.PCPDS
 import Classes.file_manager as fm
 import os.path

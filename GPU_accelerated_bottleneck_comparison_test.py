@@ -1,7 +1,10 @@
+from laspy.file import File
+import numpy as np
+import dionysus as d
+import Classes.PCPDS
 import Classes.file_manager as fm
 import os.path
 from Classes.menu import menu
-from numba import vectorize
 
 def get_distances(filt1, filt2):
     return d.bottleneck_distance(filt1[0],filt2[0])
