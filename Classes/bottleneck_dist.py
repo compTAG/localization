@@ -35,6 +35,7 @@ def search_distances(num, searchfilt, collection_path):
     
         menu.progress(tracker, len(cell_IDs), 'Processing Search_Disantce...')
         tracker = tracker + 1
+    menu.progress(1, 1, 'Search_Disantce Processing Complete!')
     print("\n")
     return top_idx
 
