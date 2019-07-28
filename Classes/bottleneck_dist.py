@@ -12,6 +12,7 @@ def get_distances(filt1, filt2):
 
 def search_distances(num, searchfilt, collection_path):
     cell_IDs = fm.find_files(collection_path, '.json')
+
     top_idx = []
     tracker = 0
     for id in cell_IDs:
@@ -36,3 +37,5 @@ def search_distances(num, searchfilt, collection_path):
         tracker = tracker + 1
     print("\n")
     return top_idx
+
+# TODO: Run a sanity check for find_files to see if there are any duplicates?

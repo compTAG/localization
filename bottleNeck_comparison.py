@@ -157,5 +157,5 @@ file_end_tag = str(pcpds.get_cellID())
 if len(mods) > 0:
     file_end_tag += ":" + mods[0]
     
-wb.save(os.path.join("results", pcpds_manager.get_path_manager().get_cur_dir()) + '.xls')
+wb.save(os.path.join("results", pcpds_manager.get_path_manager().get_cur_dir())+"-"+file_end_tag + '.xls')
 print("Results saved as Excel file.")

@@ -48,18 +48,8 @@ def load(path):
 def find_files(dir, ext):
 
     ext_len = -1*len(ext)
-    files = []
     for (dirpath, dirnames, filenames) in walk(dir):
-        for f in filenames:
-            if f[ext_len:] == ext:
-                files.extend(filenames)
-            else:
-                print(f[ext_len:])
-                print("FILE: ", f, ", dosen't contain the extension: .json")
-        break
-
-    return files
-
+        return filenames
 
 def find_folders(dir):
 
