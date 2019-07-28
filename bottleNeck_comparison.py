@@ -60,7 +60,7 @@ def modify_pcpds(pcpds):
         print("Add the Sigma value for noise:")
         sigma = menu.get_float_input()
         pcpds = modifiers.add_noise(pcpds, sigma)
-        modifications.append("Noise Applied.")
+        modifications.append("Noise Applied. Sigma:", sigma)
     else:
         print("Invalid option.")
 
