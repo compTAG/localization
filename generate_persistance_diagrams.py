@@ -57,14 +57,14 @@ def process_run():
     multiproc = menu.get_int_input()
     
     if(multiproc):
-        with concurrent.futures.ProcessPoolExecutor as executor:
-            for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
-                # Sets up the process
-                generate_persistence_diagram(pcpds_manager, file, filter)
-                # process = multiprocessing.Process(target=generate_persistence_diagram, args=(pcpds_manager, file, filter))
-                # process.start()
-                # process.join()
-                # process.terminate()
+        # with concurrent.futures.ProcessPoolExecutor as executor:
+        for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
+            # Sets up the process
+            # generate_persistence_diagram(pcpds_manager, file, filter)
+            process = multiprocessing.Process(target=generate_persistence_diagram, args=(pcpds_manager, file, filter))
+            process.start()
+            process.join()
+            process.terminate()
             
     else:
         print("NOT MULTIPROCESSING:")
@@ -87,6 +87,6 @@ def generate_persistence_diagram(pcpds_manager, file, filteration):
     # TODO: Add capabilitiy to select filtration method using abstract function stuff.
     result = filteration(pcpds_obj)
     file_manager.save(result, pcpds_manager.get_path_manager().get_full_cur_dir(), pcpds_obj.get_cellID())
-    # print(file, "filtrated & Saved.")
+    print(file, "filtrated & Saved.")
     
 process_run()

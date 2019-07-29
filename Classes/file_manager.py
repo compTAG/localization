@@ -30,8 +30,6 @@ def save(obj, path, name):
     # TODO: verify the folder path is valid
     data = jsonpickle.encode(obj)
 
-    print(path)
-
     with open(os.path.join(path, (str(name)+".json")), 'w') as outfile:
         json.dump(data, outfile)
 
