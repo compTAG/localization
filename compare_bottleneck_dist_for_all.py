@@ -110,11 +110,10 @@ def compute_bottle_neck_dist():
     for file in file_manager.find_files(pcpds_manager.get_collection_dir(), '.json'):
         pcpds = file_manager.load(os.path.join(pcpds_manager.get_collection_dir(), file))
         print("PCPDS Selected:", pcpds.get_cellID())
-        pcpds = modify_pcpds(pcpds, choice, args)
-        mods = []
+        pcpds, mods = modify_pcpds(pcpds, choice, args)
 
         # Calculated closest n matching bottleneck distances.
-        closest_matches  = bottleneck_distances.search_distances(n_results, pcpds.get_persistance_diagram(), valid)
+        closest_matches = bottleneck_distances.search_distances(n_results, pcpds.get_persistance_diagram(), valid)
 
         wb = Workbook()
         excel_sheet = wb.add_sheet('Bottle_Neck_Distance_Comparison')
@@ -147,8 +146,5 @@ def compute_bottle_neck_dist():
         
         wb.save(os.path.join("results", pcpds_manager.get_path_manager().get_cur_dir())+"-"+file_end_tag + ":" + pcpds.get_filtration_used_name() + '.xls')
         print("Results saved as Excel file.")
-
-def compute_for_all__idx_in_dir():
-    pass
 
 compute_bottle_neck_dist()
