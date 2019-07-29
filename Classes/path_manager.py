@@ -72,11 +72,11 @@ class PathManager:
 
     def validate_file(self, file_path):
         if file_path is None:
-            print("file path is None.")
+            #print("file path is None.")
             return False
         elif os.path.exists(file_path):
-            print("file @:", file_path, "already exists.")
+            #print("file @:", file_path, "already exists.")
             return True
         else:
-            print("File does not currently exist.")
+            #print('\n' + file_path + " does not currently exist.")
             return False

@@ -7,12 +7,13 @@ from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.file_manager as file_manager
 import Classes.bottleneck_dist as bottleneck_distances
 import os.path
+import xlwt
 from xlwt import Workbook
 
 def main():
 
     pfm = PCPDS_Manager()
-    number_of_data = 400
+    number_of_data = 200 #Max 256 when saving to excel
     num_partitions_to_slide = 3
 
     print("Please enter a collection that has already been filtered:")
@@ -22,10 +23,13 @@ def main():
 
     partition = int(menu.get_input("Partition: "))
 
-    collection = filename
+    collection = filename + '_' + str(partition)
     dir_name = collection
+    las_obj = ProcessLas(filename, partition)
 
     pfm.get_path_manager().set_cur_dir(collection)
+
+    pfm.set_collection_dir(dir_name)
 
     valid = pfm.get_collection_dir()
 
@@ -58,9 +62,7 @@ def main():
     #print("File count:", len(os.listdir(pfm.get_path_manager().get_full_cur_dir_var(collection))))
 
     wb = Workbook()
-    excel_sheet = wb.add_sheet('Sheet 1')
-
-    las_obj = ProcessLas(filename, partition)
+    excel_sheet = wb.add_sheet('Sheet 2')
 
     for n in range(number_of_data):
 
@@ -70,12 +72,10 @@ def main():
         valid_idx = False
         while valid_idx == False:
 
-            print(os.path.join(dir_name, test_idx+".json"))
-            i = input()
+            #print(os.path.join(pfm.get_collection_dir(), test_idx + ".json"))
 
             # Find valid center pcpds
             test_idx = str(las_obj.random_grid_edge_case(num_partitions_to_slide))
-            print(dir_name)
             while pfm.get_path_manager().validate_file(os.path.join(pfm.get_collection_dir(), test_idx + ".json")) == False:
                 test_idx = str(las_obj.random_grid_edge_case(num_partitions_to_slide))
 
@@ -92,17 +92,17 @@ def main():
             slide_right_up = las_obj.find_index(X+1, Y+1)
             slide_left_up = las_obj.find_index(X-1, Y+1)
 
-            if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_left_X) +".json")) == True:
-                if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_right_X) +".json")) == True:
-                    if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_up_Y) +".json")) == True:
-                        if pfm.get_path_manager().validate_file(os.path.join(dir_name, str(slide_down_Y) +".json")) == True:
+            if pfm.get_path_manager().validate_file(os.path.join(pfm.get_collection_dir(), str(slide_left_X) +".json")) == True:
+                if pfm.get_path_manager().validate_file(os.path.join(pfm.get_collection_dir(), str(slide_right_X) +".json")) == True:
+                    if pfm.get_path_manager().validate_file(os.path.join(pfm.get_collection_dir(), str(slide_up_Y) +".json")) == True:
+                        if pfm.get_path_manager().validate_file(os.path.join(pfm.get_collection_dir(), str(slide_down_Y) +".json")) == True:
                             valid_idx = True
-                            print("VALID RANDOM ID: ", test_idx)
+                            #print("VALID RANDOM ID: ", test_idx)
 
         # Get the random pcpds's details
-        print('COORDINATES: ' + 'X:' + str(X) + ' Y:' + str(Y)+ ' Z:' + str(Z))
+        #print('COORDINATES: ' + 'X:' + str(X) + ' Y:' + str(Y)+ ' Z:' + str(Z))
         (dimX, dimY, dimZ) = test_pcpds.get_dimensions()
-        bounds = test_pcpds.get_bounds(str(test_idx))
+        bounds = test_pcpds.get_bounds()
         test_pcpds = filtration.get_rips_diagram(test_pcpds)
         test_pd = test_pcpds.get_persistance_diagram()
 
@@ -113,59 +113,71 @@ def main():
 
         num_slides = 10
         num_directions = 4
-        results = [0]*(num_slides * num_partitions_to_slide)
-        # Slide frame 10% across each direction
-        num = 0
+        #results = [0]*(num_slides * num_partitions_to_slide)
+        excel_sheet.write(0, n, str(test_idx))
         for overlay in range(1, num_slides * num_partitions_to_slide):
-            num = num + 1
-            try:
 
-                # Left
-                #import pdb; pdb.set_trace();
-                bounds_left_X = menu.transform(bounds, dimX, -1, True, overlay, num_slides)
-                left_X_pcpds = menu.within_point_cloud(test_pcpds, slide_left_X, bounds_left_X)
+            # Left
+            bounds_left_X = menu.transform(bounds, dimX, -1, True, overlay, num_slides)
+            left_X_pcpds = menu.within_point_cloud(test_pcpds, slide_left_X, bounds_left_X)
+
+            # Right
+            bounds_right_X = menu.transform(bounds, dimX, 1, True, overlay, num_slides)
+            right_X_pcpds = menu.within_point_cloud(test_pcpds, slide_right_X, bounds_right_X)
+
+            # Up
+            bounds_up_Y = menu.transform(bounds, dimY, 1, False, overlay, num_slides)
+            up_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_up_Y, bounds_up_Y)
+
+            # Down
+            bounds_down_Y = menu.transform(bounds, dimY, -1, False, overlay, num_slides)
+            down_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_down_Y, bounds_down_Y)
+
+            overlay_avg = -1
+            num_dir = 0
+
+            try:
                 left_X_pcpds = filtration.get_rips_diagram(left_X_pcpds)
                 left_X_pd = left_X_pcpds.get_persistance_diagram()
+                left_bn = bottleneck_distances.get_distances(left_X_pd, test_pd)
+                num_dir = num_dir + 1
+            except:
+                left_bn = 0
 
-                # Right
-                #import pdb; pdb.set_trace();
-                bounds_right_X = menu.transform(bounds, dimX, 1, True, overlay, num_slides)
-                right_X_pcpds = menu.within_point_cloud(test_pcpds, slide_right_X, bounds_right_X)
+            try:
                 right_X_pcpds = filtration.get_rips_diagram(right_X_pcpds)
                 right_X_pd = right_X_pcpds.get_persistance_diagram()
+                right_bn = bottleneck_distances.get_distances(right_X_pd, test_pd)
+                num_dir = num_dir + 1
+            except:
+                right_bn = 0
 
-                # Up
-                bounds_up_Y = menu.transform(bounds, dimY, 1, False, overlay, num_slides)
-                up_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_up_Y, bounds_up_Y)
+            try:
                 up_Y_pcpds = filtration.get_rips_diagram(up_Y_pcpds)
                 up_Y_pd = up_Y_pcpds.get_persistance_diagram()
+                up_bn = bottleneck_distances.get_distances(up_Y_pd, test_pd)
+                num_dir = num_dir + 1
+            except:
+                up_bn = 0
 
-                # Down
-                bounds_down_Y = menu.transform(bounds, dimY, -1, False, overlay, num_slides)
-                down_Y_pcpds = menu.within_point_cloud(test_pcpds, slide_down_Y, bounds_down_Y)
+            try:
                 down_Y_pcpds = filtration.get_rips_diagram(down_Y_pcpds)
                 down_Y_pd = down_Y_pcpds.get_persistance_diagram()
-
-                # Find average bottleneck at each overlay percentage
-                results[overlay-1] = bottleneck_distances.get_distances(left_X_pd, test_pd)
-                results[overlay-1] = results[overlay] + bottleneck_distances.get_distances(right_X_pd, test_pd)
-                results[overlay-1] = results[overlay] + bottleneck_distances.get_distances(up_Y_pd, test_pd)
-                results[overlay-1] = results[overlay] + bottleneck_distances.get_distances(down_Y_pd, test_pd)
-
-                excel_sheet.write(n, 0, str(test_idx))
-                excel_sheet.write(n, num, str(overlay_avg))
-                overlay_avg = results[overlay-1] / num_directions
-
+                down_bn = bottleneck_distances.get_distances(down_Y_pd, test_pd)
+                num_dir = num_dir + 1
             except:
-                pass
+                down_bn = 0
+
+
+            if (num_dir != 0):
+                overlay_avg = (left_bn + right_bn + up_bn + down_bn) / num_dir
+            excel_sheet.write(overlay, n, str(overlay_avg))
 
         menu.progress(n, number_of_data, ("Processing random grid: "+str(test_idx)+"..."))
 
     # Write results .xls file
-    wb.SaveAs(dir_name + '.xls')
+    wb.save(dir_name + '.xls')
     print("Job done.")
-    wb.Close()
-    excel.Quit()
 
 # Do Main
 if __name__ == '__main__':

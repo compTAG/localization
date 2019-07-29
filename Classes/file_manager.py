@@ -30,6 +30,8 @@ def save(obj, path, name):
     # TODO: verify the folder path is valid
     data = jsonpickle.encode(obj)
 
+    print(path)
+
     with open(os.path.join(path, (str(name)+".json")), 'w') as outfile:
         json.dump(data, outfile)
 
@@ -66,9 +68,9 @@ def get_random_file(dir, file_type):
       for file in os.listdir(dir):
             if file.endswith(file_type):
                 files.append(file)
-              
+
       file_count = len(files)
-      
+
       if len(files) < 1:
             print("No valid files of type:",file_type,", in directory:",dir)
       else:
