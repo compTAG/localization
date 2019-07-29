@@ -37,8 +37,6 @@ def choose_pcpds(pm):
         specification = menu.get_input("PCPDS Num:")
     return pcpds
 
-# TODO: Enter & verify dir
-# TODO: Enter & verify file name
 pcpds_manager = PCPDS_Manager()
     
 # List the directories
