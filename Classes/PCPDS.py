@@ -13,6 +13,7 @@ class PCPDS:
         # being represented by touples of three values.
         self.point_cloud = None
         self.filtration_applied = None
+        self.filtration_name = None
         self.persistance_diagram = None
 
         # cell_id is not only the filename, but the xyz coordinates in string form
@@ -102,8 +103,12 @@ class PCPDS:
     def set_persistance_diagram(self, pd):
         self.persistance_diagram = pd
     
-    def set_filtration_used(self, filt):
+    def set_filtration_used(self, filt, filtname):
         self.filtration_applied = filt
+        self.filtration_name = filtname
         
     def get_filtration_used(self):
         return self.filtration_applied
+    
+    def get_filtration_used_name(self):
+        return self.filtration_name

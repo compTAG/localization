@@ -8,7 +8,7 @@ class Filtration:
         m = d.homology_persistence(f)
         diagram = d.init_diagrams(m,f)
         pcpds_obj.set_persistance_diagram(diagram)
-        pcpds_obj.set_filtration_used(Filtration.get_rips_diagram)
+        pcpds_obj.set_filtration_used(Filtration.get_rips_diagram, "rips")
         return pcpds_obj
 
     def get_lower_star(pcpds_obj):
@@ -16,7 +16,7 @@ class Filtration:
         m = d.homology_persistence(f)
         diagram = d.init_diagrams(m,f)
         pcpds_obj.set_persistance_diagram(diagram)
-        pcpds_obj.set_filtration_used(Filtration.get_lower_star)
+        pcpds_obj.set_filtration_used(Filtration.get_lower_star, "lower_star")
         return pcpds_obj
 
     def get_upper_star(pcpds_obj):
@@ -24,5 +24,5 @@ class Filtration:
         m = d.homology_persistence(f)
         diagram = d.init_diagrams(m,f)
         pcpds_obj.set_persistance_diagram(diagram)
-        pcpds_obj.set_filtration_used(Filtration.get_upper_star)
+        pcpds_obj.set_filtration_used(Filtration.get_upper_star, "upper_star")
         return pcpds_obj
