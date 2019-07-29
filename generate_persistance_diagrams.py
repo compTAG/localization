@@ -1,10 +1,11 @@
-import time
+# import time
 import multiprocessing
 from Classes.filtrations import Filtration
 from Classes.menu import menu
 from Classes.PCPDS_manager import PCPDS_Manager
 import Classes.file_manager as file_manager
 import os
+import concurrent.futures
 
 # This file's purpose is to process already generated pcpds object's point clouds into persistance diagrams.
 
@@ -49,26 +50,34 @@ def process_run():
         filter = Filtration.get_lower_star
         
     # Start timer
-    start_time = time.time()
+    # start_time = time.time()
     
     print("Would you like to use multi-processing to attempt to speed things up? [0] No. [1] Yes.")
     print("Please do note that using multiprocessing only speeds up the generation of persistance diagrams with larger point clouds.")
     multiproc = menu.get_int_input()
     
     if(multiproc):
-        for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
-            # Sets up the process
-            process = multiprocessing.Process(target=generate_persistence_diagram, args=(pcpds_manager, file, filter))
-            process.start()
-            process.join()
-            process.terminate()
+        with concurrent.futures.ProcessPoolExecutor as executor:
+            for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
+                # Sets up the process
+                generate_persistence_diagram(pcpds_manager, file, filter)
+                # process = multiprocessing.Process(target=generate_persistence_diagram, args=(pcpds_manager, file, filter))
+                # process.start()
+                # process.join()
+                # process.terminate()
             
     else:
+        print("NOT MULTIPROCESSING:")
         # Process the point clouds into persistance diagrams without using multiprocessing
-        for file in os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection)):
+        files = os.listdir(pcpds_manager.get_path_manager().get_full_cur_dir_var(collection))
+        iter = 0
+        for file in files:
+            menu.progress(iter, len(files), ("Generating persistance diagram for:"+str(file)))
             generate_persistence_diagram(pcpds_manager, file, filter)
+            iter += 1
+        menu.progress(1, 1, "Generating persistance diagrams completed.")
         
-    print("Finished filtrating persistance diagrams for files in: ", str(time.time() - start_time))
+    # print("Finished filtrating persistance diagrams for files in: ", str(time.time() - start_time))
 
 def generate_persistence_diagram(pcpds_manager, file, filteration):
         
@@ -78,6 +87,6 @@ def generate_persistence_diagram(pcpds_manager, file, filteration):
     # TODO: Add capabilitiy to select filtration method using abstract function stuff.
     result = filteration(pcpds_obj)
     file_manager.save(result, pcpds_manager.get_path_manager().get_full_cur_dir(), pcpds_obj.get_cellID())
-    print(file, "filtrated & Saved.")
+    # print(file, "filtrated & Saved.")
     
 process_run()

@@ -9,6 +9,7 @@ from Classes.menu import menu
 import multiprocessing
 from Classes.filtrations import Filtration
 import time
+import concurrent.futures
 
 class ProcessLas:
 
@@ -130,13 +131,20 @@ class ProcessLas:
             manager = multiprocessing.Manager()
             points = manager.dict()
 
-            # Sets up the process
-            for chunk in chunks:
-                # TODO: Change to use pool
-                process = multiprocessing.Process(target=self.split_pointcloud, args=(chunk, points))
-                process.start()
-                process.join()
-                process.terminate()
+            # Sets up a pool of processes, one on each cpu by defualt.
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                # TODO: Implement menu.progress here?
+                #executor.map(self.split_pointcloud, chunks, points)
+                # print("Chunks len:", len(chunks))
+                # # TODO: Instead of passing in points, generate them in the method & concatinate them together after passing them back?
+                # for chunk, point in executor.map(self.split_pointcloud, chunks, points):
+                #     print("CHUNK:", chunk)
+                for chunk in chunks:
+                    future = executor.submit(self.split_pointcloud, chunk, points)
+                    # process = multiprocessing.Process(target=self.split_pointcloud, args=(chunk, points))
+                    # process.start()
+                    # process.join()
+                    # process.terminate()
         else:
             print("Not multi threading.")
             self.split_pointcloud(coords, points, count=True)
@@ -194,5 +202,4 @@ class ProcessLas:
                 points[idx] = np.vstack((points[idx],coords[c]))
             # Keeps track of the progress of dividing up points
             if count:
-                pass
-                #menu.progress(c, len(coords), ("Processing point: "+str(idx)+"..."))
+                menu.progress(c, len(coords), ("Processing point: "+str(idx)+"..."))
