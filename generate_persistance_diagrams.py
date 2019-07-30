@@ -87,6 +87,6 @@ def generate_persistence_diagram(pcpds_manager, file, filteration):
     # TODO: Add capabilitiy to select filtration method using abstract function stuff.
     result = filteration(pcpds_obj)
     file_manager.save(result, pcpds_manager.get_path_manager().get_full_cur_dir(), pcpds_obj.get_cellID())
-    print(file, "filtrated & Saved.")
+    # print(file, "filtrated & Saved.")
     
 process_run()
