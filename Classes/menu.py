@@ -95,7 +95,7 @@ class menu:
             if low_x_bound <= union[i][0] and union[i][0] < high_x_bound and low_y_bound <= union[i][1] and union[i][1] < high_y_bound:
                 points_in_bounds = np.vstack((union[i],points_in_bounds))
                 #print(str(i))
-        ret_pcpds = pcpds(-1, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
+        ret_pcpds = pcpds(-10, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
 
         #points_in_bounds = np.delete(points_in_bounds,len(points_in_bounds)-1, 0)
         ret_pcpds.set_point_cloud(points_in_bounds[:-1])

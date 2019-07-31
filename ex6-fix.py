@@ -17,12 +17,6 @@ def main():
     num_partitions_to_slide = 3
 
     print("Please enter a collection that has already been filtered:")
-
-    # Loop here for valid directory
-    dir_name = menu.get_input("Filename: ")
-
-    print("Please confirm the parition value as indicated by the filename.")
-    # partition = int(menu.get_int_input())
     
     # Will need the filtration method for new point cloud filtering later.
     filt_method = None
@@ -30,7 +24,7 @@ def main():
 
     pfm.get_path_manager().set_cur_dir(dir_name)
 
-    valid = pfm.get_collection_dir()
+    valid = False
 
     # If not a valid directory, ask again saying it is invalid
     while(not valid):
@@ -140,6 +134,7 @@ def main():
             # Left
             bounds_left_X = menu.transform(bounds, dimX, -1, True, overlay, num_slides)
             left_X_pcpds = menu.within_point_cloud(pcpds, slide_left_X, bounds_left_X)
+            print("LEFT X PCPDS:", left_X_pcpds)
 
             # Right
             bounds_right_X = menu.transform(bounds, dimX, 1, True, overlay, num_slides)
@@ -156,13 +151,13 @@ def main():
             overlay_avg = -1
             num_dir = 0
 
-            try:
-                left_X_pcpds = filt_method(left_X_pcpds)
-                left_X_pd = left_X_pcpds.get_persistance_diagram()
-                left_bn = bottleneck_distances.get_distances(left_X_pd, test_pd)
-                num_dir = num_dir + 1
-            except:
-                left_bn = 0
+            print("FILT METHOD:", filt_method)            
+            left_X_pcpds = filt_method(left_X_pcpds)
+            left_X_pd = left_X_pcpds.get_persistance_diagram()
+            left_bn = bottleneck_distances.get_distances(left_X_pd, test_pd)
+            num_dir = num_dir + 1
+            
+                
 
             try:
                 right_X_pcpds = filt_method(right_X_pcpds)
@@ -170,6 +165,7 @@ def main():
                 right_bn = bottleneck_distances.get_distances(right_X_pd, test_pd)
                 num_dir = num_dir + 1
             except:
+                print("ERROR_X")
                 right_bn = 0
 
             try:
@@ -178,6 +174,7 @@ def main():
                 up_bn = bottleneck_distances.get_distances(up_Y_pd, test_pd)
                 num_dir = num_dir + 1
             except:
+                print("ERROR_Y")
                 up_bn = 0
 
             try:
@@ -186,6 +183,7 @@ def main():
                 down_bn = bottleneck_distances.get_distances(down_Y_pd, test_pd)
                 num_dir = num_dir + 1
             except:
+                print("ERROR_Y")
                 down_bn = 0
 
 
@@ -194,7 +192,7 @@ def main():
             excel_sheet.write(overlay, n, str(overlay_avg))
 
         menu.progress(n, number_of_data, ("Processing random grid: "+str(idx)+"..."))
-
+    menu.progress(1, 1, ("Processing complete."))
     # Write results .xls file
     wb.save(dir_name + '.xls')
     print("Job done.")
