@@ -95,9 +95,35 @@ class menu:
             if low_x_bound <= union[i][0] and union[i][0] < high_x_bound and low_y_bound <= union[i][1] and union[i][1] < high_y_bound:
                 points_in_bounds = np.vstack((union[i],points_in_bounds))
                 #print(str(i))
-        ret_pcpds = pcpds(-10, (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
+        ret_pcpds = pcpds("Dave", (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
 
         #points_in_bounds = np.delete(points_in_bounds,len(points_in_bounds)-1, 0)
+        
         ret_pcpds.set_point_cloud(points_in_bounds[:-1])
 
         return ret_pcpds
+
+# def within_point_cloud(og_pcpds, slide_pcpds, bounds):
+    
+#         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
+#         new_pc = []
+
+#         points_in_bounds = np.vstack((np.array([0.0,0.0,0.0]), np.array([0.0,0.0,0.0])))
+
+#         union = np.vstack((og_pcpds.point_cloud,slide_pcpds.point_cloud))
+#         for i in range(len(union)):
+#             #print(str(low_x_bound) + ' ' + str(union[i][0]) + ' ' + str(high_x_bound))
+#             #print(str(low_y_bound) + ' ' + str(union[i][1]) + ' ' + str(high_y_bound))
+#             #inp = input("Continue?")
+#             if low_x_bound <= union[i][0] and union[i][0] < high_x_bound and low_y_bound <= union[i][1] and union[i][1] < high_y_bound:
+#                 points_in_bounds = np.vstack((union[i],points_in_bounds))
+#                 #print(str(i))
+#         ret_pcpds = pcpds("Dave", (high_x_bound-low_x_bound, high_y_bound-low_y_bound))
+
+#         #points_in_bounds = np.delete(points_in_bounds,len(points_in_bounds)-1, 0)
+        
+#         print("POINTS IN BOUNDS:", points_in_bounds[:-2])
+#         menu.get_input("ENTER:")
+#         ret_pcpds.set_point_cloud(points_in_bounds[:-2])
+
+#         return ret_pcpds
