@@ -80,14 +80,14 @@ class menu:
         bounds = (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound)
         return bounds
 
-    def within_point_cloud(test_pcpds, slide_pcpds, bounds):
+    def within_point_cloud(og_pcpds, slide_pcpds, bounds):
 
         (low_x_bound, high_x_bound, low_y_bound, high_y_bound, low_z_bound, high_z_bound) = bounds
         new_pc = []
 
         points_in_bounds = np.array([0.0,0.0,0.0]) # pop this later
 
-        union = np.vstack((test_pcpds.point_cloud,slide_pcpds.point_cloud))
+        union = np.vstack((og_pcpds.point_cloud,slide_pcpds.point_cloud))
         for i in range(len(union)):
             #print(str(low_x_bound) + ' ' + str(union[i][0]) + ' ' + str(high_x_bound))
             #print(str(low_y_bound) + ' ' + str(union[i][1]) + ' ' + str(high_y_bound))
