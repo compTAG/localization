@@ -89,11 +89,14 @@ def main():
             # TODO: Instead of using las_obj, try generating idx value using X, Y, & Z, check if it exists, if not we can assume it is either empty or a wall.
             
             print("XYZ of random pcpds: Z", X, "Y:", Y, "Z:", Z)
+            # Do this to check for if we are on a lower bound to avoid errors from negative values.
+            if X < 1 or Y < 1:
+                print("Invalid XYZ")
+                continue
             
             slide_left_X = pfm.gen_idx(X-1, Y, leading_zeros)
             slide_right_X = pfm.gen_idx(X+1, Y, leading_zeros)
             slide_up_Y = pfm.gen_idx(X, Y+1, leading_zeros)
-            # There is a problem here.
             slide_down_Y = pfm.gen_idx(X, Y-1, leading_zeros)
             slide_left_down = pfm.gen_idx(X-1, Y-1, leading_zeros)
             slide_right_down = pfm.gen_idx(X+1, Y-1, leading_zeros)
@@ -129,8 +132,9 @@ def main():
         #results = [0]*(num_slides * num_partitions_to_slide)
         excel_sheet.write(0, n, str(idx))
         
-        # Computes overlapping point cloud from union
+        # Computes overlapping point cloud from union/intersection?
         # TODO: Check if there is a better way to union/intersects for our data.
+        print("num_slides * num_partitions_to_slide:",num_slides * num_partitions_to_slide)
         for overlay in range(1, num_slides * num_partitions_to_slide):
 
             # Left
@@ -153,7 +157,7 @@ def main():
             num_dir = 0
 
             try:
-                left_X_pcpds = filtration.get_rips_diagram(left_X_pcpds)
+                left_X_pcpds = filt_method(left_X_pcpds)
                 left_X_pd = left_X_pcpds.get_persistance_diagram()
                 left_bn = bottleneck_distances.get_distances(left_X_pd, test_pd)
                 num_dir = num_dir + 1
@@ -161,7 +165,7 @@ def main():
                 left_bn = 0
 
             try:
-                right_X_pcpds = filtration.get_rips_diagram(right_X_pcpds)
+                right_X_pcpds = filt_method(right_X_pcpds)
                 right_X_pd = right_X_pcpds.get_persistance_diagram()
                 right_bn = bottleneck_distances.get_distances(right_X_pd, test_pd)
                 num_dir = num_dir + 1
@@ -169,7 +173,7 @@ def main():
                 right_bn = 0
 
             try:
-                up_Y_pcpds = filtration.get_rips_diagram(up_Y_pcpds)
+                up_Y_pcpds = filt_method(up_Y_pcpds)
                 up_Y_pd = up_Y_pcpds.get_persistance_diagram()
                 up_bn = bottleneck_distances.get_distances(up_Y_pd, test_pd)
                 num_dir = num_dir + 1
@@ -177,7 +181,7 @@ def main():
                 up_bn = 0
 
             try:
-                down_Y_pcpds = filtration.get_rips_diagram(down_Y_pcpds)
+                down_Y_pcpds = filt_method(down_Y_pcpds)
                 down_Y_pd = down_Y_pcpds.get_persistance_diagram()
                 down_bn = bottleneck_distances.get_distances(down_Y_pd, test_pd)
                 num_dir = num_dir + 1
