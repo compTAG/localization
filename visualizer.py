@@ -8,9 +8,9 @@ import os.path
 import laspy
 
 path_manager = pm()
-dir = path_manager.get_path_manager().get_full_cur_dir_var("small_3_2019-07-12/")
+dir = path_manager.get_path_manager().get_full_cur_dir_var("small_25/")
 
-file_name = "1001"
+file_name = "1121601.json"
 
 pcpds_obj = fm.load(os.path.join(dir, file_name))
 point_cloud = pcpds_obj.get_point_cloud()
