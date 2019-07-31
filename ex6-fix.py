@@ -15,32 +15,29 @@ def main():
     pfm = PCPDS_Manager()
     number_of_data = 200 #Max 256 when saving to excel
     num_partitions_to_slide = 3
-
-    print("Please enter a collection that has already been filtered:")
-    
-
-    # Loop here for valid directory
-    dir_name = menu.get_input("Filename: ")
     
     # Will need the filtration method for new point cloud filtering later.
     filt_method = None
     leading_zeros = 0
+    dir_name = ""
 
-    pfm.get_path_manager().set_cur_dir(dir_name)
+    pfm.get_path_manager().set_cur_dir("")
 
     valid = False
 
+
+    print("Please enter a collection that has already been filtered:")
     # If not a valid directory, ask again saying it is invalid
     while(not valid):
         if not pfm.get_collection_dir():
-            print("Invalid collection name:", pfm.get_path_manager().get_cur_dir() ,"try again.")
-        collection = menu.get_input("Directory: ")
-        pfm.get_path_manager().set_cur_dir(collection)
+            print("Invalid collection name:", pfm.get_path_manager().get_cur_dir(), "try again.")
+        dir_name = menu.get_input("Directory: ")
+        pfm.get_path_manager().set_cur_dir(dir_name)
         valid = pfm.get_collection_dir()
 
         # Checks the first pcpds object in this directory for if it has a persistance diagram
         pcpds_temp = None
-        for file in os.listdir(pfm.get_path_manager().get_full_cur_dir_var(collection)):
+        for file in os.listdir(pfm.get_path_manager().get_full_cur_dir_var(dir_name)):
             file_path = os.path.join(pfm.get_path_manager().get_full_cur_dir(), file)
             pcpds_temp = file_manager.load(file_path)
             break
@@ -58,9 +55,6 @@ def main():
         else:
             print("Problem loading pcpds file, it loaded as None.")
 
-    # TODO: make a random function based off of count & iteration
-    #print("File count:", len(os.listdir(pfm.get_path_manager().get_full_cur_dir_var(collection))))
-
     wb = Workbook()
     excel_sheet = wb.add_sheet('Sheet 2')
 
@@ -71,9 +65,6 @@ def main():
     print("LEADING ZEROS:", leading_zeros)
     for n in range(number_of_data):
 
-        # TODO: Change this to use the other random method.
-        # Find random valid index with valid slide pcpds
-        #test_idx = file_name = file_manager.get_random_file(dir, '.json') #str(las_obj.random_grid_edge_case(num_partitions_to_slide))
         pcpds = None
         
         valid_idx = False
@@ -83,9 +74,6 @@ def main():
             pcpds = pfm.get_random_pcpds()
             (X, Y, Z) = pcpds.get_xyz()
 
-            # Find valid slide directional pcpds objects
-            # TODO: Instead of using las_obj, try generating idx value using X, Y, & Z, check if it exists, if not we can assume it is either empty or a wall.
-            
             print("XYZ of random pcpds: Z", X, "Y:", Y, "Z:", Z)
             # Do this to check for if we are on a lower bound to avoid errors from negative values.
             if X < 1 or Y < 1:
@@ -106,20 +94,17 @@ def main():
                     if pfm.get_path_manager().validate_file(os.path.join(pfm.get_collection_dir(), str(slide_up_Y) +".json")) == True:
                         if pfm.get_path_manager().validate_file(os.path.join(pfm.get_collection_dir(), str(slide_down_Y) +".json")) == True:
                             valid_idx = True
-                            #print("VALID RANDOM ID: ", test_idx)
 
         # Get the random pcpds's details
-        #print('COORDINATES: ' + 'X:' + str(X) + ' Y:' + str(Y)+ ' Z:' + str(Z))
         idx = pcpds.get_cellID()
         print("Random IDX chosen:", str(idx))
         (dimX, dimY, dimZ) = pcpds.get_dimensions()
         bounds = pcpds.get_bounds()
         
-        # Generate persistence diagram? This should be redundant.
-        # pcpds = filtration.get_rips_diagram(pcpds)
+        # Grab persistance diagram of random idx.
         test_pd = pcpds.get_persistance_diagram()
 
-        # TODO: Validate these slid idx values?
+        # TODO: Change how Validation of these slid idx values is done?
         slide_left_X = pfm.get_pcpds(slide_left_X)
         slide_right_X = pfm.get_pcpds(slide_right_X)
         slide_up_Y = pfm.get_pcpds(slide_up_Y)
@@ -130,8 +115,7 @@ def main():
         #results = [0]*(num_slides * num_partitions_to_slide)
         excel_sheet.write(0, n, str(idx))
         
-        # Computes overlapping point cloud from union/intersection?
-        # TODO: Check if there is a better way to union/intersects for our data.
+        # Applies transform to point cloud and generates a persistence diagram to compare for bottleneck distances.
         print("num_slides * num_partitions_to_slide:",num_slides * num_partitions_to_slide)
         for overlay in range(1, num_slides * num_partitions_to_slide):
 
@@ -160,7 +144,7 @@ def main():
                 left_bn = bottleneck_distances.get_distances(left_X_pd, test_pd)
                 num_dir = num_dir + 1
             except:
-                print("Error Left X")
+                print("ERROR LEFT")
                 right_bn = 0
 
             try:
@@ -169,7 +153,7 @@ def main():
                 right_bn = bottleneck_distances.get_distances(right_X_pd, test_pd)
                 num_dir = num_dir + 1
             except:
-                print("ERROR_ RIGHT_X")
+                print("ERROR RIGHT")
                 right_bn = 0
 
             try:
@@ -178,7 +162,7 @@ def main():
                 up_bn = bottleneck_distances.get_distances(up_Y_pd, test_pd)
                 num_dir = num_dir + 1
             except:
-                print("ERROR_Y")
+                print("ERROR UP")
                 up_bn = 0
 
             try:
@@ -187,7 +171,7 @@ def main():
                 down_bn = bottleneck_distances.get_distances(down_Y_pd, test_pd)
                 num_dir = num_dir + 1
             except:
-                print("ERROR_Y")
+                print("ERROR DOWN")
                 down_bn = 0
 
 
