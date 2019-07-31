@@ -100,3 +100,12 @@ class PCPDS_Manager:
     def get_path_manager(self):
 
         return self.path_manager
+
+    def gen_idx(self, x, y, leading_zeros):
+        print("Find index X:",x , " Y:", y)
+        # Cast x & y to ints perhaps?
+        x = str(x).zfill(leading_zeros)
+        y = str(y).zfill(leading_zeros)
+        z = str(1).zfill(leading_zeros)
+
+        return int('1' + x + y + z)

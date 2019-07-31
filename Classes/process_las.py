@@ -84,6 +84,7 @@ class ProcessLas:
 
     # Returns an index given from the user
     def find_index(self, x, y):
+        print("Find index X:",x , " Y:", y)
 
         x = str(x).zfill(self.leading_zeros)
         y = str(y).zfill(self.leading_zeros)
