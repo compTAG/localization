@@ -18,6 +18,10 @@ def main():
 
     print("Please enter a collection that has already been filtered:")
     
+
+    # Loop here for valid directory
+    dir_name = menu.get_input("Filename: ")
+    
     # Will need the filtration method for new point cloud filtering later.
     filt_method = None
     leading_zeros = 0
