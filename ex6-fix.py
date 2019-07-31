@@ -134,7 +134,6 @@ def main():
             # Left
             bounds_left_X = menu.transform(bounds, dimX, -1, True, overlay, num_slides)
             left_X_pcpds = menu.within_point_cloud(pcpds, slide_left_X, bounds_left_X)
-            print("LEFT X PCPDS:", left_X_pcpds)
 
             # Right
             bounds_right_X = menu.transform(bounds, dimX, 1, True, overlay, num_slides)
@@ -151,13 +150,14 @@ def main():
             overlay_avg = -1
             num_dir = 0
 
-            print("FILT METHOD:", filt_method)            
-            left_X_pcpds = filt_method(left_X_pcpds)
-            left_X_pd = left_X_pcpds.get_persistance_diagram()
-            left_bn = bottleneck_distances.get_distances(left_X_pd, test_pd)
-            num_dir = num_dir + 1
-            
-                
+            try:         
+                left_X_pcpds = filt_method(left_X_pcpds)
+                left_X_pd = left_X_pcpds.get_persistance_diagram()
+                left_bn = bottleneck_distances.get_distances(left_X_pd, test_pd)
+                num_dir = num_dir + 1
+            except:
+                print("Error Left X")
+                right_bn = 0
 
             try:
                 right_X_pcpds = filt_method(right_X_pcpds)
@@ -165,7 +165,7 @@ def main():
                 right_bn = bottleneck_distances.get_distances(right_X_pd, test_pd)
                 num_dir = num_dir + 1
             except:
-                print("ERROR_X")
+                print("ERROR_ RIGHT_X")
                 right_bn = 0
 
             try:
