@@ -19,7 +19,7 @@ for p in point_cloud:
 print("Showing Visualizer:")
 P = np.random.rand(100,3)
 v = pptk.viewer(point_cloud)
-v.set(point_size=100.0)
+v.set(point_size=.0001)
 
 delay = input("Press any key to exit")
 
