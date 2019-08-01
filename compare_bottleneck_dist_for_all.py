@@ -93,14 +93,14 @@ def compute_bottle_neck_dist():
         pass
     elif choice is 1:
         print("Rotation theta for X axis:")
-        args[0] = menu.get_float_input()
+        args.append(menu.get_float_input())
         print("Rotation theta for Y axis:")
-        args[1] = menu.get_float_input()
+        args.append(menu.get_float_input())
         print("Rotation theta for Z axis:")
-        args[2] = menu.get_float_input()
+        args.append(menu.get_float_input())
     elif choice is 2:
         print("Add the Sigma value for noise:")
-        args[0] = menu.get_float_input()
+        args.append(menu.get_float_input())
     else:
         print("Invalid option.")
         
