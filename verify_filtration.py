@@ -2,6 +2,8 @@
 
 import os
 from Classes.PCPDS_manager import PCPDS_Manager
+import Classes.file_manager as file_manager
+from Classes.menu import menu
 
 pcpds_manager = PCPDS_Manager()
 print("Collections:")
@@ -45,3 +47,27 @@ while(True):
             print("Please Either enter a directory that has been filtrated for persistance diagrams or run 'generate_persistance_diagrams.py' on the collection.")
     else:
         print("Problem loading pcpds file, it loaded as None.")
+        
+# Go through the pcpds objects in the dir & check that their filtration method is the same
+
+iter = 0
+filtration_name = None
+files = file_manager.find_files(pcpds_manager.get_collection_dir(), '.json')
+menu.progress(iter, 1, "Checking for filtration mismatches...")
+
+for file in files:
+    pcpds = file_manager.load(os.path.join(pcpds_manager.get_collection_dir(), file))
+    
+    if filtration_name is None:
+        filtration_name = pcpds.get_filtration_used_name()
+        
+    if filtration_name in pcpds.get_filtration_used_name():
+        pass
+        #print("PCPDS:", pcpds.get_cellID(), " is Valid. Filtration:", filtration_name)
+    else:
+        print("INVALID PCPDS:", pcpds.get_cellID(), "Missmatched Filtration:", pcpds.get_filtration_used_name())
+        
+    iter += 1
+    menu.progress(iter, len(files), "Checking for filtration mismatches for:"+str(pcpds.get_cellID()))
+
+print("Finished Validating Filtrations:", filtration_name)
