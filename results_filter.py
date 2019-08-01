@@ -32,8 +32,8 @@ excel_sheet = wb.add_sheet('Compiled results')
 
 iter = 0
 for file_name in file_names:
-    if ".~lock" in file_name:
-        print("\nSkipping .~lock file:", file_name)
+    if ".~lock" in file_name or 'compiled_results' in file_name:
+        print("\nSkipping irrelevant file:", file_name)
     else:
         try:
             # To open Workbook
