@@ -82,3 +82,13 @@ def make_folder(dir_name):
 
     except FileExistsError:
         print("Directory " + dir_name + " already exists.")
+        
+def make_folder_at_dir(path, dir_name):
+    
+    try:
+        dir_path = os.path.join(path, dir_name)
+        os.makedirs(dir_path)
+        print("Directory " + dir_path + " created.")
+
+    except FileExistsError:
+        print("Directory " + dir_name + " already exists @", path)
