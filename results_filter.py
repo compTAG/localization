@@ -24,6 +24,11 @@ while(not valid):
 # Load in all files from directory
 file_names = fm.find_files(pm.get_collection_dir(), ".xls")
 print("DIR:", pm.get_collection_dir(), "\n")
+
+print("Ready to process, how manny n_nearest results would you like?")
+# Takes in the n_nearest you want to include from those files
+n_nearest = menu.get_int_input() + 1
+    
 print("Mixing into a single result file:", file_names, "\n")
 
 # Generate new results file
@@ -41,7 +46,7 @@ for file_name in file_names:
             sheet = rb.sheet_by_index(0) 
             
             # Store results in other workbook
-            for n in range(1,11):
+            for n in range(1, n_nearest):
                 val = sheet.cell_value(n, 1)
                 excel_sheet.write(n-1, iter, val)
             
@@ -50,9 +55,9 @@ for file_name in file_names:
             searched_idx = int(sheet.cell_value(1, 2))
             
             if closest_idx == searched_idx:
-                excel_sheet.write(10, iter, "yes")
+                excel_sheet.write(n_nearest-1, iter, "yes")
             else:
-                excel_sheet.write(10, iter, "no")
+                excel_sheet.write(n_nearest-1, iter, "no")
                 
             iter = iter + 1
             
