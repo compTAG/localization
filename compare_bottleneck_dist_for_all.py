@@ -22,7 +22,7 @@ def modify_pcpds(pcpds, choice, args):
         print("Add the Sigma value for noise:")
         sigma = args[0]
         pcpds = modifiers.add_noise(pcpds, sigma)
-        modifications.append("Noise Applied. Sigma:", sigma)
+        modifications.append("Noise Applied. Sigma: "+str(sigma))
     else:
         print("Invalid option.")
 
@@ -104,8 +104,8 @@ def compute_bottle_neck_dist():
     else:
         print("Invalid option.")
         
-    # TODO: Apply choice on all pcpds objects!
-    # TODO: Chose a modifier to apply to all?
+    file_generated = False    
+    
     # INSTEAD OF: choosing one, use all in dir.
     for file in file_manager.find_files(pcpds_manager.get_collection_dir(), '.json'):
         pcpds = file_manager.load(os.path.join(pcpds_manager.get_collection_dir(), file))
@@ -144,7 +144,20 @@ def compute_bottle_neck_dist():
         if len(mods) > 0:
             file_end_tag += ":" + mods[0]
         
-        wb.save(os.path.join("results", pcpds_manager.get_path_manager().get_cur_dir())+"-"+file_end_tag + ":" + pcpds.get_filtration_used_name() + '.xls')
+        # Generates the folder to hold the results
+        if not file_generated:
+            folder_path = os.path.join(pcpds_manager.get_path_manager().get_root_dir(), "results")
+            folder_name = pcpds_manager.get_path_manager().get_cur_dir()+"-"+pcpds.get_filtration_used_name()
+            
+            if len(mods) > 0:
+                folder_name += ":" + mods[0]
+                
+            file_manager.make_folder_at_dir(folder_path, folder_name)
+            folder_path = os.path.join(folder_path, folder_name)
+            file_generated = True
+        
+        # Saves the results
+        wb.save(os.path.join(folder_path, file_end_tag + '.xls'))
         print("Results saved as Excel file.")
 
 compute_bottle_neck_dist()
