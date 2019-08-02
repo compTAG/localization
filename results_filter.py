@@ -62,7 +62,7 @@ for file_name in file_names:
             iter = iter + 1
             
             # Limit it to 255 since that is the max for excel files.
-            if iter > 255:
+            if iter > 199:
                 print("\nLimiting results folder to excel file capacity of 255 columns for results.")
                 break
         except:
