@@ -53,7 +53,9 @@ def rotate_section_z(pcpds, theta):
     return pcpds
 
 def add_noise(input_pcpds, sigma):
-    X , Y , Z = pcpds.get_dimensions
+    print("DRGA DGLKE G")
+    X , Y , Z = input_pcpds.get_dimensions()
+    A = len(input_pcpds.get_point_cloud())
     noise_pcpds = np.array([0,0,0])
     X_dev = sigma * (1/X)
     Y_dev = sigma * (1/Y)
@@ -63,12 +65,13 @@ def add_noise(input_pcpds, sigma):
         X_rand = np.random.normal(0, X_dev, 1)
         Y_rand = np.random.normal(0, Y_dev, 1)
         Z_rand = np.random.normal(0, Z_dev, 1)
-        B = np.array[X_rand,Y_rand,Z_rand]
-        noise_cloud = np.vstack((noise_pcpds,B))
+        B = np.array[X_rand[0],Y_rand[0],Z_rand[0]]
+        print("FIALREU:", B)
+        noise_cloud = np.vstack((noise_pcpds, B))
         i += 1
         if i >= len(A) - 1:
             break
 
     combined_cloud = input_pcpds.get_point_cloud() + noise_cloud[:-1]
-
+    print("COMBINED CLOUD:", combined_cloud)
     return combined_cloud
