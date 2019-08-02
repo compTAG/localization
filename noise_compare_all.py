@@ -21,7 +21,7 @@ collection = menu.get_input("Directory: ")
     
 pcpds_manager.get_path_manager().set_cur_dir(collection)
     
-cap = 5
+cap = 100
 valid = pcpds_manager.get_collection_dir()
 while(True):
     
@@ -77,14 +77,18 @@ for n in range(1, 11):
         # Sets the PCPDS
         og_pcpds = file_manager.load(os.path.join(pcpds_manager.get_collection_dir(), file))
         pcpds = file_manager.load(os.path.join(pcpds_manager.get_collection_dir(), file))
+        
         # Adds the noise to the pcpds object
-        pcpds = modifiers.add_noise(og_pcpds, sigma)# .set_point_cloud(modifiers.add_noise(og_pcpds, sigma))
+        pcpds = modifiers.add_noise(pcpds, sigma)# .set_point_cloud(modifiers.add_noise(og_pcpds, sigma))
         
         # Reapply the filtration
         filt = pcpds.get_filtration_used()
         pcpds = filt(pcpds)
 
-        # Reapply the filtration
+        # print("REG POINT CLOuD:", og_pcpds.get_point_cloud())
+        # print("NOISE POINT CLOuD:", pcpds.get_point_cloud())
+
+        # Calculate bottleneck distance
         distance = bd.get_distances(og_pcpds.get_persistance_diagram(), pcpds.get_persistance_diagram())
         excel_sheet.write(n, idx_counter, distance)
         print(distance)

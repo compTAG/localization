@@ -64,15 +64,13 @@ def add_noise(pcpds, sigma):
         Y_rand = np.random.normal(0, Y_dev, 1)
         Z_rand = np.random.normal(0, Z_dev, 1)
         B = np.array([X_rand, Y_rand, Z_rand])
-        noise_cloud = np.vstack((noise_pcpds, B.T))
+        noise_cloud = np.add(noise_pcpds, B.T)
         i += 1
         if i >= len(pcpds.get_point_cloud()) - 1:
             break
 
-    combined_cloud = pcpds.get_point_cloud() + noise_cloud[:-1]
-    
-    print("COMB CLOUD:", combined_cloud)
-    print("REG_CLOUD:", pcpds.get_point_cloud())
-
+    combined_cloud = np.add(pcpds.get_point_cloud(), noise_cloud)
+    # print("COMBINED CLOUD:",combined_cloud)
+    # print("REGULAR CLouD:", pcpds.get_point_cloud())
     pcpds.set_point_cloud(combined_cloud)
     return pcpds
