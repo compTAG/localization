@@ -15,7 +15,7 @@ def main():
     pfm = PCPDS_Manager()
     number_of_data = 200 #Max 256 when saving to excel
     num_partitions_to_slide = 3
-    
+
     # Will need the filtration method for new point cloud filtering later.
     filt_method = None
     leading_zeros = 0
@@ -61,12 +61,12 @@ def main():
     # Grabs the leading_zeros variable using X from a random idx's cell_ID.
     tmp_cellID = pfm.get_random_pcpds().get_cellID()
     leading_zeros = int((len(str(tmp_cellID))-1)/3)
-    
+
     print("LEADING ZEROS:", leading_zeros)
     for n in range(number_of_data):
 
         pcpds = None
-        
+
         valid_idx = False
         while valid_idx == False:
 
@@ -79,7 +79,7 @@ def main():
             if X < 1 or Y < 1:
                 print("Invalid XYZ")
                 continue
-            
+
             slide_left_X = pfm.gen_idx(X-1, Y, leading_zeros)
             slide_right_X = pfm.gen_idx(X+1, Y, leading_zeros)
             slide_up_Y = pfm.gen_idx(X, Y+1, leading_zeros)
@@ -100,7 +100,7 @@ def main():
         print("Random IDX chosen:", str(idx))
         (dimX, dimY, dimZ) = pcpds.get_dimensions()
         bounds = pcpds.get_bounds()
-        
+
         # Grab persistance diagram of random idx.
         test_pd = pcpds.get_persistance_diagram()
 
@@ -114,7 +114,7 @@ def main():
         num_directions = 4
         #results = [0]*(num_slides * num_partitions_to_slide)
         excel_sheet.write(0, n, str(idx))
-        
+
         # Applies transform to point cloud and generates a persistence diagram to compare for bottleneck distances.
         print("num_slides * num_partitions_to_slide:",num_slides * num_partitions_to_slide)
         for overlay in range(1, num_slides * num_partitions_to_slide):
@@ -137,11 +137,12 @@ def main():
 
             overlay_avg = -1
             num_dir = 0
+            sum = 0
 
-            try:         
+            try:
                 left_X_pcpds = filt_method(left_X_pcpds)
                 left_X_pd = left_X_pcpds.get_persistance_diagram()
-                left_bn = bottleneck_distances.get_distances(left_X_pd, test_pd)
+                sum = sum + bottleneck_distances.get_distances(left_X_pd, test_pd)
                 num_dir = num_dir + 1
             except:
                 print("ERROR LEFT")
@@ -150,7 +151,7 @@ def main():
             try:
                 right_X_pcpds = filt_method(right_X_pcpds)
                 right_X_pd = right_X_pcpds.get_persistance_diagram()
-                right_bn = bottleneck_distances.get_distances(right_X_pd, test_pd)
+                sum = sum + bottleneck_distances.get_distances(right_X_pd, test_pd)
                 num_dir = num_dir + 1
             except:
                 print("ERROR RIGHT")
@@ -159,7 +160,7 @@ def main():
             try:
                 up_Y_pcpds = filt_method(up_Y_pcpds)
                 up_Y_pd = up_Y_pcpds.get_persistance_diagram()
-                up_bn = bottleneck_distances.get_distances(up_Y_pd, test_pd)
+                sum = sum + bottleneck_distances.get_distances(up_Y_pd, test_pd)
                 num_dir = num_dir + 1
             except:
                 print("ERROR UP")
@@ -168,7 +169,7 @@ def main():
             try:
                 down_Y_pcpds = filt_method(down_Y_pcpds)
                 down_Y_pd = down_Y_pcpds.get_persistance_diagram()
-                down_bn = bottleneck_distances.get_distances(down_Y_pd, test_pd)
+                sum = sum + bottleneck_distances.get_distances(down_Y_pd, test_pd)
                 num_dir = num_dir + 1
             except:
                 print("ERROR DOWN")
@@ -176,7 +177,9 @@ def main():
 
 
             if (num_dir != 0):
-                overlay_avg = (left_bn + right_bn + up_bn + down_bn) / num_dir
+                overlay_avg = sum0 / num_dir
+            else:
+                overlay_avg = -1
             excel_sheet.write(overlay, n, str(overlay_avg))
 
         menu.progress(n, number_of_data, ("Processing random grid: "+str(idx)+"..."))
