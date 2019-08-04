@@ -21,7 +21,7 @@ collection = menu.get_input("Directory: ")
     
 pcpds_manager.get_path_manager().set_cur_dir(collection)
     
-cap = 100
+cap = 10
 valid = pcpds_manager.get_collection_dir()
 while(True):
     

@@ -177,7 +177,7 @@ def main():
 
 
             if (num_dir != 0):
-                overlay_avg = sum0 / num_dir
+                overlay_avg = sum / num_dir
             else:
                 overlay_avg = -1
             excel_sheet.write(overlay, n, str(overlay_avg))
